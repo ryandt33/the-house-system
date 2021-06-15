@@ -1,0 +1,462 @@
+/* This file is part of the House System - https://houses.for.education/
+//
+// The House System is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// The House System is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with The House System. If not, see <http://www.gnu.org/licenses/>.*/
+
+body {
+  background-image: url(https://houses.ocasuzhou.net/D_52.svg); /*Attribution - <a href="https://www.vecteezy.com/free-vector/spring-background">Spring Background Vectors by Vecteezy</a>*/
+  background-size: cover;
+  background-attachment: fixed;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.card {
+  box-shadow: 3px 3px 3px black;
+  background-color: rgba(255, 255, 255, 0.7);
+}
+
+.fixed-nav {
+  position: fixed;
+  width: 100%;
+  left: 0;
+  top: 0;
+  z-index: 2;
+}
+
+.navbar-spacer {
+  height: 6em;
+}
+
+#basic-nav-dropdown {
+  background-color: black;
+}
+
+.navbar-light .dropdown-menu.show {
+  border: none;
+  max-height: 99vh;
+  overflow: auto;
+}
+
+.navbar-light .dropdown-menu.show a {
+  color: #343a40;
+}
+
+.navbar-light .dropdown-menu.show a:hover {
+  color: #343a40;
+}
+
+.navbar-dark {
+  margin-bottom: 10px;
+}
+
+.stuCard {
+  margin-bottom: 1em;
+  background-color: #f1f1f1;
+  padding: 2px;
+  height: 103px;
+  overflow: hidden;
+}
+
+.stuCard .card-subtitle {
+  color: gray;
+}
+
+.stu-card-body {
+  padding: 0.5em;
+  overflow: hidden;
+}
+
+.stu-card-btn {
+  position: absolute;
+  right: 20px;
+  bottom: 5px;
+}
+
+.centered {
+  text-align: center;
+  width: 100%;
+  padding: 10px;
+}
+
+.studentCards {
+  display: inline-block;
+}
+
+.inline-block {
+  display: inline-block;
+}
+
+.student-card-spacer {
+  margin-left: 120px;
+}
+
+.flexBox {
+  display: flex;
+}
+
+.flexBox.categories {
+  align-self: center;
+  margin-right: 20px;
+  margin-bottom: 10px;
+}
+
+.category-badge {
+  border: 1px solid black;
+  align-self: center;
+  box-shadow: 3px 3px 3px #1b1b1b;
+}
+
+.flexbox-responsive {
+  display: flex;
+}
+
+.navbar-dark-link {
+  color: #343a40;
+}
+
+.navbar-dark-link:hover {
+  color: #343a40;
+}
+
+.student-info {
+  margin-top: 20px;
+}
+
+.points-display {
+  margin-top: 20px;
+}
+
+.pointCards {
+  display: inline-block;
+  overflow-y: auto;
+  transition: 0.5s;
+  margin-right: 1em;
+}
+
+.hover-dark {
+  color: rgba(0, 0, 0, 0.5);
+  cursor: pointer;
+}
+
+.nav-item {
+  margin-right: 20px;
+}
+
+link.nav-head {
+  color: rgba(0, 0, 0, 0.5);
+}
+
+.login-card {
+  margin-top: 30px;
+}
+
+.nav-camera {
+  padding: 10px;
+  border-radius: 300px;
+}
+
+.footer {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  height: 60px;
+  line-height: 60px;
+  background-color: #343a40;
+  color: rgba(3, 2, 2, 0.5);
+}
+
+.navbar-full-width {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+}
+
+.navbar-wrapper {
+  height: 1em;
+}
+
+.search-bar {
+  /* padding-bottom: 10px;
+  padding-top: 5px;
+  margin-left: 10px;
+  margin-bottom: 10px;
+  border-bottom: 2px solid var(--primary);
+  border-left: 2px solid var(--primary);
+  border-right: 2px solid var(--primary); */
+  margin-right: 20px;
+}
+
+.search-bar form {
+  text-align: center;
+  display: flex;
+}
+
+.search-bar form input {
+  display: inline-block;
+}
+
+.right-align {
+  text-align: right;
+}
+
+.card-footer {
+  position: absolute;
+  bottom: 5px;
+  width: 80%;
+  background-color: rgba(0, 0, 0, 0);
+}
+
+.point-form-student {
+  align-self: flex-start;
+  margin-left: 20px;
+}
+
+.footer-text {
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 0.65em;
+}
+
+.wrapper {
+  margin-bottom: 60px;
+}
+
+.home-page-title {
+  font-size: 2em;
+  margin: 20px;
+}
+
+.homeName {
+  font-size: 1.25em;
+}
+
+.icon-holder {
+  padding-top: 12.5px;
+  text-align: center;
+  border-radius: 100%;
+  height: 50px;
+  width: 50px;
+  background-color: var(--primary);
+  cursor: pointer;
+  transition: 0.5s;
+}
+
+.icon-holder:hover {
+  border: 2px solid red;
+}
+
+.icon-holder i {
+  background-color: #343a40;
+}
+
+.student-pic {
+  overflow: hidden;
+  text-align: center;
+  position: absolute;
+  top: 0;
+  left: 0;
+  padding: 0;
+  max-width: 100px;
+  max-height: 100px;
+}
+
+.stuPic {
+  height: 3em;
+  width: 3em;
+  top: 0px;
+  left: 0.5em;
+  overflow: hidden;
+  position: static;
+  border: 3px solid blue;
+  border-radius: 2em;
+  background-color: rgba(255,255,255,0.2);
+  position: relative;
+  margin: auto;
+}
+
+.stuPic img {
+  height: 100%;
+  display: inline;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform:translate(-50%,-50%);
+}
+
+.student-pic img {
+  width: 100%;
+  display: block;
+}
+
+.student-pic div img {
+  width: 100%;
+  display: block;
+}
+
+.student-pic-spage {
+  width: 100px;
+  height: 100px;
+  border: 3px solid var(--primary);
+  border-radius: 100%;
+  overflow: hidden;
+  display: inline-block;
+}
+
+.student-pic-spage img {
+  width: 100%;
+}
+
+.student-info-name {
+  margin-left: 100px;
+}
+
+.buttonHolder {
+  text-align: center;
+  margin: 30px;
+}
+
+.buttonHolder button {
+  margin-right: 20px;
+  margin-left: 20px;
+}
+
+.selector-container {
+  background-color: white;
+  border: 3px solid black;
+  box-shadow: 3px 3px 3px black;
+}
+
+.student-selector {
+  background-color: skyblue;
+  opacity: 0.8;
+  color: white;
+  padding: 0.5em;
+  border: 3px solid black;
+  box-shadow: 3px 3px 3px gray;
+  border-radius: 10px;
+  text-shadow: 3px 3px 3px black;
+}
+
+.selector-image-holder {
+  box-shadow: 3px 3px 3px gray;
+  padding: 20px;
+  text-align: center;
+  height: 330px;
+  background-color: white;
+  border-radius: 30px;
+  overflow: hidden;
+  position: relative;
+}
+
+.selector-points {
+  background-color: white;
+  color: black;
+  text-shadow: 0px 0px 0px;
+  border: 1px solid black;
+  border-radius: 10px;
+  box-shadow: 3px 3px 3px black;
+}
+
+.selector-image {
+  height: 100%;
+  display: inline;
+  position: absolute;
+  top: -9999px;
+  bottom: -9999px;
+  left: -9999px;
+  right: -9999px;
+  margin: auto;
+}
+
+.selector-button {
+  margin-top: 1em;
+  font-size: 1em;
+  font-weight: 700;
+}
+
+.selector-back {
+  margin-top: 2em;
+  text-align: center;
+  display: block;
+}
+
+.selector-name {
+  text-align: center;
+}
+
+.group-index {
+  background-color: darkblue;
+  color: white;
+  text-align: center;
+  border: 2px solid white;
+  box-shadow: 2px 2px 2px black;
+  width: 3em;
+  cursor: pointer;
+}
+
+.group-table {
+  margin-top: 2em;
+}
+
+.group-table {
+  background-color: white;
+}
+
+.showcaseText {
+  margin-left: 2em;
+}
+
+.showcaseMessage {
+  border: 1px solid black;
+  border-radius: 10px;
+  padding: 10px;
+  background-color: rgba(0,0,0,0.2);
+  box-shadow: 0px 3px 3px black;
+  font-style:italic;
+}
+
+.showcaseStuCard {
+  position: relative;
+  display: flex;
+  align-items: center;
+  border: 1px solid black;
+  border-radius: 20px;
+  padding: 20px;
+  margin: 20px auto;
+  width: 40%;
+}
+
+@media (max-width: 576px) {
+  .hidden-sm-down {
+    visibility: hidden;
+    height: 0px;
+  }
+  .student-card-spacer {
+    margin-left: 0px;
+  }
+  .student-card-spacer.badge {
+    margin-left: 10em;
+  }
+}
+
+@media (max-width: 992px) {
+  .flexbox-responsive {
+    display: block;
+  }
+
+  .point-form-student {
+    margin-left: 0px;
+    margin-top: 20px;
+  }
+}

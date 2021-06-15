@@ -1,0 +1,20 @@
+{
+  "name": "houses",
+  "version": "1.0.0",
+  "description": "Full stack house points app with MB integration",
+  "main": "server.js",
+  "scripts": {
+    "start-serv": "node ./srv/server.js",
+    "server": "nodemon ./srv/server.js --ignore './client'",
+    "serverInstall": "npm install --prefix srv",
+    "client": "npm start --prefix client",
+    "clientInstall": "npm install --prefix client",
+    "dev": "concurrently \"npm run server\" \"npm run client\""
+  },
+  "keywords": [],
+  "author": "Ryan Tannenbaum",
+  "license": "SEE LICENSE IN LICENSE.txt",
+  "devDependencies": {
+    "concurrently": "^5.2.0"
+  }
+}

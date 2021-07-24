@@ -17,6 +17,7 @@ const express = require("express");
 const { check, validationResult } = require("express-validator");
 const auth = require("../middleware/auth");
 const config = require("config");
+const authAdmin = require("../middleware/authAdmin");
 const mbAPIKey = config.get("mbAPIKey");
 const mbSuffix = config.get("mbSuffix");
 const router = express.Router();
@@ -111,7 +112,7 @@ router.get("/students/:id", auth, async (req, res) => {
 // @route       POST api/classes
 // @desc        Create a Class
 // @access      Private
-router.post("/", auth, async (req, res) => {
+router.post("/", authAdmin, async (req, res) => {
   const Class = await addClass(req.body);
   if (Class) {
     res.json(Class);
@@ -136,7 +137,7 @@ router.post("/", auth, async (req, res) => {
 // @route       DELETE api/classes/:id
 // @desc        Delete a Class
 // @access      Private
-router.delete("/:id", auth, async (req, res) => {
+router.delete("/:id", authAdmin, async (req, res) => {
   try {
     let Class = await Class.findById(req.params.id);
     if (!Class) return res.status(404).json({ msg: "Class not found" });

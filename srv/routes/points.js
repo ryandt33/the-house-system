@@ -18,12 +18,11 @@ const { check, validationResult } = require("express-validator");
 const { v4: uuidv4 } = require("uuid");
 const axios = require("axios");
 const config = require("config");
+const authAdmin = require("../middleware/authAdmin");
 
 const llHead = config.get("llHead");
 const llEndPoint = config.get("llEndPoint");
 const useLL = config.get("useLL");
-const usePSQL = config.get("usePSQL");
-const psqlURL = config.get("psqlURL");
 
 const auth = require("../middleware/auth");
 const router = express.Router();
@@ -47,7 +46,7 @@ router.get("/", auth, async (req, res) => {
   }
 });
 
-router.get("/totalToAll", auth, async (req, res) => {
+router.get("/totalToAll", authAdmin, async (req, res) => {
   const houses = await House.find({}, "monthlyPoints yearlyPoints totalPoints");
 
   for (let house of houses) {
@@ -203,51 +202,51 @@ router.post(
         );
       }
 
-      if (usePSQL) {
-        const date = Date.now();
-        const today = new Date(date);
-        const payload = {
-          points: {
-            context: "houses",
-            userID: stu.studentID,
-            supervisorID: tea.mbID.toString(),
-            space: stu.house,
-            time: `${today.getUTCFullYear()}-${
-              today.getUTCMonth() + 1
-            }-${today.getUTCDate()}`,
-            point_value: value.toString(),
-            comment: message,
-          },
-        };
-        try {
-          await axios.post(psqlURL, payload, {
-            headers: {
-              "content-type": "application/json",
-              token: "123321",
-            },
-          });
-        } catch (err) {
-          console.error(err.response.data.errors);
-        }
-      }
+      // if (usePSQL) {
+      //   const date = Date.now();
+      //   const today = new Date(date);
+      //   const payload = {
+      //     points: {
+      //       context: "houses",
+      //       userID: stu.studentID,
+      //       supervisorID: tea.mbID.toString(),
+      //       space: stu.house,
+      //       time: `${today.getUTCFullYear()}-${
+      //         today.getUTCMonth() + 1
+      //       }-${today.getUTCDate()}`,
+      //       point_value: value.toString(),
+      //       comment: message,
+      //     },
+      //   };
+      //   try {
+      //     await axios.post(psqlURL, payload, {
+      //       headers: {
+      //         "content-type": "application/json",
+      //         token: "123321",
+      //       },
+      //     });
+      //   } catch (err) {
+      //     console.error(err.response.data.errors);
+      //   }
+      // }
 
-      point.value > 0 &&
-        req.io.emit("new point", {
-          student: {
-            firstName: stu.firstName,
-            lastName: stu.lastName,
-            studentID: stu.studentID,
-          },
-          teacher: {
-            firstName: tea.firstName,
-            lastName: tea.lastName,
-          },
-          point: point,
-          category: {
-            backgroundColor: cat.backgroundColor,
-            color: cat.color,
-          },
-        });
+      // point.value > 0 &&
+      //   req.io.emit("new point", {
+      //     student: {
+      //       firstName: stu.firstName,
+      //       lastName: stu.lastName,
+      //       studentID: stu.studentID,
+      //     },
+      //     teacher: {
+      //       firstName: tea.firstName,
+      //       lastName: tea.lastName,
+      //     },
+      //     point: point,
+      //     category: {
+      //       backgroundColor: cat.backgroundColor,
+      //       color: cat.color,
+      //     },
+      //   });
 
       res.json(point);
     } catch (err) {
@@ -264,13 +263,13 @@ router.post(
 router.put(
   "/:id",
   [
-    auth,
+    authAdmin,
     [
       check("value", "Please enter a value").notEmpty(),
       check("category", "Please enter a category").notEmpty(),
     ],
   ],
-  auth,
+  authAdmin,
   async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -295,7 +294,7 @@ router.put(
 // @route       DELETE api/points/:id
 // @desc        Delete a point
 // @access      Private
-router.delete("/:id", auth, async (req, res) => {
+router.delete("/:id", authAdmin, async (req, res) => {
   try {
     let point = await Point.findById(req.params.id);
     if (!point) return res.status(404).json({ msg: "Point not found" });

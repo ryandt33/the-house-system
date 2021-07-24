@@ -17,6 +17,7 @@ const express = require("express");
 const { check, validationResult } = require("express-validator");
 const router = express.Router();
 const auth = require("../middleware/auth");
+const authAdmin = require("../middleware/authAdmin");
 
 const House = require("../models/House");
 const Student = require("../models/Student");
@@ -40,8 +41,8 @@ router.get("/", auth, async (req, res) => {
 router.post(
   "/",
   [
-    auth,
-    [check("name", "Please include a valid, unique house name").notEmpty()]
+    authAdmin,
+    [check("name", "Please include a valid, unique house name").notEmpty()],
   ],
   async (req, res) => {
     const errors = validationResult(req);
@@ -54,7 +55,7 @@ router.post(
     try {
       const newHouse = new House({
         name: name,
-        picture: picture
+        picture: picture,
       });
       const house = await newHouse.save();
       res.json(house);
@@ -71,8 +72,8 @@ router.post(
 router.put(
   "/:id",
   [
-    auth,
-    [check("name", "Please include a valid, unique house name").notEmpty()]
+    authAdmin,
+    [check("name", "Please include a valid, unique house name").notEmpty()],
   ],
   async (req, res) => {
     const errors = validationResult(req);
@@ -87,7 +88,7 @@ router.put(
         picture: picture,
         color: color,
         backgroundColor,
-        backgroundColor
+        backgroundColor,
       });
       res.json({ msg: "House updated" });
     } catch (err) {
@@ -100,12 +101,12 @@ router.put(
 // @route       DELETE api/houses/:id
 // @desc        Delete a house
 // @access      Private
-router.delete("/:id", auth, async (req, res) => {
+router.delete("/:id", authAdmin, async (req, res) => {
   try {
     await Student.updateMany(
       { house: req.params.id },
       {
-        house: null
+        house: null,
       }
     );
 

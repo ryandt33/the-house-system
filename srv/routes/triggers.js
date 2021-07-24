@@ -19,8 +19,6 @@ const router = express.Router();
 const config = require("config");
 const axios = require("axios");
 
-const psqlURL = config.get("psqlURL");
-
 const getStudents = require("../mbAPI/getStudents");
 const getTeachers = require("../mbAPI/getTeachers");
 const getClasses = require("../mbAPI/getClasses");
@@ -38,7 +36,7 @@ const Point = require("../models/Point");
 // @route       GET api/triggers/student
 // @desc        Get and update students
 // @access      Dev
-router.get("/students", auth, (req, res) => {
+router.get("/students", authAdmin, (req, res) => {
   getStudents();
   res.send("Get a user");
 });
@@ -46,7 +44,7 @@ router.get("/students", auth, (req, res) => {
 // @route       GET api/triggers/teacher
 // @desc        Get and update teachers
 // @access      Dev
-router.get("/teachers", auth, (req, res) => {
+router.get("/teachers", authAdmin, (req, res) => {
   getTeachers();
   res.send("Fetch all teachers and update");
 });
@@ -54,14 +52,14 @@ router.get("/teachers", auth, (req, res) => {
 // @route       GET api/triggers/photos
 // @desc        Get photos
 // @access      Dev
-router.get("/photos", auth, async (req, res) => {
+router.get("/photos", authAdmin, async (req, res) => {
   res.json(await getPhotos());
 });
 
 // @route       GET api/triggers/teacher/pass
 // @desc        Get and update teachers
 // @access      Dev
-router.get("/teachers/pass", auth, async (req, res) => {
+router.get("/teachers/pass", authAdmin, async (req, res) => {
   const users = await passGen(Teacher);
   res.send(users);
 });
@@ -69,7 +67,7 @@ router.get("/teachers/pass", auth, async (req, res) => {
 // @route       GET api/triggers/houses
 // @desc        Assign students to houses
 // @access      Dev
-router.get("/houses", auth, async (req, res) => {
+router.get("/houses", authAdmin, async (req, res) => {
   try {
     const houses = await assignHouses();
     res.json({ msg: "House assignment complete" });
@@ -82,7 +80,7 @@ router.get("/houses", auth, async (req, res) => {
 // @route       GET api/triggers/classes
 // @desc        Get and update classes
 // @access      Dev
-router.get("/classes", auth, async (req, res) => {
+router.get("/classes", authAdmin, async (req, res) => {
   try {
     await getClasses();
     res.json({ msg: "Classes were fetched" });
@@ -95,7 +93,7 @@ router.get("/classes", auth, async (req, res) => {
 // @route       GET api/triggers/classes/students
 // @desc        Get and update classes
 // @access      Dev
-router.get("/classes/students", auth, async (req, res) => {
+router.get("/classes/students", authAdmin, async (req, res) => {
   try {
     await popClass();
     res.json({ msg: "Students were Added" });
@@ -105,7 +103,7 @@ router.get("/classes/students", auth, async (req, res) => {
   }
 });
 
-router.get("/clearMonthly", auth, async (req, res) => {
+router.get("/clearMonthly", authAdmin, async (req, res) => {
   try {
     await clearMonthly();
     res.send("Cleared Monthly Points");
@@ -114,39 +112,39 @@ router.get("/clearMonthly", auth, async (req, res) => {
   }
 });
 
-router.get("/postOldPoints", authAdmin, async (req, res) => {
-  try {
-    const allPoints = await Point.find();
-    for (point of allPoints) {
-      const stu = await Student.findById(point.receiver);
-      const tea = await Teacher.findById(point.giver);
-      const date = Date.now();
-      const today = new Date(date);
-      const payload = {
-        points: {
-          context: "houses",
-          userID: stu.studentID,
-          supervisorID: tea.mbID.toString(),
-          space: stu.house,
-          time: `${today.getUTCFullYear()}-${
-            today.getUTCMonth() + 1
-          }-${today.getUTCDate()}`,
-          point_value: point.value.toString(),
-          comment: point.message,
-        },
-      };
-      await axios.post(psqlURL, payload, {
-        headers: {
-          "content-type": "application/json",
-          token: "123321",
-        },
-      });
-    }
-  } catch (error) {
-    console.error(error);
-  }
-  res.send("Posted all points to PSQL");
-});
+// router.get("/postOldPoints", authAdmin, async (req, res) => {
+//   try {
+//     const allPoints = await Point.find();
+//     for (point of allPoints) {
+//       const stu = await Student.findById(point.receiver);
+//       const tea = await Teacher.findById(point.giver);
+//       const date = Date.now();
+//       const today = new Date(date);
+//       const payload = {
+//         points: {
+//           context: "houses",
+//           userID: stu.studentID,
+//           supervisorID: tea.mbID.toString(),
+//           space: stu.house,
+//           time: `${today.getUTCFullYear()}-${
+//             today.getUTCMonth() + 1
+//           }-${today.getUTCDate()}`,
+//           point_value: point.value.toString(),
+//           comment: point.message,
+//         },
+//       };
+//       await axios.post(psqlURL, payload, {
+//         headers: {
+//           "content-type": "application/json",
+//           token: "123321",
+//         },
+//       });
+//     }
+//   } catch (error) {
+//     console.error(error);
+//   }
+//   res.send("Posted all points to PSQL");
+// });
 
 // router.get("/pics/compress", auth, async (req, res) => {
 //   try {

@@ -15,6 +15,7 @@
 
 const express = require("express");
 const connectDB = require("./config/db");
+const newInstall = require("./services/newInstall");
 
 const app = express();
 
@@ -27,12 +28,12 @@ const server = app.listen(PORT, () =>
   console.log(`Server started on port ${PORT}`)
 );
 
-const io = require("socket.io")(server, {
-  cors: {
-    origin: "*",
-    methods: ["GET", "POST"],
-  },
-});
+// const io = require("socket.io")(server, {
+//   cors: {
+//     origin: "*",
+//     methods: ["GET", "POST"],
+//   },
+// });
 
 // Init Middleware
 app.use(express.json({ extended: false }));
@@ -61,14 +62,14 @@ app.use(function (req, res, next) {
   // Pass to next layer of middleware
   next();
 });
-app.use((req, res, next) => {
-  req.io = io;
-  next();
-});
+// app.use((req, res, next) => {
+//   req.io = io;
+//   next();
+// });
 
-io.on("connection", (socket) => {
-  console.log("connected");
-});
+// io.on("connection", (socket) => {
+//   console.log("connected");
+// });
 // Call MB
 //getStudents();
 
@@ -82,3 +83,5 @@ app.use("/api/points", require("./routes/points"));
 app.use("/api/categories", require("./routes/categories"));
 app.use("/api/triggers", require("./routes/triggers"));
 app.use("/api/admin", require("./routes/admin"));
+
+newInstall();

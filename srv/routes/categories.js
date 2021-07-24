@@ -17,6 +17,7 @@ const express = require("express");
 const { check, validationResult } = require("express-validator");
 const router = express.Router();
 const auth = require("../middleware/auth");
+const authAdmin = require("../middleware/authAdmin");
 
 const Category = require("../models/Category");
 
@@ -39,7 +40,7 @@ router.get("/", auth, async (req, res) => {
 router.post(
   "/",
   [
-    auth,
+    authAdmin,
     [
       check("name", "Please include a valid, unique category name").notEmpty(),
       check(
@@ -76,7 +77,7 @@ router.post(
   }
 );
 
-router.put("/:id", auth, async (req, res) => {
+router.put("/:id", authAdmin, async (req, res) => {
   try {
     const cat = await Category.findById(req.params.id);
 
@@ -107,7 +108,7 @@ router.put("/:id", auth, async (req, res) => {
 // @route       DELETE api/categories/:id
 // @desc        Delete a vategory
 // @access      Private
-router.delete("/:id", auth, async (req, res) => {
+router.delete("/:id", authAdmin, async (req, res) => {
   try {
     const category = await Category.findByIdAndRemove({ _id: req.params.id });
     console.log(category);

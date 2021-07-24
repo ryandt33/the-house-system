@@ -16,6 +16,7 @@
 const express = require("express");
 const { check, validationResult } = require("express-validator");
 const auth = require("../middleware/auth");
+const authAdmin = require("../middleware/authAdmin");
 const config = require("config");
 const mbAPIKey = config.get("mbAPIKey");
 const mbSuffix = config.get("mbSuffix");
@@ -84,7 +85,7 @@ router.get("/top", auth, async (req, res) => {
   // THE ABOVE CODE SHOULD DO THE SEARCH FOR THE MOST PART
 });
 
-router.get("/csv", auth, async (req, res) => {
+router.get("/csv", authAdmin, async (req, res) => {
   try {
     await exportToCsv();
     res.send("Exporting to CSV");
@@ -191,7 +192,7 @@ router.get("/sid/:id", auth, async (req, res) => {
 // @route       POST api/students
 // @desc        Create a student
 // @access      Private
-router.post("/", auth, async (req, res) => {
+router.post("/", authAdmin, async (req, res) => {
   const student = await addStudent(req.body);
   if (student) {
     res.json(student);
@@ -203,7 +204,7 @@ router.post("/", auth, async (req, res) => {
 // @route       PUT api/students/:id
 // @desc        Edit a student
 // @access      Private
-router.put("/:id", auth, async (req, res) => {
+router.put("/:id", authAdmin, async (req, res) => {
   try {
     updateStudent(req.body, req.params.id);
     res.send("Student updated");
@@ -216,7 +217,7 @@ router.put("/:id", auth, async (req, res) => {
 // @route       PUT api/students/house/:id
 // @desc        Edit a student
 // @access      Private
-router.put("/house/:id", auth, async (req, res) => {
+router.put("/house/:id", authAdmin, async (req, res) => {
   try {
     const student = await updateHouse(req.body, req.params.id);
     res.json(student);
@@ -277,7 +278,7 @@ router.put("/house/:id", auth, async (req, res) => {
 // @route       DELETE api/students/:id
 // @desc        Delete a student
 // @access      Private
-router.delete("/:id", auth, async (req, res) => {
+router.delete("/:id", authAdmin, async (req, res) => {
   try {
     let student = await Student.findById(req.params.id);
     if (!student) return res.status(404).json({ msg: "Contact not found" });

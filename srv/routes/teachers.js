@@ -18,6 +18,7 @@ const { check, validationResult } = require("express-validator");
 const router = express.Router();
 const bcrypt = require("bcryptjs");
 const auth = require("../middleware/auth");
+const authAdmin = require("../middleware/authAdmin");
 const Teacher = require("../models/Teacher");
 const addTeacher = require("../services/addTeacher");
 const updateTeacher = require("../services/updateTeacher");
@@ -37,7 +38,7 @@ router.get("/", auth, async (req, res) => {
 // @route       POST api/teachers
 // @desc        Create a teacher
 // @access      Private
-router.post("/", auth, async (req, res) => {
+router.post("/", authAdmin, async (req, res) => {
   const teacher = await addTeacher(req.body);
   if (teacher) {
     res.json(teacher);
@@ -49,7 +50,7 @@ router.post("/", auth, async (req, res) => {
 // @route       PUT api/teachers/:id
 // @desc        Edit a teacher
 // @access      Private
-router.put("/:id", auth, async (req, res) => {
+router.put("/:id", authAdmin, async (req, res) => {
   try {
     updateTeacher(req.body, req.params.id);
     res.send("Student Patched");
@@ -107,7 +108,7 @@ router.put(
 // @route       DELETE api/teachers/:id
 // @desc        Delete a teacher
 // @access      Private
-router.delete("/:id", auth, async (req, res) => {
+router.delete("/:id", authAdmin, async (req, res) => {
   try {
     let teacher = await Teacher.findById(req.params.id);
     if (!teacher) return res.status(404).json({ msg: "Contact not found" });

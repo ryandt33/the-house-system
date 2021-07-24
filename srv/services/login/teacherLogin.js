@@ -13,42 +13,36 @@
 // You should have received a copy of the GNU General Public License
 // along with The House System. If not, see <http://www.gnu.org/licenses/>.
 
-import {
-  POINT_ERROR,
-  GET_POINTS,
-  GET_MY_POINTS,
-  CLEAR_POINTS,
-  CLEAR_ERRORS,
-} from "../types";
+const bcrypt = require("bcryptjs");
 
-export default (state, action) => {
-  switch (action.type) {
-    case POINT_ERROR:
-      return {
-        ...state,
-        errors: action.payload,
-        loading: false,
-      };
-    case GET_POINTS:
-    case GET_MY_POINTS:
-      return {
-        ...state,
-        points: action.payload,
-        loading: false,
-      };
-    case CLEAR_POINTS:
-      return {
-        ...state,
-        points: [],
-        loading: true,
-        errors: null,
-      };
-    case CLEAR_ERRORS:
-      return {
-        ...state,
-        errors: null,
-      };
-    default:
-      return state;
+const Teacher = require("../../models/Teacher");
+
+const teacherLogin = async (email, password, teacher) => {
+  const isMatch = await bcrypt.compare(password, teacher.password);
+  console.log(teacher.password);
+
+  if (!teacher || !isMatch || teacher.archived) {
+    return { user: "invalid" };
   }
+
+  const date = new Date();
+
+  await Teacher.findByIdAndUpdate(
+    { _id: teacher._id },
+    {
+      lastLogin: date.getTime(),
+    }
+  );
+
+  const payload = {
+    user: {
+      id: teacher.id,
+      role: "Teacher",
+      tokenDate: Date.now(),
+    },
+  };
+
+  return payload;
 };
+
+module.exports = teacherLogin;

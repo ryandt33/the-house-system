@@ -16,6 +16,7 @@
 const jwt = require("jsonwebtoken");
 const config = require("config");
 const Teacher = require("../models/Teacher");
+const Student = require("../models/Student");
 
 module.exports = async function (req, res, next) {
   // Get token from header
@@ -27,10 +28,14 @@ module.exports = async function (req, res, next) {
   }
 
   try {
+    let user;
     const decoded = jwt.verify(token, config.get("jwtSecret"));
-    console.log(decoded);
-    const teacher = await Teacher.findById({ _id: decoded.user.id });
-    if (decoded.user.tokenDate < teacher.validFrom) {
+    console.log(decoded.user.role.slice(0, 1));
+    decoded.user.role === "Teacher"
+      ? (user = await Teacher.findById({ _id: decoded.user.id }))
+      : (user = await Student.findById({ _id: decoded.user.id }));
+
+    if (decoded.user.tokenDate < user.validFrom) {
       res.status(401).json({ msg: "Token has expired" });
       return;
     }

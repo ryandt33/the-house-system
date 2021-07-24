@@ -17,7 +17,13 @@ import React, { useReducer } from "react";
 import axios from "axios";
 import PointContext from "./pointContext";
 import pointReducer from "./pointReducer";
-import { POINT_ERROR, GET_POINTS, CLEAR_POINTS, CLEAR_ERRORS } from "../types";
+import {
+  POINT_ERROR,
+  GET_POINTS,
+  CLEAR_POINTS,
+  CLEAR_ERRORS,
+  GET_MY_POINTS,
+} from "../types";
 const { apiURL } = window["runConfig"];
 
 const PointState = (props) => {
@@ -52,6 +58,15 @@ const PointState = (props) => {
     }
   };
 
+  const getMyPoints = async () => {
+    try {
+      const res = await axios.get(`${apiURL}api/points/me`);
+      dispatch({ type: GET_MY_POINTS, payload: res.data.points });
+    } catch (err) {
+      dispatch({ type: POINT_ERROR });
+    }
+  };
+
   const deletePoint = async (id, receiver) => {
     try {
       await axios.delete(`${apiURL}api/points/${id}`);
@@ -73,6 +88,7 @@ const PointState = (props) => {
         errors: state.errors,
         addPoint,
         getUserPoints,
+        getMyPoints,
         deletePoint,
         clearState,
       }}

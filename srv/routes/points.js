@@ -24,6 +24,7 @@ const llHead = config.get("llHead");
 const llEndPoint = config.get("llEndPoint");
 const useLL = config.get("useLL");
 
+const authStudent = require("../middleware/authStudent");
 const auth = require("../middleware/auth");
 const router = express.Router();
 
@@ -43,6 +44,19 @@ router.get("/", auth, async (req, res) => {
   } catch (err) {
     console.error(err.message);
     res.status(500).send("Server Error");
+  }
+});
+
+router.get("/me", authStudent, async (req, res) => {
+  try {
+    const points = await Student.find({ _id: req.user.id })
+      .select("points")
+      .populate("points.point");
+
+    res.json(points[0]);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Error retrieving student points");
   }
 });
 

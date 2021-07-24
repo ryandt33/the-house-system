@@ -117,6 +117,16 @@ const StudentSchema = mongoose.Schema({
       },
     },
   ],
+  password: {
+    type: String,
+    min: [8, "Password is too short."],
+  },
+  lastLogin: {
+    type: Number,
+  },
+  validFrom: {
+    type: Number,
+  },
 });
 
 module.exports = mongoose.model("students", StudentSchema, "students");

@@ -15,6 +15,7 @@
 
 export const GET_STUDENTS = "GET_STUDENTS";
 export const GET_STUDENT = "GET_STUDENT";
+export const GET_ME = "GET_ME";
 export const ADD_STUDENT = "ADD_STUDENT";
 export const DELETE_STUDENT = "DELETE_STUDENT";
 export const SET_CURRENT = "SET_CURRENT";
@@ -30,6 +31,7 @@ export const FILTER_ERROR = "FILTER_ERROR";
 export const CLEAR_FILTER = "CLEAR_FILTER";
 export const POINT_ERROR = "POINT_ERROR";
 export const GET_POINTS = "GET_POINT";
+export const GET_MY_POINTS = "GET_MY_POINTS";
 export const REGISTER_SUCCESS = "REGISTER_SUCCESS";
 export const REGISTER_FAIL = "REGISTER_FAIL";
 export const USER_LOADED = "USER_LOADED";

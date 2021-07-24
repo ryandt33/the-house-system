@@ -18,13 +18,14 @@ const { check, validationResult } = require("express-validator");
 const router = express.Router();
 const auth = require("../middleware/auth");
 const authAdmin = require("../middleware/authAdmin");
+const anyAuth = require("../middleware/anyAuth");
 
 const Category = require("../models/Category");
 
 // @route       GET api/categories
 // @desc        Get all categories
 // @access      Private
-router.get("/", auth, async (req, res) => {
+router.get("/", anyAuth, async (req, res) => {
   try {
     const categories = await Category.find({});
     res.json({ categories });

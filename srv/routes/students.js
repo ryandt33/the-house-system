@@ -15,6 +15,7 @@
 
 const express = require("express");
 const { check, validationResult } = require("express-validator");
+const anyAuth = require("../middleware/anyAuth");
 const auth = require("../middleware/auth");
 const authAdmin = require("../middleware/authAdmin");
 const config = require("config");
@@ -27,10 +28,11 @@ const updateHouse = require("../services/updateHouse");
 const axios = require("axios");
 const Fs = require("fs");
 const Path = require("path");
-
+const bcrypt = require("bcryptjs");
 const Student = require("../models/Student");
 const House = require("../models/House");
 const exportToCsv = require("../services/exportToCsv");
+const authStudent = require("../middleware/authStudent");
 
 // @route       GET api/students
 // @desc        Get all students
@@ -40,6 +42,19 @@ router.get("/", auth, async (req, res) => {
     const students = await Student.find({});
 
     res.json(students);
+  } catch (err) {
+    console.error(err.message);
+  }
+});
+
+// @route       GET api/students/me
+// @desc        Get students' own data
+// @access      Private to Student
+router.get("/me", authStudent, async (req, res) => {
+  try {
+    const student = await Student.findById(req.user.id);
+
+    res.json(student);
   } catch (err) {
     console.error(err.message);
   }
@@ -111,7 +126,7 @@ router.get("/:id", auth, async (req, res) => {
 // @route       GET api/students/pic/:mbid
 // @desc        Get a specific student's picture
 // @access      Private
-router.get("/pic/:id", auth, async (req, res) => {
+router.get("/pic/:id", anyAuth, async (req, res) => {
   try {
     // const student = await Student.findOne({ mbID: req.params.mbid });
 
@@ -293,5 +308,50 @@ router.delete("/:id", authAdmin, async (req, res) => {
     console.error(err);
   }
 });
+
+// @route       PUT api/students/pass/:id
+// @desc        Change or add a password
+// @access      Private
+router.put(
+  "/pass/:id",
+  [
+    check(
+      "password",
+      "Please enter a password with 8 or more characters."
+    ).isLength({
+      min: 8,
+    }),
+  ],
+  auth,
+  async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
+    const salt = await bcrypt.genSalt(10);
+    const { password, oldPassword } = req.body;
+
+    try {
+      const enPass = await bcrypt.hash(password, salt);
+
+      const stu = await Student.findOne({ _id: req.params.id });
+
+      if (
+        stu.password &&
+        (!oldPassword || !(await bcrypt.compare(oldPassword, stu.password)))
+      ) {
+        res.status(400).json({ msg: "Invalid current password" });
+      } else {
+        await Student.findByIdAndUpdate(req.params.id, {
+          password: enPass,
+        });
+        res.json(stu);
+      }
+    } catch (err) {
+      console.error(err.message);
+    }
+  }
+);
 
 module.exports = router;

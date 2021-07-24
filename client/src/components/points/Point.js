@@ -41,6 +41,8 @@ const Point = ({ point }) => {
         });
         return;
       }
+    } else {
+      categoryContext.getCategories();
     }
     setvisible({
       ...visible,
@@ -52,7 +54,7 @@ const Point = ({ point }) => {
 
   return (
     <Card
-      className='col-xl-3 col-lg-4 col-xs-12 col-sm-5 pointCards'
+      className="col-xl-3 col-lg-4 col-xs-12 col-sm-5 pointCards"
       text={visible.text}
       style={{
         backgroundColor: visible.category.backgroundColor,
@@ -63,7 +65,7 @@ const Point = ({ point }) => {
       {visible.visible ? (
         <Fragment>
           {authContext.user.role === "Admin" && (
-            <div className='float-right hover-dark' onClick={deletePoint}>
+            <div className="float-right hover-dark" onClick={deletePoint}>
               X
             </div>
           )}

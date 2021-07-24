@@ -20,6 +20,7 @@ import axios from "axios";
 import {
   GET_STUDENTS,
   GET_STUDENT,
+  GET_ME,
   EDIT_HOUSE,
   FILTER_STUDENT,
   CLEAR_STUDENT,
@@ -96,6 +97,17 @@ const StudentState = (props) => {
 
       dispatch({ type: GET_STUDENT, payload: res.data });
     } catch (err) {}
+  };
+
+  const getMe = async () => {
+    try {
+      state.loading = true;
+      const res = await axios.get(`${apiURL}api/students/me`);
+
+      dispatch({ type: GET_ME, payload: res.data });
+    } catch (err) {
+      console.log(err.response);
+    }
   };
 
   // Get a student by their Student ID
@@ -214,6 +226,7 @@ const StudentState = (props) => {
         getStudents,
         getHomeroom,
         getStudent,
+        getMe,
         getStudentbyID,
         filterStudents,
         clearStudent,

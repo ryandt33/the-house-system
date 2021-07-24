@@ -55,7 +55,7 @@ const AuthState = (props) => {
         dispatch({ type: LOAD_FAILED });
       }
     } catch (err) {
-      console.log(err);
+      console.log(err.response);
       dispatch({ type: AUTH_ERROR, payload: err.response.data.msg });
     }
   };
@@ -72,22 +72,20 @@ const AuthState = (props) => {
 
     try {
       const res = await axios.post(`${apiURL}api/auth`, formData, config);
-      console.log("working?");
+      console.log(localStorage);
       clearErrors();
-      loadUser();
+      // loadUser();
       dispatch({
         type: LOGIN_SUCCESS,
         payload: res.data,
       });
       return true;
     } catch (err) {
-      console.log(err);
-      console.log(apiURL);
       dispatch({
         type: LOGIN_FAIL,
         payload: err.response.data.msg,
       });
-      return false;
+      return err;
     }
   };
 

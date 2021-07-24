@@ -2,7 +2,7 @@ import React, { useContext, useEffect } from "react";
 import { Route, Redirect } from "react-router-dom";
 import AuthContext from "../../context/auth/authContext";
 
-const PrivateRoute = ({ component: Component, ...rest }) => {
+const StudentRoute = ({ component: Component, ...rest }) => {
   const authContext = useContext(AuthContext);
   const { isAuthenticated, loading, user } = authContext;
 
@@ -24,8 +24,8 @@ const PrivateRoute = ({ component: Component, ...rest }) => {
       render={(props) =>
         !isAuthenticated && !loading ? (
           <Redirect to="/login" />
-        ) : user && user.studentID ? (
-          <Redirect to="/me" />
+        ) : user && !user.studentID ? (
+          <Redirect to="/" />
         ) : (
           <Component {...props} />
         )
@@ -34,4 +34,4 @@ const PrivateRoute = ({ component: Component, ...rest }) => {
   );
 };
 
-export default PrivateRoute;
+export default StudentRoute;

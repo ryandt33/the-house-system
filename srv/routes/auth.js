@@ -20,9 +20,13 @@ const jwt = require("jsonwebtoken");
 const Teacher = require("../models/Teacher");
 const config = require("config");
 const auth = require("../middleware/auth");
+const anyAuth = require("../middleware/anyAuth");
 
 const { v4: uuidv4 } = require("uuid");
 const axios = require("axios");
+const Student = require("../models/Student");
+const studentLogin = require("../services/login/studentLogin");
+const teacherLogin = require("../services/login/teacherLogin");
 const llHead = config.get("llHead");
 const llEndPoint = config.get("llEndPoint");
 
@@ -31,10 +35,16 @@ const router = express.Router();
 // @route       GET api/auth
 // @desc        Get logged in user
 // @access      Private
-router.get("/", auth, async (req, res) => {
+router.get("/", anyAuth, async (req, res) => {
   try {
-    const user = await Teacher.findById(req.user.id).select("-password");
-    res.json(user);
+    console.log(req.user.role);
+    if (req.user.role === "Student") {
+      const user = await Student.findById(req.user.id).select("-password");
+      res.json(user);
+    } else {
+      const user = await Teacher.findById(req.user.id).select("-password");
+      res.json(user);
+    }
   } catch (err) {
     console.error(err.message);
     res.status(500).send("Server error");
@@ -51,42 +61,7 @@ router.post(
     check("password", "Password is required").exists(),
   ],
   async (req, res) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      return res.status(400).json({ errors: errors.array() });
-    }
-
-    const { email, password } = req.body;
-
-    try {
-      let user = await Teacher.findOne({ email: email });
-      if (!user) {
-        return res.status(400).json({ msg: "Invalid User" });
-      }
-      const isMatch = await bcrypt.compare(password, user.password);
-      console.log(user);
-
-      if (!user || !isMatch || user.archived) {
-        return res.status(400).json({ msg: "Invalid Credentials" });
-      }
-
-      const date = new Date();
-
-      await Teacher.findByIdAndUpdate(
-        { _id: user._id },
-        {
-          lastLogin: date.getTime(),
-        }
-      );
-
-      const payload = {
-        user: {
-          id: user.id,
-          role: user.role,
-          tokenDate: Date.now(),
-        },
-      };
-
+    const gen_token = (payload) => {
       jwt.sign(
         payload,
         config.get("jwtSecret"),
@@ -95,49 +70,34 @@ router.post(
         },
         (err, token) => {
           if (err) throw err;
-
-          const headers = {
-            Authorization: llHead,
-            "X-Experience-API-Version": "1.0.3",
-            "Content-Type": "application/json",
-          };
-
-          const id = uuidv4();
-          statement = {
-            id: id,
-            actor: {
-              name: `${user.lastName} ${user.firstName}`,
-              mbox: `mailto:${user.email}`,
-            },
-            verb: {
-              id: `https://brindlewaye.com/xAPITerms/verbs/loggedin/`,
-              display: {
-                en: "logged into",
-              },
-            },
-            object: {
-              id: `${llEndPoint}/houses`,
-              definition: {
-                type: `${llEndPoint}/houses/`,
-                name: {
-                  en: `OCAC Houses`, //Change this to read the name from some config file
-                },
-              },
-            },
-            context: {
-              platform: "Houses",
-            },
-          };
-
-          // axios.put(
-          //   `${llEndPoint}/statements?statementId=${statement.id}`,
-          //   statement,
-          //   { headers: headers }
-          // );
-
           res.json({ token });
         }
       );
+    };
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
+    const { email, password } = req.body;
+    let payload;
+
+    try {
+      let user = await Teacher.findOne({ email: email });
+      if (!user) {
+        const stu = await Student.findOne({ email: email });
+        if (!stu) {
+          return res.status(400).json({ msg: "Invalid User" });
+        } else {
+          payload = await studentLogin(email, password, stu);
+        }
+      } else {
+        payload = await teacherLogin(email, password, user);
+      }
+
+      payload.user === "invalid"
+        ? res.status(400).json({ msg: "Invalid Password" })
+        : gen_token(payload);
     } catch (err) {
       console.error(err.message);
       res.status(500).send("Server Error");

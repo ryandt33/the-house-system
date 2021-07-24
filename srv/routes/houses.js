@@ -18,6 +18,7 @@ const { check, validationResult } = require("express-validator");
 const router = express.Router();
 const auth = require("../middleware/auth");
 const authAdmin = require("../middleware/authAdmin");
+const anyAuth = require("../middleware/anyAuth");
 
 const House = require("../models/House");
 const Student = require("../models/Student");
@@ -25,7 +26,7 @@ const Student = require("../models/Student");
 // @route       GET api/houses
 // @desc        Get all houses
 // @access      Private
-router.get("/", auth, async (req, res) => {
+router.get("/", anyAuth, async (req, res) => {
   try {
     const houses = await House.find({}).select("-students -points");
     res.json({ houses });

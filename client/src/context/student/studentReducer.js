@@ -16,6 +16,7 @@
 import {
   GET_STUDENTS,
   GET_STUDENT,
+  GET_ME,
   EDIT_HOUSE,
   FILTER_STUDENT,
   CLEAR_STUDENT,
@@ -38,6 +39,7 @@ export default (state, action) => {
       };
     case EDIT_HOUSE:
     case GET_STUDENT:
+    case GET_ME:
       return {
         ...state,
         student: action.payload,

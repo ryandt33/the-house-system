@@ -25,11 +25,13 @@ import ClassState from "./context/class/classState";
 import AlertState from "./context/alert/AlertState";
 import PrivateRoute from "./components/routing/PrivateRoute";
 import AdminRoute from "./components/routing/AdminRoute";
+import StudentRoute from "./components/routing/StudentRoute";
 
 import Home from "./components/pages/Home";
 import Homeroom from "./components/pages/Homeroom";
 import StudentList from "./components/pages/StudentList";
 import Student from "./components/pages/Student";
+import StudentHomepage from "./components/pages/StudentHomepage";
 import Class from "./components/pages/Class";
 import StudentSelector from "./components/pages/StudentSelector";
 import Groups from "./components/pages/Groups";
@@ -58,52 +60,57 @@ const App = () => {
                 <AlertState>
                   <Router>
                     <Fragment>
-                      <div className='wrapper'>
+                      <div className="wrapper">
                         <Switch>
-                          <PrivateRoute exact path='/' component={Home} />
+                          <PrivateRoute exact path="/" component={Home} />
                           <PrivateRoute
                             exact
-                            path='/list'
+                            path="/list"
                             component={StudentList}
                           />
                           <PrivateRoute
                             exact
-                            path='/student/:id'
+                            path="/student/:id"
                             component={Student}
+                          />
+                          <StudentRoute
+                            exact
+                            path="/me"
+                            component={StudentHomepage}
                           />
                           <PrivateRoute
                             exact
-                            path='/class/:id'
+                            path="/class/:id"
                             component={Class}
                           />
                           <PrivateRoute
                             exact
-                            path='/class/selector/:id'
+                            path="/class/selector/:id"
                             component={StudentSelector}
                           />
                           <PrivateRoute
                             exact
-                            path='/class/groups/:id'
+                            path="/class/groups/:id"
                             component={Groups}
                           />
                           <PrivateRoute
                             exact
-                            path='/camera'
+                            path="/camera"
                             component={Barcode}
                           />
                           <PrivateRoute
                             exact
-                            path='/passchange'
+                            path="/passchange"
                             component={PassChange}
                           />
-                          <PrivateRoute exact path='/hr' component={Homeroom} />
+                          <PrivateRoute exact path="/hr" component={Homeroom} />
                           <PrivateRoute
                             exact
-                            path='/showcase'
+                            path="/showcase"
                             component={Showcase}
                           />
-                          <AdminRoute exact path='/admin' component={Admin} />
-                          <Route exact path='/login' component={Login} />
+                          <AdminRoute exact path="/admin" component={Admin} />
+                          <Route exact path="/login" component={Login} />
                         </Switch>
                         <Footer />
                       </div>

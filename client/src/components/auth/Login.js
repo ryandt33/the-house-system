@@ -36,6 +36,7 @@ const Login = (props) => {
       props.history.push("/");
     }
 
+    console.log(authContext);
     if (error && error !== "Unauthorized Access - No token") {
       setAlert(error, "danger");
     }
@@ -65,18 +66,18 @@ const Login = (props) => {
   return (
     <Container>
       {" "}
-      <NavbarMenu className='navbar-full-width' props={props} />
-      <Card className='login-card'>
+      <NavbarMenu className="navbar-full-width" props={props} />
+      <Card className="login-card">
         <Card.Body>
           <Card.Title>
-            Account <span className='text-primary'>Login</span>:
+            Account <span className="text-primary">Login</span>:
           </Card.Title>
           <Form onSubmit={onSubmit}>
             <Form.Group>
               <Form.Label>E-Mail</Form.Label>
               <Form.Control
-                type='email'
-                name='email'
+                type="email"
+                name="email"
                 value={email}
                 onChange={onChange}
               />
@@ -84,16 +85,16 @@ const Login = (props) => {
             <Form.Group>
               <Form.Label>Password</Form.Label>
               <Form.Control
-                type='password'
-                name='password'
+                type="password"
+                name="password"
                 value={password}
                 onChange={onChange}
               />
             </Form.Group>
             <input
-              type='submit'
-              value='Login'
-              className='btn btn-primary btn-block'
+              type="submit"
+              value="Login"
+              className="btn btn-primary btn-block"
             />
           </Form>
         </Card.Body>

@@ -80,7 +80,7 @@ const PointForm = ({ student }) => {
   };
 
   return (
-    <Form onSubmit={onSubmit} className='mb-5 mb-sm-0'>
+    <Form onSubmit={onSubmit} className="mb-5 mb-sm-0">
       {" "}
       <Form.Label>Choose a category</Form.Label>
       <Container>
@@ -89,20 +89,20 @@ const PointForm = ({ student }) => {
             categoryContext.categories.map(
               (category) =>
                 !category.archived && (
-                  <div className='categories' key={category._id}>
+                  <div className="categories" key={category._id}>
                     <Badge
-                      className='category-badge'
-                      as='span'
+                      className="category-badge"
+                      as="span"
                       style={{
-                        backgroundColor: category.backgroundColor,
+                        background: category.backgroundColor,
                         color: category.color,
                         width: "100%",
                         marginBottom: "1rem",
                       }}
                     >
                       <Form.Check
-                        type='radio'
-                        name='category'
+                        type="radio"
+                        name="category"
                         value={category._id}
                         checked={point.category === category.name}
                         onChange={catChange}
@@ -135,15 +135,15 @@ const PointForm = ({ student }) => {
       <br /> */}
       <Form.Label>Message</Form.Label>
       <Form.Control
-        placeholder='Enter Message'
-        name='message'
+        placeholder="Enter Message"
+        name="message"
         value={message}
         onChange={onChange}
-        as='textarea'
-        rows='3'
+        as="textarea"
+        rows="3"
       />
-      <div className='centered'>
-        <Button variant='primary' type='submit'>
+      <div className="centered">
+        <Button variant="primary" type="submit">
           Submit Point
         </Button>
       </div>

@@ -57,7 +57,7 @@ const Point = ({ point }) => {
       className="col-xl-3 col-lg-4 col-xs-12 col-sm-5 pointCards"
       text={visible.text}
       style={{
-        backgroundColor: visible.category.backgroundColor,
+        background: visible.category.backgroundColor,
         color: visible.category.color,
       }}
     >
@@ -71,7 +71,7 @@ const Point = ({ point }) => {
           )}
           <Card.Body
             style={{
-              backgroundColor: visible.category.backgroundColor,
+              background: visible.category.backgroundColor,
               color: visible.category.color,
             }}
           >

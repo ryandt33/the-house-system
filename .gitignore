@@ -3,8 +3,7 @@ node_modules/
 .env.local
 pass.csv
 tmp/
-fa/
-images/
+/srv/images/*.jpg
 dump/
 /srv/services/emailChange.js
 /srv/services/csvGen.js
@@ -15,7 +14,5 @@ dump/
 /srv/services/dataIntegrity.js
 /srv/services/nameUpdate.js
 /srv/services/chiStu.js
-/client/public/fa
-/client/public/sounds
 /client/public/runtime-config.js
 /client/build

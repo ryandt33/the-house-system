@@ -13,7 +13,6 @@
 // You should have received a copy of the GNU General Public License
 // along with The House System. If not, see <http://www.gnu.org/licenses/>.
 
-
 const axios = require("axios");
 const config = require("config");
 const mbAPIKey = config.get("mbAPIKey");
@@ -57,17 +56,18 @@ const getPhotos = async () => {
         console.log(
           `${x}: Processing ${student.firstName} ${student.lastName}`
         );
-        let path = Path.resolve(
-          __dirname,
-          "../images",
-          `${student.studentID}.jpg`
-        );
-        let writer = Fs.createWriteStream(path);
+
         try {
           let photo = await axios.get(
             `https://api.managebac.${mbSuffix}/v2/avatars/${student.mbID}`,
             mbConfig
           );
+          let path = Path.resolve(
+            __dirname,
+            "../images",
+            `${student.studentID}.jpg`
+          );
+          let writer = Fs.createWriteStream(path);
           photo.data.pipe(writer);
           new Promise(async (resolve, reject) => {
             writer.on("finish", resolve);
@@ -78,12 +78,12 @@ const getPhotos = async () => {
             );
           });
         } catch (err) {
-    if (err.response.status === 429) {
-      console.log("429 error, waiting 30 seconds and retrying.\n");
-      await delay();
-    } else {
-      console.error(err.response.status);
-    }
+          if (err.response.status === 429) {
+            console.log("429 error, waiting 30 seconds and retrying.\n");
+            await delay();
+          } else {
+            console.error(err.response.status);
+          }
         }
       }
     }

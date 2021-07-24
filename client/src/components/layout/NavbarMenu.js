@@ -44,7 +44,7 @@ const NavbarMenu = ({ props }) => {
   }, []);
 
   useEffect(() => {
-    if (authContext.user) {
+    if (authContext.user && !authContext.user.studentID) {
       !classContext.classes && classContext.getClasses(authContext.user._id);
     }
     // eslint-disable-next-line
@@ -85,27 +85,27 @@ const NavbarMenu = ({ props }) => {
 
   return (
     <div>
-      <div className='navbar-spacer'>
+      <div className="navbar-spacer">
         {" "}
-        <div className='fixed-nav'>
-          <div className='navbar-wrapper'>
+        <div className="fixed-nav">
+          <div className="navbar-wrapper">
             <Navbar
-              bg='light'
-              className='navbar-light navbar-full-width'
-              expand='lg'
+              bg="light"
+              className="navbar-light navbar-full-width"
+              expand="lg"
               style={{ zIndex: 2 }}
             >
               <Navbar.Brand>
-                <i className='fas fa-home'></i>{" "}
-                <Link to='/' className='nav-item navbar-dark-link'>
+                <i className="fas fa-home"></i>{" "}
+                <Link to="/" className="nav-item navbar-dark-link">
                   Houses
                 </Link>
               </Navbar.Brand>{" "}
-              <Navbar.Toggle aria-controls='basic-navbar-nav' />
-              <Navbar.Collapse id='basic-navbar-nav'>
+              <Navbar.Toggle aria-controls="basic-navbar-nav" />
+              <Navbar.Collapse id="basic-navbar-nav">
                 {!authContext.isAuthenticated ? (
-                  <Nav className='ml-auto'>
-                    <Link to='/login' className='navbar-dark-link nav-item'>
+                  <Nav className="ml-auto">
+                    <Link to="/login" className="navbar-dark-link nav-item">
                       Login
                     </Link>
                   </Nav>
@@ -117,69 +117,75 @@ const NavbarMenu = ({ props }) => {
               </Nav> */}
                     <Dropdown>
                       <Dropdown.Toggle
-                        id='dropdown-basic-button'
-                        className='dropdown-light'
+                        id="dropdown-basic-button"
+                        className="dropdown-light"
                       >
                         {authContext.user &&
                           `${authContext.user.firstName} ${authContext.user.lastName}`}
                       </Dropdown.Toggle>
-                      <Dropdown.Menu className='navbar-light'>
+                      <Dropdown.Menu className="navbar-light">
                         {" "}
-                        <span className='dropdown-item' role='button'>
-                          <Link to='/hr'>Homeroom</Link>
-                        </span>
-                        {classContext.classes &&
-                          classContext.classes.map(
-                            (cls) =>
-                              !cls.archived && (
-                                <span
-                                  key={cls._id}
-                                  className='dropdown-item'
-                                  role='button'
-                                >
-                                  <Link
-                                    to={`/class/${cls._id}`}
-                                  >{`${cls.name}`}</Link>
-                                </span>
-                              )
-                          )}
-                        <span className='dropdown-item' role='button'>
-                          <Link to='/passchange'>Change your password</Link>
+                        {authContext.user && authContext.user.studentID ? (
+                          <div></div>
+                        ) : (
+                          <div>
+                            <span className="dropdown-item" role="button">
+                              <Link to="/hr">Homeroom</Link>
+                            </span>
+                            {classContext.classes &&
+                              classContext.classes.map(
+                                (cls) =>
+                                  !cls.archived && (
+                                    <span
+                                      key={cls._id}
+                                      className="dropdown-item"
+                                      role="button"
+                                    >
+                                      <Link
+                                        to={`/class/${cls._id}`}
+                                      >{`${cls.name}`}</Link>
+                                    </span>
+                                  )
+                              )}
+                          </div>
+                        )}
+                        <span className="dropdown-item" role="button">
+                          <Link to="/passchange">Change your password</Link>
                         </span>
                         <span
-                          className='dropdown-item'
-                          role='button'
+                          className="dropdown-item"
+                          role="button"
                           onClick={logoutUser}
                         >
-                          <Link to='/login'>
+                          <Link to="/login">
                             <i
-                              className='fas fa-sign-out-alt'
-                              color='black'
+                              className="fas fa-sign-out-alt"
+                              color="black"
                             ></i>
-                            <span className='hide-sm navbar-dark-link nav-item'>
+                            <span className="hide-sm navbar-dark-link nav-item">
                               Logout
                             </span>
                           </Link>
                         </span>
                       </Dropdown.Menu>
                     </Dropdown>
-                    <Nav className='ml-auto'>
-                      <Link to='/camera' className='navbar-dark-link nav-item'>
-                        <div className='nav-camera'>
-                          <i className='fas fa-camera' /> Camera
+                    <Nav className="ml-auto">
+                      <Link to="/camera" className="navbar-dark-link nav-item">
+                        <div className="nav-camera">
+                          <i className="fas fa-camera" /> Camera
                         </div>
                       </Link>{" "}
                     </Nav>
                     <Form inline onSubmit={onSubmit}>
                       <Form.Control
-                        type='text'
-                        name='search'
-                        placeholder='Search'
+                        type="text"
+                        name="search"
+                        placeholder="Search"
                         onChange={onChange}
-                        className='mr-2 col-6'
+                        className="mr-2 col-6"
                       />
 
-                      <Button variant='outline-success' type='submit'>
+                      <Button variant="outline-success" type="submit">
                         Search
                       </Button>
                     </Form>

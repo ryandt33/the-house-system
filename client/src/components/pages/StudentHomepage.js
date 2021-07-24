@@ -7,7 +7,6 @@ import PointContext from "../../context/point/pointContext";
 import Point from "../points/Point";
 import PointCounter from "../points/PointCounter";
 import StudentPic from "../layout/StudentPic";
-import PointForm from "../points/PointForm";
 import NavbarMenu from "../layout/NavbarMenu";
 
 const Student = (props) => {
@@ -29,24 +28,12 @@ const Student = (props) => {
     console.log(authContext.user);
   }, [authContext.user]);
 
-  //   useEffect(() => {
-  //     if (studentContext.student !== null) {
-  //       updateStudent();
-  //     }
-
-  //     // eslint-disable-next-line
-  //   }, [studentContext.student]);
-
-  //   useEffect(() => {}, [studentContext]);
-
   const [display, setDisplay] = useState({
     page: 0,
     points: [],
     monthlyPoints: 0,
     img: "",
   });
-
-  //   const [edit, setEdit] = useState(false);
 
   useEffect(() => {
     setDisplay({
@@ -60,38 +47,6 @@ const Student = (props) => {
   const { realms } = realmContext;
   const { points } = pointContext;
 
-  console.log(points);
-
-  //   // TO-DO ADD PAGINATION
-
-  //   const canEdit = () => {
-  //     setEdit(!edit);
-  //   };
-
-  //   const houseSelect = async (e) => {
-  //     await studentContext.editHouse(
-  //       student._id,
-  //       realms.houses.find((realm) => realm.name === e.target.value)._id
-  //     );
-  //     setEdit(false);
-  //   };
-
-  //   const updateStudent = async () => {
-  //     if (student.photoURL !== undefined) {
-  //       await getPhoto();
-  //     }
-  //     await pointContext.getUserPoints(studentContext.student._id);
-  //   };
-
-  //   const getPhoto = async () => {
-  //     const pic = await studentContext.getPhoto(student.studentID);
-  //     setDisplay({ ...display, img: pic });
-  //   };
-
-  const goBack = () => {
-    props.history.goBack();
-  };
-
   return (
     <Container fluid>
       <NavbarMenu className="navbar-full-width" props={props} />
@@ -104,29 +59,6 @@ const Student = (props) => {
           <Card className="col-lg-12 col-xs-12">
             {" "}
             <Card.Body>
-              <div>
-                <div
-                  className="icon-holder float-left"
-                  style={{
-                    marginRight: "2em",
-                    width: "2em",
-                    height: "2em",
-                    cursor: "pointer",
-                    paddingTop: "0.15em",
-                  }}
-                  onClick={goBack}
-                >
-                  <i
-                    className="far fa-hand-point-left"
-                    style={{ color: "white" }}
-                  ></i>{" "}
-                </div>{" "}
-                <p onClick={goBack} style={{ cursor: "pointer" }}>
-                  Click here to go back.
-                </p>
-              </div>
-              <br />
-              <hr />
               <Card.Title>
                 <h3>
                   <div className="flex-name">

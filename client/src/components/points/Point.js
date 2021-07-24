@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect, Fragment } from "react";
-import { Card, Badge } from "react-bootstrap";
+import { Card } from "react-bootstrap";
 import PointContext from "../../context/point/pointContext";
 import StudentContext from "../../context/student/studentContext";
 import AuthContext from "../../context/auth/authContext";

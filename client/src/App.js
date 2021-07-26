@@ -44,6 +44,7 @@ import Footer from "./components/layout/Footer";
 
 import setAuthToken from "./utils/setAuthToken";
 import "./App.css";
+import ResetPassword from "./components/auth/ResetPassword";
 
 if (localStorage.token) {
   setAuthToken(localStorage.token);
@@ -111,6 +112,16 @@ const App = () => {
                           />
                           <AdminRoute exact path="/admin" component={Admin} />
                           <Route exact path="/login" component={Login} />
+                          <Route
+                            exact
+                            path="/resetPassword"
+                            component={ResetPassword}
+                          />
+                          <Route
+                            exact
+                            path="/resetPassword/:token"
+                            component={ResetPassword}
+                          />
                         </Switch>
                         <Footer />
                       </div>

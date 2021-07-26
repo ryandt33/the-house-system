@@ -3,7 +3,6 @@ import { Card, Container, Row, Col, Table, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
 import NavbarMenu from "../layout/NavbarMenu";
-import StudentPic from "../layout/StudentPic";
 import ClassContext from "../../context/class/classContext";
 import StudentContext from "../../context/student/studentContext";
 
@@ -24,13 +23,18 @@ const Groups = (props) => {
     let count;
 
     for (let x = 0; x < num; x++) {
+      //Create an empty 2nd dimension to populate with groups
       groups[x] = [];
+
+      //Choose a random student from all students, assign it to the end of the 2nd dimension, splice the student from the main
       for (let y = 0; y < Math.floor(classContext.students.length / num); y++) {
         count = Math.floor(Math.random() * stu.length);
         groups[x][groups[x].length] = stu[count].student;
         stu.splice(count, 1);
       }
     }
+
+    //Error handling
     if (stu.length >= groups.length) {
       console.log("Assignment error!");
     } else if (stu.length > 0) {
@@ -39,96 +43,95 @@ const Groups = (props) => {
       }
     }
 
-    for (let x = 0; x < groups.length; x += 2) {
-      x + 1 !== groups.length
+    console.log(groups.length);
+    //Populate the group tables
+    for (let x = 0; x < groups.length; x += 3) {
+      x + 2 < groups.length
         ? groupEle.push(
             <Row key={`${x}-r`}>
-              <Col sm={6}>
-                <Table striped bordered hover className='group-table'>
-                  <thead style={{ backgroundColor: "white" }}>
-                    <tr>
-                      <th></th>
-                      <th>Name:</th>
-                    </tr>
-                  </thead>
-                  <tbody>
+              <Col sm={4}>
+                <div className="group__container">
+                  <h3>Group {x + 1}</h3>
+                  <ul>
                     {groups[x].map((student) => (
-                      <tr key={student._id}>
-                        <td style={{ position: "relative" }}>
-                          <StudentPic
-                            props={{ student: student }}
-                            className='stuPic'
-                          />
-                        </td>
-                        <td>
-                          {student.lastName} {student.firstName}
-                          {student.otherName && " (" + student.otherName + ")"}
-                          {student.nickname && ` | ${student.nickname}`}
-                        </td>
-                      </tr>
+                      <li key={student._id}>
+                        {student.firstName} {student.lastName}
+                      </li>
                     ))}
-                  </tbody>
-                </Table>
+                  </ul>
+                </div>
               </Col>
-              <Col sm={6}>
-                <Table striped bordered hover className='group-table'>
-                  <thead>
-                    <tr>
-                      <th></th>
-                      <th>Name:</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {x + 1 < groups.length &&
-                      groups[x + 1].map((student) => (
-                        <tr key={student._id}>
-                          <td style={{ position: "relative" }}>
-                            <StudentPic
-                              props={{ student: student }}
-                              className='stuPic'
-                            />
-                          </td>
-                          <td>
-                            {student.lastName} {student.firstName}
-                            {student.otherName &&
-                              " (" + student.otherName + ")"}
-                            {student.nickname && ` | ${student.nickname}`}
-                          </td>
-                        </tr>
-                      ))}
-                  </tbody>
-                </Table>
+              <Col sm={4}>
+                {" "}
+                <div className="group__container">
+                  <h3>Group {x + 2}</h3>
+                  <ul>
+                    {groups[x + 1].map((student) => (
+                      <li key={student._id}>
+                        {student.firstName} {student.lastName}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </Col>
+              <Col sm={4}>
+                {" "}
+                <div className="group__container">
+                  <h3>Group {x + 3}</h3>
+                  <ul>
+                    {groups[x + 2].map((student) => (
+                      <li key={student._id}>
+                        {student.firstName} {student.lastName}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </Col>
+            </Row>
+          )
+        : x + 1 < groups.length
+        ? groupEle.push(
+            <Row key={`${x}-r`}>
+              <Col sm={{ span: 4, offset: 2 }}>
+                <div className="group__container">
+                  <h3>Group {x + 1}</h3>
+                  <ul>
+                    {groups[x].map((student) => (
+                      <li key={student._id}>
+                        {student.firstName} {student.lastName}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </Col>{" "}
+              <Col sm={4}>
+                {" "}
+                <div className="group__container">
+                  <h3>Group {x + 2}</h3>
+                  <ul>
+                    {groups[x + 1].map((student) => (
+                      <li key={student._id}>
+                        {student.firstName} {student.lastName}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
               </Col>
             </Row>
           )
         : groupEle.push(
             <Row key={`${x}-r`}>
-              <Col sm={{ span: 6, offset: 3 }}>
-                <Table striped bordered hover className='group-table'>
-                  <thead style={{ backgroundColor: "white" }}>
-                    <tr>
-                      <th></th>
-                      <th>Name:</th>
-                    </tr>
-                  </thead>
-                  <tbody>
+              <Col sm={{ span: 4, offset: 4 }}>
+                <div className="group__container">
+                  <h3>Group {x + 1}</h3>
+                  <ul>
                     {groups[x].map((student) => (
-                      <tr key={student._id}>
-                        <td style={{ position: "relative" }}>
-                          <StudentPic
-                            props={{ student: student }}
-                            className='stuPic'
-                          />
-                        </td>
-                        <td>
-                          {student.lastName} {student.firstName}
-                          {student.otherName && " (" + student.otherName + ")"}
-                          {student.nickname && ` | ${student.nickname}`}
-                        </td>
-                      </tr>
+                      <li key={student._id}>
+                        {student.firstName} {student.lastName}
+                      </li>
                     ))}
-                  </tbody>
-                </Table>
+                  </ul>
+                </div>
               </Col>
             </Row>
           );
@@ -141,13 +144,13 @@ const Groups = (props) => {
     groupIndex.push(
       <Col
         sm={Math.ceil((12 - classContext.students.length / 2) / 2)}
-        key='group-spacer'
+        key="group-spacer"
       ></Col>
     );
     for (let x = 1; x < classContext.students.length / 2 && x < 12; x++) {
       groupIndex.push(
         <Col sm={1} key={x + 1}>
-          <div className='group-index' onClick={() => createGroups(x + 1)}>
+          <div className="group-index" onClick={() => createGroups(x + 1)}>
             {x + 1}
           </div>
         </Col>
@@ -170,8 +173,8 @@ const Groups = (props) => {
 
   return (
     <Container fluid>
-      <NavbarMenu classname='navbar-full-width' props={props} />
-      <Card style={{ marginBottom: "100px" }} className='p-3'>
+      <NavbarMenu classname="navbar-full-width" props={props} />
+      <Card style={{ marginBottom: "100px" }} className="p-3">
         <Card.Title>Group Maker!</Card.Title>
         <Card.Body>
           <p>How many groups would you like to create?</p>
@@ -179,9 +182,9 @@ const Groups = (props) => {
           {group.groups}
           <Link
             to={`/class/${props.match.params.id}`}
-            className='selector-back'
+            className="selector-back"
           >
-            <Button variant='primary' className='selector-button'>
+            <Button variant="primary" className="selector-button">
               Back to{" "}
               {classContext.class ? `${classContext.class.name}` : `Class`}
             </Button>

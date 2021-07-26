@@ -13,7 +13,6 @@
 // You should have received a copy of the GNU General Public License
 // along with The House System. If not, see <http://www.gnu.org/licenses/>.
 
-
 const axios = require("axios");
 const config = require("config");
 const mbAPIKey = config.get("mbAPIKey");
@@ -31,7 +30,11 @@ const getTeachers = async () => {
   };
   //Move the check here and then run a put/post if Teacher exists
   const checkUnique = async (teacher) => {
-    const tea = await Teacher.findOne({ email: teacher.email });
+    const tea =
+      (await Teacher.findOne({ email: teacher.email })) ||
+      (await Teacher.findOne({ mbID: teacher.id }));
+
+    console.log(teacher);
     if (!tea) {
       try {
         addTeacher(teacher);
@@ -39,15 +42,8 @@ const getTeachers = async () => {
         console.error(err.message);
       }
     } else {
-      const {
-        first_name,
-        last_name,
-        email,
-        archived,
-        gender,
-        role,
-        id,
-      } = teacher;
+      const { first_name, last_name, email, archived, gender, role, id } =
+        teacher;
 
       const change =
         tea.firstName !== first_name ||

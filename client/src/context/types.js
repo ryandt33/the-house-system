@@ -41,6 +41,7 @@ export const LOGIN_SUCCESS = "LOGIN_SUCCESS";
 export const LOGIN_FAIL = "LOGIN_FAIL";
 export const LOGOUT = "LOGOUT";
 export const CHANGE_PASSWORD = "CHANGE_PASSWORD";
+export const RESET_PASS_FAILED = "RESET_PASS_FAILED";
 export const CHANGE_PASS_FAILED = "CHANGE_PASS_FAILED";
 export const CLEAR_ERRORS = "CLEAR_ERRORS";
 export const SET_ALERT = "SET_ALERT";

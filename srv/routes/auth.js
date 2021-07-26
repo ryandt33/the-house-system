@@ -21,12 +21,15 @@ const Teacher = require("../models/Teacher");
 const config = require("config");
 const auth = require("../middleware/auth");
 const anyAuth = require("../middleware/anyAuth");
-
 const { v4: uuidv4 } = require("uuid");
 const axios = require("axios");
 const Student = require("../models/Student");
 const studentLogin = require("../services/login/studentLogin");
 const teacherLogin = require("../services/login/teacherLogin");
+const authResetPassword = require("../middleware/authResetPassword");
+const InvalidKey = require("../models/InvalidKey");
+const passwordReset = require("../services/mailgun/passwordReset");
+
 const llHead = config.get("llHead");
 const llEndPoint = config.get("llEndPoint");
 
@@ -104,6 +107,69 @@ router.post(
     }
   }
 );
+
+router.post("/passwordReset", async (req, res) => {
+  let { email } = req.body;
+  try {
+    let user =
+      (await Teacher.findOne({ email: email })) ||
+      (await Student.findOne({ email: email }));
+
+    if (!user) {
+      res.status(400).send({ msg: `No user was found with ${email}` });
+    } else {
+      const payload = {
+        user: {
+          id: user.id,
+          role: "passwordReset",
+          tokenDate: Date.now(),
+        },
+      };
+
+      jwt.sign(
+        payload,
+        config.get("jwtSecret"),
+        {
+          expiresIn: 3600,
+        },
+        async (err, token) => {
+          if (err) throw err;
+          const success = await passwordReset(user.email, token);
+          success
+            ? res
+                .status(200)
+                .send({ msg: "Password Reset Email sent successfully." })
+            : res
+                .status(500)
+                .send({ msg: "Error sending password reset email." });
+        }
+      );
+    }
+  } catch (err) {
+    console.error(err.message);
+
+    res.status(500).send("Server Error generating password reset key.");
+  }
+});
+
+router.put("/passwordReset/", authResetPassword, async (req, res) => {
+  if (!req.body.password) res.status("400").send("No password provided.");
+  const salt = await bcrypt.genSalt(10);
+  const enPass = await bcrypt.hash(req.body.password, salt);
+
+  await Teacher.findByIdAndUpdate(req.user.id, {
+    password: enPass,
+  });
+
+  res.status(200).json({ msg: "Password changed successfully" });
+
+  const invalidKey = new InvalidKey({
+    keyString: req.header("x-auth-token"),
+    expiry: req.token.exp,
+  });
+
+  await invalidKey.save();
+});
 
 // @route       PUT api/auth/:id
 // @desc        Set teacher tokens to be valid from current time (revoke all existing tokens)

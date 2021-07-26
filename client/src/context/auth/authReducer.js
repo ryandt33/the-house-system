@@ -23,6 +23,7 @@ import {
   LOGIN_FAIL,
   LOGOUT,
   CHANGE_PASS_FAILED,
+  RESET_PASS_FAILED,
   CLEAR_ERRORS,
 } from "../types";
 
@@ -61,6 +62,7 @@ export default (state, action) => {
         user: action.payload,
       };
     case CHANGE_PASS_FAILED:
+    case RESET_PASS_FAILED:
       return {
         ...state,
         error: action.payload,

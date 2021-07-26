@@ -28,6 +28,7 @@ import {
   LOGOUT,
   CHANGE_PASS_FAILED,
   CLEAR_ERRORS,
+  RESET_PASS_FAILED,
 } from "../types";
 
 const { apiURL } = window["runConfig"];
@@ -111,6 +112,45 @@ const AuthState = (props) => {
     }
   };
 
+  const getReset = async ({ email }) => {
+    try {
+      const res = await axios.post(`${apiURL}api/auth/passwordReset`, {
+        email: email,
+      });
+      console.log(res);
+      return true;
+    } catch (err) {
+      console.log(err.response.data.msg);
+      dispatch({
+        type: RESET_PASS_FAILED,
+        payload: err.response.data.msg,
+      });
+      return false;
+    }
+  };
+
+  const resetPassword = async (pass, token) => {
+    try {
+      await axios.put(
+        `${apiURL}api/auth/passwordReset`,
+        { password: pass },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            "x-auth-token": token,
+          },
+        }
+      );
+      return true;
+    } catch (err) {
+      dispatch({
+        type: CHANGE_PASS_FAILED,
+        payload: err.response.data.msg,
+      });
+      return false;
+    }
+  };
+
   // Clear Errors
   const clearErrors = () => dispatch({ type: CLEAR_ERRORS });
 
@@ -127,6 +167,8 @@ const AuthState = (props) => {
         logout,
         clearErrors,
         changePass,
+        getReset,
+        resetPassword,
       }}
     >
       {props.children}

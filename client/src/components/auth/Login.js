@@ -15,6 +15,7 @@
 
 import React, { useState, useContext, useEffect } from "react";
 import { Container, Form, Card } from "react-bootstrap";
+import { Link } from "react-router-dom";
 import AuthContext from "../../context/auth/authContext";
 import AlertContext from "../../context/alert/alertContext";
 import NavbarMenu from "../layout/NavbarMenu";
@@ -91,6 +92,9 @@ const Login = (props) => {
                 onChange={onChange}
               />
             </Form.Group>
+            <Link to="/resetPassword" className="password-reset-link">
+              Forgot your password?
+            </Link>
             <input
               type="submit"
               value="Login"

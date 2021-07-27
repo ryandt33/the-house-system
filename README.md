@@ -9,5 +9,9 @@ It can then assign students to houses and offer ways for people to assign point 
 To do:
 
 - Add an admin portal
-- Add student roles
-- Find a better way to serve pictures
+  - User view with password reset and email notification option
+  - Create/edit categories
+  - Create/edit houses
+  - Trigger certain API calls
+- Fix the point form to get rid of the radio buttons
+- Clear yearly points

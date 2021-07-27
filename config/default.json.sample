@@ -3,10 +3,11 @@
   "jwtSecret": "secret",
   "mbAPIKey": "123",
   "mbSuffix": "com or cn",
-  "apiURL": "",
   "useLL": true/false,
   "llEndPoint": "https://url/data/xAPI",
   "llHead": "Basic abcd",
-  "usePSQL": true,
-  "psqlURL": "http://localhost:4000/api/points"
+  "mgURL": "api.mailgun.net/v3/{domain name}",
+  "mgAPI": "321",
+  "houseURL": "https://your.house.system",
+  "orgName": "Your org name"
 }

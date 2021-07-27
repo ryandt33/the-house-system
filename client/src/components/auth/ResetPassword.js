@@ -61,7 +61,12 @@ const ResetPassword = (props) => {
       const success = await getReset({
         email,
       });
-      success && setAlert("E-mail sent, please check your e-mail", "success");
+      if (success) {
+        setAlert("E-mail sent, please check your e-mail", "success");
+        props.history.push("/login");
+      } else {
+        alertContext.setAlert("Error sending reset password", "danger");
+      }
     }
   };
 

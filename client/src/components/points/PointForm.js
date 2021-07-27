@@ -24,6 +24,11 @@ const PointForm = ({ student }) => {
     giver: authContext.user._id,
   });
 
+  const [categories, setCategories] = useState({
+    catList: [],
+    cats: [],
+  });
+
   const { message } = point;
 
   const onChange = (e) => {
@@ -42,6 +47,69 @@ const PointForm = ({ student }) => {
     categoryContext.getCategories();
     // eslint-disable-next-line
   }, [student.house]);
+
+  useEffect(() => {
+    categoryContext.categories !== null &&
+      categories.catList.length === 0 &&
+      // setCategories({
+      //   catList: categoryContext.categories.map((category) => {
+      //     return {
+      //       cat: createCategory(category),
+      //       active: false,
+      //       name: category.name,
+      //     };
+      //   }),
+      // });
+      setCategories({
+        cats: categoryContext.categories,
+        catList: categoryContext.categories.map((category) => {
+          return {
+            cat: createCategory(category, false),
+            active: false,
+            name: category.name,
+            category: category,
+          };
+        }),
+      });
+  }, [categoryContext.categories]);
+
+  useEffect(() => {
+    console.log(categories.catList);
+
+    console.log("updating");
+    const list = categories.catList;
+    for (let x = 0; x < list.length; x++) {
+      list[x].active
+        ? list.splice(x, 1, {
+            ...list[x],
+            cat: createCategory(list[x].category, true),
+          })
+        : list.splice(x, 1, {
+            ...list[x],
+            cat: createCategory(list[x].category, false),
+          });
+    }
+
+    setCategories({ ...categories, catList: list });
+  }, [categories.catList]);
+
+  useEffect(() => {
+    console.log(point);
+
+    setCategories({
+      ...categories,
+      catList: categories.catList.map((category) => {
+        console.log(category);
+        if (category.name === point.category) {
+          console.log(category.cat.props.className);
+
+          return { ...category, active: true };
+        } else {
+          return { ...category, active: false };
+        }
+      }),
+    });
+  }, [point]);
 
   const onSubmit = async (e) => {
     e.preventDefault();
@@ -65,7 +133,8 @@ const PointForm = ({ student }) => {
   };
 
   const catChange = (e) => {
-    const { value, name } = getCategory(e.target.value);
+    console.log(e.target.classList.add("active"));
+    const { value, name } = getCategory(e.target.dataset.category);
     setPoint({
       ...point,
       category: name,
@@ -74,65 +143,45 @@ const PointForm = ({ student }) => {
   };
 
   const getCategory = (id) => {
-    return categoryContext.categories.filter(
-      (category) => category._id === id
-    )[0];
+    return categoryContext.categories.find((category) => category._id === id);
+  };
+
+  const createCategory = (category, active) => {
+    console.log(active);
+    return (
+      !category.archived && (
+        <div className={`categories`} key={category._id}>
+          <Badge
+            className={`category-badge ${
+              active ? "categories-badge-active" : ""
+            }`}
+            as="span"
+            style={{
+              background: category.backgroundColor,
+              color: category.color,
+              width: "100%",
+              marginBottom: "1rem",
+            }}
+            data-category={category._id}
+            onClick={catChange}
+          >
+            {category.name}
+          </Badge>
+        </div>
+      )
+    );
   };
 
   return (
     <Form onSubmit={onSubmit} className="mb-5 mb-sm-0">
       {" "}
       <Form.Label>Choose a category</Form.Label>
-      <Container>
-        <Form.Group onChange={catChange}>
+      <Container style={{ padding: "0px" }}>
+        <Form.Group onChange={catChange} style={{ textAlign: "center" }}>
           {categoryContext.categories !== null &&
-            categoryContext.categories.map(
-              (category) =>
-                !category.archived && (
-                  <div className="categories" key={category._id}>
-                    <Badge
-                      className="category-badge"
-                      as="span"
-                      style={{
-                        background: category.backgroundColor,
-                        color: category.color,
-                        width: "100%",
-                        marginBottom: "1rem",
-                      }}
-                    >
-                      <Form.Check
-                        type="radio"
-                        name="category"
-                        value={category._id}
-                        checked={point.category === category.name}
-                        onChange={catChange}
-                      />
-
-                      {category.name}
-                    </Badge>
-                  </div>
-                )
-            )}
+            categories.catList.map((category) => category.cat)}
         </Form.Group>
       </Container>
-      {/* <Form.Control
-        placeholder='Enter Point Category'
-        name='category'
-        value={category}
-        onChange={onChange}
-        required
-      />
-      <br />
-      <Form.Label>Value</Form.Label>
-      <Form.Control
-        placeholder='Enter Message'
-        name='value'
-        value={value}
-        onChange={onChange}
-        required
-        type='number'
-      />
-      <br /> */}
       <Form.Label>Message</Form.Label>
       <Form.Control
         placeholder="Enter Message"

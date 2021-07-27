@@ -115,10 +115,38 @@ body {
   margin-bottom: 10px;
 }
 
+.categories {
+  text-align: center;
+  width: 40%;
+  display: inline-block;
+  margin: 0 0.5rem;
+}
+
 .category-badge {
   border: 1px solid black;
   align-self: center;
   box-shadow: 3px 3px 3px #1b1b1b;
+  padding: 0.8rem 0;
+  cursor: pointer;
+  transform: scale(1.05);
+  transition: 0.15s;
+  max-width: 30rem;
+  font-size: 0.6rem;
+  border: 3px solid rgba(255, 255, 255, 0.3);
+}
+
+.category-badge:hover {
+  transform: scale(1.04);
+  box-shadow: 2px 2px 2px #1b1b1b;
+}
+
+.category-badge:active {
+  transform: scale(1.02);
+  box-shadow: 1px 1px 1px #1b1b1b;
+}
+
+.categories-badge-active {
+  border: 3px solid gold;
 }
 
 .flexbox-responsive {
@@ -448,6 +476,16 @@ link.nav-head {
   margin: 1rem;
   padding: 1rem;
   border-radius: 5px;
+  box-shadow: 3px 3px 3px black;
+  transform: scale(1.02);
+  position: relative;
+}
+
+.group__container ul {
+  list-style: none;
+  position: relative;
+  left: 50%;
+  transform: translateX(-25%);
 }
 
 .password-reset-link {
@@ -478,5 +516,13 @@ link.nav-head {
   .point-form-student {
     margin-left: 0px;
     margin-top: 20px;
+  }
+}
+
+@media (max-width: 1200px) {
+  .categories {
+    width: 100%;
+    display: block;
+    margin: auto;
   }
 }

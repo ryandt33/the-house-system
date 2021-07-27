@@ -26,7 +26,7 @@ const getPhotos = require("../mbAPI/getPhotos");
 const passGen = require("../services/passGen");
 const assignHouses = require("../services/assignHouses");
 const popClass = require("../mbAPI/popClass");
-const clearMonthly = require("../services/clearMonthly");
+const clearPoints = require("../services/clearPoints");
 
 const Teacher = require("../models/Teacher");
 const Student = require("../models/Student");
@@ -105,8 +105,17 @@ router.get("/classes/students", authAdmin, async (req, res) => {
 
 router.get("/clearMonthly", authAdmin, async (req, res) => {
   try {
-    await clearMonthly();
+    await clearPoints("monthlyPoints");
     res.send("Cleared Monthly Points");
+  } catch (err) {
+    console.error(err.message);
+  }
+});
+
+router.get("/clearYearly", authAdmin, async (req, res) => {
+  try {
+    await clearPoints("yearlyPoints");
+    res.send("Cleared Yearly Points");
   } catch (err) {
     console.error(err.message);
   }

@@ -35,7 +35,6 @@ module.exports = async function (req, res, next) {
 
   try {
     const decoded = jwt.verify(token, config.get("jwtSecret"));
-    console.log(decoded);
 
     if (decoded.user.role !== "passwordReset") {
       res.status(401).json({

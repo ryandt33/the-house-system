@@ -18,13 +18,13 @@ const mongoose = require("mongoose");
 const Student = require("../models/Student");
 const House = require("../models/House");
 
-const clearMonthly = async () => {
+const clearPoints = async (term) => {
   //Clear Houses
   const houses = await House.find({}, "_id");
 
   for (house of houses) {
     await House.findByIdAndUpdate(house._id, {
-      monthlyPoints: 0,
+      [term]: 0,
     });
   }
 
@@ -43,17 +43,17 @@ const clearMonthly = async () => {
           }
         );
       }
-      const pointId = student.monthlyPoints.find(
+      const pointId = student[term].find(
         (mp) => mp.realm === student.house.toString()
       );
       console.log(pointId);
       const stu = await Student.findOneAndUpdate(
         {
           _id: student._id,
-          "monthlyPoints._id": pointId._id,
+          [`${term}._id`]: pointId._id,
         },
         {
-          "monthlyPoints.$.points": 0,
+          [`${term}.$.points`]: 0,
         }
       );
       //   console.log(student.monthlyPoints[0].realm === student.house.toString());
@@ -61,4 +61,4 @@ const clearMonthly = async () => {
   }
 };
 
-module.exports = clearMonthly;
+module.exports = clearPoints;

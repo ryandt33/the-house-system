@@ -495,6 +495,40 @@ link.nav-head {
   margin: 1rem 0;
 }
 
+.navtiles__holder {
+  text-align: center;
+}
+
+.navtiles__tile {
+  display: inline-block;
+  width: 12rem;
+  text-align: center;
+  background-color: white;
+  padding: 2rem 0;
+  border-radius: 3px;
+  margin: 2rem 2rem;
+  border: 1px solid lightgrey;
+  cursor: pointer;
+  box-shadow: 3px 3px 3px grey;
+  transition: 0.15s;
+  translate: scale(1.05);
+  color: darkslategray;
+}
+
+.navtiles__tile:hover {
+  translate: scale(1.04);
+  box-shadow: 2px 2px 3px grey;
+}
+
+.navtiles__tile:active {
+  translate: scale(1.02);
+  box-shadow: 1px 1px 2px grey;
+}
+
+.navtiles__icon {
+  font-size: 2rem;
+}
+
 @media (max-width: 576px) {
   .hidden-sm-down {
     visibility: hidden;

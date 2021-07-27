@@ -28,7 +28,6 @@ module.exports = async function (req, res, next) {
 
   try {
     const decoded = jwt.verify(token, config.get("jwtSecret"));
-    console.log(decoded);
     const teacher = await Teacher.findById({ _id: decoded.user.id });
     if (decoded.user.tokenDate < teacher.validFrom) {
       res.status(401).json({ msg: "Token has expired" });

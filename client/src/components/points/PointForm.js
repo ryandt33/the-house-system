@@ -130,6 +130,8 @@ const PointForm = ({ student }) => {
           `${point.category} was awarded to ${studentContext.student.lastName} ${studentContext.student.firstName}`,
           "success"
         );
+
+    window.scrollTo(0, 0);
   };
 
   const catChange = (e) => {

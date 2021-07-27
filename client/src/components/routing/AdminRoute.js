@@ -8,7 +8,6 @@ const AdminRoute = ({ component: Component, ...rest }) => {
 
   useEffect(() => {
     authContext.loadUser();
-    // eslint-disable-next-line
   }, []);
 
   return (
@@ -17,7 +16,7 @@ const AdminRoute = ({ component: Component, ...rest }) => {
       render={(props) =>
         user &&
         (!loading && isAuthenticated && user.role !== "Admin" ? (
-          <Redirect to='/' />
+          <Redirect to="/" />
         ) : (
           <Component {...props} />
         ))

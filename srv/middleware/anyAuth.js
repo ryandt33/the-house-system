@@ -30,7 +30,6 @@ module.exports = async function (req, res, next) {
   try {
     let user;
     const decoded = jwt.verify(token, config.get("jwtSecret"));
-    console.log(decoded.user.role.slice(0, 1));
     decoded.user.role === "Teacher"
       ? (user = await Teacher.findById({ _id: decoded.user.id }))
       : (user = await Student.findById({ _id: decoded.user.id }));

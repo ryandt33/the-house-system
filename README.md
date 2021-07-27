@@ -13,5 +13,4 @@ To do:
   - Create/edit categories
   - Create/edit houses
   - Trigger certain API calls
-- Fix the point form to get rid of the radio buttons
 - Clear yearly points

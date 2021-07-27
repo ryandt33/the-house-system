@@ -84,21 +84,23 @@ const Student = (props) => {
     props.history.goBack();
   };
 
+  console.log(student);
+
   return (
-    <Container fluid>
-      <NavbarMenu className='navbar-full-width' props={props} />
+    <Container fluid id="top">
+      <NavbarMenu className="navbar-full-width" props={props} />
       {pointContext.loading || student === null || realms === null ? (
         <Card>
           <h1 style={{ textAlign: "center" }}>Loading</h1>
         </Card>
       ) : (
-        <div className='flexbox-responsive align-items-stretch'>
-          <Card className='col-lg-9 col-xs-12'>
+        <div className="flexbox-responsive align-items-stretch">
+          <Card className="col-lg-9 col-xs-12">
             {" "}
             <Card.Body>
               <div>
                 <div
-                  className='icon-holder float-left'
+                  className="icon-holder float-left"
                   style={{
                     marginRight: "2em",
                     width: "2em",
@@ -109,7 +111,7 @@ const Student = (props) => {
                   onClick={goBack}
                 >
                   <i
-                    className='far fa-hand-point-left'
+                    className="far fa-hand-point-left"
                     style={{ color: "white" }}
                   ></i>{" "}
                 </div>{" "}
@@ -123,20 +125,20 @@ const Student = (props) => {
                 {" "}
                 {authContext.user.role === "Admin" &&
                   (!edit ? (
-                    <div className='float-right icon-holder' onClick={canEdit}>
-                      <i className='fas fa-pencil-alt' color='white' />
+                    <div className="float-right icon-holder" onClick={canEdit}>
+                      <i className="fas fa-pencil-alt" color="white" />
                     </div>
                   ) : (
                     <div
-                      className='float-right icon-holder'
+                      className="float-right icon-holder"
                       onClick={canEdit}
                       style={{ backgroundColor: "red" }}
                     >
-                      <i className='fas fa-pencil-alt' color='white' />
+                      <i className="fas fa-pencil-alt" color="white" />
                     </div>
                   ))}
                 <h3>
-                  <div className='flex-name'>
+                  <div className="flex-name">
                     {student.photoURL && (
                       <div
                         style={{
@@ -150,7 +152,7 @@ const Student = (props) => {
                           src={`data:image/jpg;base64, ${display.img}`}
                           alt={`${student.firstName} ${student.lastName}`}
                         /> */}
-                        <div className='stuPagePic'>
+                        <div className="stuPagePic">
                           <StudentPic props={{ student: student }} />
                         </div>
                       </div>
@@ -185,7 +187,7 @@ const Student = (props) => {
                 </Badge>
               ) : (
                 <select
-                  className='p-2'
+                  className="p-2"
                   value={
                     realms.houses.find((realm) => realm._id === student.house)
                       .name
@@ -213,10 +215,17 @@ const Student = (props) => {
                   Grade: {student.classGrade}
                 </Col>
               </Row>
-              <Container className='points-display'>
+              <Container className="points-display">
                 <p>
                   <b>Monthly Points:</b>{" "}
-                  <PointCounter points={student.points} total={false} />
+                  {
+                    student.monthlyPoints[student.monthlyPoints.length - 1]
+                      .points
+                  }
+                </p>
+                <p>
+                  <b>Yearly Points:</b>{" "}
+                  {student.yearlyPoints[student.yearlyPoints.length - 1].points}
                 </p>
                 <p>
                   <b>Total Points:</b>{" "}
@@ -228,7 +237,7 @@ const Student = (props) => {
                 </p>
               </Container>
               {display.points !== [] && (
-                <Container className='points-display'>
+                <Container className="points-display">
                   <h4>Points Earned:</h4>
                   {display.points.map(
                     (point) =>
@@ -245,7 +254,7 @@ const Student = (props) => {
             </Card.Body>
           </Card>
           <Card
-            className='col-lg-2 col-xs-12 point-form-student'
+            className="col-lg-2 col-xs-12 point-form-student"
             style={{ marginBottom: "5em" }}
           >
             <Card.Body>

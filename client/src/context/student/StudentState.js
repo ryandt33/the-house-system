@@ -48,13 +48,14 @@ const StudentState = (props) => {
   const getStudents = async () => {
     try {
       state.loading = true;
-      const res = await axios.get(`${apiURL}api/students`).select("-photoURL");
+      const res = await axios.get(`${apiURL}api/students`);
       if (res.data) {
         dispatch({ type: GET_STUDENTS, payload: res.data });
       } else {
         console.log("Unable to fetch students");
       }
     } catch (err) {
+      console.log(err);
       console.log("Error loading students");
     }
   };

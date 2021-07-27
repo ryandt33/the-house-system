@@ -22,8 +22,8 @@ const StudentsList = (props) => {
   const { realms } = realmContext;
   return (
     <Container fluid>
-      <NavbarMenu className='navbar-full-width' props={props} />
-      <Card className='p-3' style={{ marginBottom: "100px" }}>
+      <NavbarMenu className="navbar-full-width" props={props} />
+      <Card className="p-3" style={{ marginBottom: "100px" }}>
         <h1>Welcome to Houses</h1>
         {realms !== null && (
           <Container
@@ -43,14 +43,14 @@ const StudentsList = (props) => {
                     color: house.color,
                   }}
                   key={house._id}
-                  className='col-xl-2 col-lg-5 col-sm-12 studentCards'
+                  className="col-xl-2 col-lg-5 col-sm-12 studentCards"
                 >
                   <Card.Body>
                     <Card.Title>{house.name}</Card.Title>
                     <p style={{ fontSize: "0.75em" }}>
                       <b>Monthly Points:</b> {house.monthlyPoints}
                       <br />
-                      <b>Total Points:</b> {house.totalPoints}
+                      <b>Yearly Points:</b> {house.yearlyPoints}
                     </p>
                   </Card.Body>
                 </Card>
@@ -58,7 +58,7 @@ const StudentsList = (props) => {
                 <Card
                   style={{ marginRight: "20px" }}
                   key={house._id}
-                  className='col-xl-2 col-lg-5 col-sm-12 studentCards'
+                  className="col-xl-2 col-lg-5 col-sm-12 studentCards"
                 >
                   <Card.Body>
                     <Card.Title>{house.name}</Card.Title>
@@ -86,9 +86,9 @@ const StudentsList = (props) => {
             >
               <thead>
                 <tr>
-                  <th className='d-none d-sm-table-cell'></th>
+                  <th className="d-none d-sm-table-cell"></th>
                   <th>Name</th>
-                  <th className='d-none d-sm-table-cell'>House</th>
+                  <th className="d-none d-sm-table-cell">House</th>
                   <th>Points</th>
                 </tr>
               </thead>
@@ -97,7 +97,7 @@ const StudentsList = (props) => {
                   <tr key={student._id}>
                     <td
                       style={{ position: "relative" }}
-                      className='d-none d-sm-table-cell'
+                      className="d-none d-sm-table-cell"
                     >
                       <StudentPic
                         props={{
@@ -105,24 +105,24 @@ const StudentsList = (props) => {
                           width: "6em",
                           height: "6em",
                         }}
-                        className='stuPic'
+                        className="stuPic"
                       />
                     </td>
                     <td>
                       <Link
                         to={`/student/${student.studentID}`}
                         student={student}
-                        className='homeName'
+                        className="homeName"
                       >
                         {`${student.lastName} ${student.firstName}`}{" "}
                         {student.otherName && ` (${student.otherName})`}
                         {student.nickname && ` | ${student.nickname}`}
                       </Link>
                     </td>
-                    <td className='d-none d-sm-table-cell'>
+                    <td className="d-none d-sm-table-cell">
                       {realms && (
                         <Badge
-                          className='homeName'
+                          className="homeName"
                           style={{
                             backgroundColor: realms.houses.find(
                               (realm) => realm._id === student.house
@@ -142,7 +142,7 @@ const StudentsList = (props) => {
                     </td>
                     <td>
                       <PointCounter
-                        className='homeName'
+                        className="homeName"
                         points={student.points}
                       />
                     </td>

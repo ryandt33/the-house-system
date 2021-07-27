@@ -129,6 +129,11 @@ const NavbarMenu = ({ props }) => {
                           <div></div>
                         ) : (
                           <div>
+                            {authContext.user.role === "Admin" && (
+                              <span className="dropdown-item" role="button">
+                                <Link to="/admin">Admin Settings</Link>
+                              </span>
+                            )}
                             <span className="dropdown-item" role="button">
                               <Link to="/hr">Homeroom</Link>
                             </span>
@@ -169,13 +174,7 @@ const NavbarMenu = ({ props }) => {
                         </span>
                       </Dropdown.Menu>
                     </Dropdown>
-                    <Nav className="ml-auto">
-                      <Link to="/camera" className="navbar-dark-link nav-item">
-                        <div className="nav-camera">
-                          <i className="fas fa-camera" /> Camera
-                        </div>
-                      </Link>{" "}
-                    </Nav>
+                    <Nav className="ml-auto"></Nav>
                     <Form inline onSubmit={onSubmit}>
                       <Form.Control
                         type="text"

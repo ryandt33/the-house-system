@@ -35,7 +35,7 @@ import StudentHomepage from "./components/pages/StudentHomepage";
 import Class from "./components/pages/Class";
 import StudentSelector from "./components/pages/StudentSelector";
 import Groups from "./components/pages/Groups";
-import Admin from "./components/pages/Admin";
+import Admin from "./components/pages/admin/Admin";
 import Login from "./components/auth/Login";
 import PassChange from "./components/auth/PassChange";
 import Barcode from "./components/pages/Barcode";

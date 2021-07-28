@@ -14,20 +14,14 @@
 // along with The House System. If not, see <http://www.gnu.org/licenses/>.
 
 const express = require("express");
-const { check, validationResult } = require("express-validator");
 const auth = require("../middleware/auth");
 const config = require("config");
 const authAdmin = require("../middleware/authAdmin");
-const mbAPIKey = config.get("mbAPIKey");
-const mbSuffix = config.get("mbSuffix");
 const router = express.Router();
 const addClass = require("../services/addClass");
-const axios = require("axios");
-const Fs = require("fs");
-const Path = require("path");
+const updateClass = require("../services/updateClass");
 
 const Class = require("../models/Class");
-const Student = require("../models/Student");
 
 // @route       GET api/classes
 // @desc        Get all classes
@@ -124,15 +118,15 @@ router.post("/", authAdmin, async (req, res) => {
 // // @route       PUT api/classes/:id
 // // @desc        Edit a Class
 // // @access      Private
-// router.put("/:id", async (req, res) => {
-//   try {
-//     updateClass(req.body, req.params.id);
-//     res.send("Class updated");
-//   } catch (err) {
-//     console.error(err.message);
-//     res.status(500).send("Server Error");
-//   }
-// });
+router.put("/:id", async (req, res) => {
+  try {
+    updateClass(req.body, req.params.id);
+    res.send("Class updated");
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Server Error");
+  }
+});
 
 // @route       DELETE api/classes/:id
 // @desc        Delete a Class

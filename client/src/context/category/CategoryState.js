@@ -40,6 +40,16 @@ const CategoryState = (props) => {
     // setTimeout(() => dispatch({ type: CLEAR_ALERT, payload: id }), timeout);
   };
 
+  // Edit Category
+  const updateCategory = async (id, postData) => {
+    try {
+      await axios.put(`${apiURL}api/categories/${id}`, postData);
+      getCategories();
+    } catch (err) {
+      console.log(err.message);
+    }
+  };
+
   const clearCategories = async () => {
     dispatch({ type: CLEAR_CATEGORIES });
   };
@@ -50,6 +60,7 @@ const CategoryState = (props) => {
         categories: state.categories,
         category: state.category,
         getCategories,
+        updateCategory,
         clearCategories,
       }}
     >

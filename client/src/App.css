@@ -513,6 +513,16 @@ link.nav-head {
   transition: 0.15s;
   translate: scale(1.05);
   color: darkslategray;
+  position: relative;
+}
+
+.navtiles__overlay {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0);
 }
 
 .navtiles__tile:hover {
@@ -527,6 +537,120 @@ link.nav-head {
 
 .navtiles__icon {
   font-size: 2rem;
+}
+
+.userTable {
+  width: 100%;
+}
+
+.userTable__search {
+  text-align: center;
+  display: block;
+  margin-bottom: 10px;
+}
+
+.userTable__search__input {
+  min-width: 40vw;
+}
+
+.userTable__search__holder {
+  display: inline-block;
+}
+
+.userTable__clear {
+  margin-left: 5px;
+}
+
+.userTable__sort_arrow {
+  color: blue;
+  cursor: pointer;
+  margin: 0 3px;
+}
+
+.userTable__inner_list__item {
+  list-style: none;
+  padding: 0;
+}
+
+.userTable__edit {
+  color: darkblue;
+  cursor: pointer;
+}
+
+.editmodal {
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 60vw;
+  height: 80vh;
+  background-color: white;
+  border: 3px solid black;
+  border-radius: 5px;
+  overflow: auto;
+  padding: 10px;
+}
+
+.editmodal__background {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.editmodal__close {
+  position: absolute;
+  right: 10px;
+  top: -10px;
+  cursor: pointer;
+  font-size: 3rem;
+  transition: 0.2s;
+}
+
+.editmodal__close:hover {
+  transform: scale(1.05);
+}
+
+.editmodal__form {
+  width: 80%;
+  margin: auto;
+}
+
+.pagification {
+  text-align: center;
+  list-style: none;
+  margin-top: 3rem;
+}
+
+.pagification__page {
+  list-style: none;
+  display: inline-block;
+  padding: 5px;
+  margin: 0 5px;
+  border: 1px solid black;
+  background-color: white;
+  border-radius: 3px;
+  width: 2rem;
+  box-shadow: 2px 2px 2px black;
+  cursor: pointer;
+  transform: scale(1.02);
+  transition: 0.15s;
+}
+
+.pagification__page__active {
+  background-color: skyblue;
+  color: white;
+}
+
+.pagification__page:hover {
+  transform: scale(1.01);
+}
+
+.pagification__page:active {
+  transform: scale(1);
+  box-shadow: 1px 1px 1px black;
 }
 
 @media (max-width: 576px) {

@@ -16,36 +16,13 @@
 const Student = require("../models/Student");
 
 const updateStudent = async (student, mongoID) => {
-  const {
-    first_name,
-    last_name,
-    other_name,
-    email,
-    id,
-    student_id,
-    archived,
-    class_grade,
-    gender,
-    homeroom_advisor_id,
-    ib_group_id,
-    nickname,
-  } = student;
+  const updateObj = {};
+  for (let key in student) {
+    updateObj[key] = student[key];
+  }
 
   try {
-    await Student.findByIdAndUpdate(mongoID, {
-      firstName: first_name,
-      lastName: last_name,
-      otherName: other_name,
-      email: email,
-      mbID: id,
-      studentID: student_id,
-      archived: archived,
-      classGrade: class_grade,
-      gender: gender,
-      homeroomID: homeroom_advisor_id,
-      yeargroupID: ib_group_id,
-      nickname: nickname,
-    });
+    await Student.findByIdAndUpdate(mongoID, updateObj);
   } catch (err) {
     console.error(err.message);
   }

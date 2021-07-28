@@ -15,41 +15,36 @@
 
 import React, { useContext, useEffect, useState } from "react";
 import { Card, Container } from "react-bootstrap";
-import StudentContext from "../../../context/student/studentContext";
+import RealmContext from "../../../context/realm/realmContext";
 import TableView from "../../layout/TableView";
 
-const Student = (props) => {
-  const studentContext = useContext(StudentContext);
+const House = (props) => {
+  const realmContext = useContext(RealmContext);
 
-  const { students } = studentContext;
+  console.log(realmContext);
+  const { realms } = realmContext;
 
   useEffect(() => {
-    studentContext.clearState();
-    studentContext.getStudents();
-
-    // return () => {
-    //   studentContext.clearState();
-    // };
+    realmContext.clearRealms();
+    realmContext.getRealms();
   }, []);
 
   return (
     <Card className="p-3">
-      <h1>Students</h1>
+      <h1>Realms</h1>
       <hr />
       <TableView
-        users={students}
+        users={realms && realms.houses}
         fields={[
-          { attribute: "firstName", name: "First Name" },
-          { attribute: "lastName", name: "Last Name" },
-          { attribute: "email", name: "E-Mail" },
-          { attribute: "classGrade", name: "Grade" },
-          { attribute: "house", name: "House" },
+          { attribute: "name", name: "House Name" },
+          { attribute: "backgroundColor", name: "Background" },
+          { attribute: "color", name: "Text Color" },
         ]}
-        search={["firstName", "lastName"]}
-        editFunction={studentContext.updateStudent}
+        search={["name"]}
+        editFunction={realmContext.updateHouse}
       />
     </Card>
   );
 };
 
-export default Student;
+export default House;

@@ -221,6 +221,7 @@ router.post("/", authAdmin, async (req, res) => {
 // @access      Private
 router.put("/:id", authAdmin, async (req, res) => {
   try {
+    console.log(req.body);
     updateStudent(req.body, req.params.id);
     res.send("Student updated");
   } catch (err) {

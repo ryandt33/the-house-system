@@ -73,15 +73,19 @@ const AuthState = (props) => {
 
     try {
       const res = await axios.post(`${apiURL}api/auth`, formData, config);
-      console.log(localStorage);
+      console.log("Got the response");
       clearErrors();
+      console.log("Cleared errors");
       // loadUser();
       dispatch({
         type: LOGIN_SUCCESS,
         payload: res.data,
       });
+      console.log(localStorage);
+
       return true;
     } catch (err) {
+      console.log(err);
       dispatch({
         type: LOGIN_FAIL,
         payload: err.response.data.msg,

@@ -13,13 +13,12 @@
 // You should have received a copy of the GNU General Public License
 // along with The House System. If not, see <http://www.gnu.org/licenses/>.
 
-
 const axios = require("axios");
 const config = require("config");
 const mbAPIKey = config.get("mbAPIKey");
 const mbSuffix = config.get("mbSuffix");
 const addStudent = require("../services/addStudent");
-const updateStudent = require("../services/updateStudent");
+const updateMBStudent = require("./updateMBStudent");
 
 const Student = require("../models/Student");
 
@@ -68,9 +67,9 @@ const getStudents = async () => {
         stu.homeroomID !== homeroom_advisor_id ||
         stu.yeargroupID !== ib_group_id ||
         stu.nickname !== nickname;
-
+      change && console.log(student);
       try {
-        change && updateStudent(student, stu._id);
+        change && (await updateMBStudent(student, stu._id));
       } catch (err) {
         console.error(err.message);
         return false;

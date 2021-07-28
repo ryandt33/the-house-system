@@ -20,13 +20,13 @@ export default (state, action) => {
     case GET_CATEGORIES:
       return {
         ...state,
-        categories: action.payload.categories
+        categories: action.payload.categories,
       };
     case CLEAR_CATEGORIES:
       return {
         ...state,
         categories: null,
-        category: null
+        category: null,
       };
     default:
       return state;

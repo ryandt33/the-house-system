@@ -16,34 +16,13 @@
 const Teacher = require("../models/Teacher");
 
 const patchTeacher = async (teacher, mongoID) => {
-  const {
-    first_name,
-    last_name,
-    other_name,
-    email,
-    id,
-    teacher_id,
-    archived,
-    class_grade,
-    gender,
-    photo_url,
-    homeroom_advisor_id
-  } = teacher;
+  const updateObj = {};
+  for (let key in teacher) {
+    updateObj[key] = teacher[key];
+  }
 
   try {
-    await Teacher.findByIdAndUpdate(mongoID, {
-      firstName: first_name,
-      lastName: last_name,
-      otherName: other_name,
-      email: email,
-      mbID: id,
-      teacherID: teacher_id,
-      archived: archived,
-      classGrade: class_grade,
-      gender: gender,
-      photoURL: photo_url,
-      homeroomID: homeroom_advisor_id
-    });
+    await Teacher.findByIdAndUpdate(mongoID, updateObj);
   } catch (err) {
     console.error(err.message);
   }

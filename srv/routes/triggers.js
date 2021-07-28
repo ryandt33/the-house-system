@@ -36,8 +36,9 @@ const Point = require("../models/Point");
 // @route       GET api/triggers/student
 // @desc        Get and update students
 // @access      Dev
-router.get("/students", authAdmin, (req, res) => {
-  getStudents();
+router.get("/students", authAdmin, async (req, res) => {
+  await getStudents();
+  assignHouses();
   res.send("Get a user");
 });
 

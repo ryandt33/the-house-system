@@ -13,19 +13,8 @@
 // You should have received a copy of the GNU General Public License
 // along with The House System. If not, see <http://www.gnu.org/licenses/>.
 
-const Class = require("../models/Class");
+import { createContext } from "react";
 
-const patchClass = async (cls, mongoID) => {
-  const updateObj = {};
-  for (let key in cls) {
-    updateObj[key] = cls[key];
-  }
+const teacherContext = createContext();
 
-  try {
-    await Class.findByIdAndUpdate(mongoID, updateObj);
-  } catch (err) {
-    console.error(err.message);
-  }
-};
-
-module.exports = patchClass;
+export default teacherContext;

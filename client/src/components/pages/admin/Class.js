@@ -15,41 +15,35 @@
 
 import React, { useContext, useEffect, useState } from "react";
 import { Card, Container } from "react-bootstrap";
-import StudentContext from "../../../context/student/studentContext";
+import ClassContext from "../../../context/class/classContext";
 import TableView from "../../layout/TableView";
 
-const Student = (props) => {
-  const studentContext = useContext(StudentContext);
+const Class = (props) => {
+  const classContext = useContext(ClassContext);
 
-  const { students } = studentContext;
+  const { classes } = classContext;
 
   useEffect(() => {
-    studentContext.clearState();
-    studentContext.getStudents();
-
-    // return () => {
-    //   studentContext.clearState();
-    // };
+    classContext.clearState();
+    classContext.getClasses();
   }, []);
 
   return (
     <Card className="p-3">
-      <h1>Students</h1>
+      <h1>Classes</h1>
       <hr />
       <TableView
-        users={students}
+        users={classes}
         fields={[
-          { attribute: "firstName", name: "First Name" },
-          { attribute: "lastName", name: "Last Name" },
-          { attribute: "email", name: "E-Mail" },
-          { attribute: "classGrade", name: "Grade" },
-          { attribute: "house", name: "House" },
+          { attribute: "name", name: "Class Name" },
+          { attribute: "program", name: "Program" },
+          { attribute: "teachers", name: "Teachers" },
         ]}
-        search={["firstName", "lastName"]}
-        editFunction={studentContext.updateStudent}
+        search={["name"]}
+        editFunction={classContext.updateClass}
       />
     </Card>
   );
 };
 
-export default Student;
+export default Class;

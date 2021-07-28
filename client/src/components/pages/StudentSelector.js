@@ -1,3 +1,18 @@
+// This file is part of the House System - https://houses.for.education/
+//
+// The House System is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// The House System is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with The House System. If not, see <http://www.gnu.org/licenses/>.
+
 import React, { useContext, useEffect, useState } from "react";
 import { Card, Container, Row, Col, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
@@ -114,13 +129,13 @@ const StudentSelector = (props) => {
 
   return (
     <Container fluid>
-      <NavbarMenu className='navbar-full-width' props={props} />
-      <Card style={{ marginBottom: "100px" }} className='p-3'>
+      <NavbarMenu className="navbar-full-width" props={props} />
+      <Card style={{ marginBottom: "100px" }} className="p-3">
         <Card.Title>
           {" "}
           <h2>{classContext.class && classContext.class.name}</h2>
         </Card.Title>
-        <Card.Body className='student-selector'>
+        <Card.Body className="student-selector">
           <h2 style={{ textAlign: "center", paddingBottom: "1em" }}>
             The Wheel of Destiny
           </h2>
@@ -134,9 +149,9 @@ const StudentSelector = (props) => {
             <Container>
               {stu.count !== null && (
                 <Row>
-                  <Col sm='12' md={{ span: 4, offset: 1 }}>
+                  <Col sm="12" md={{ span: 4, offset: 1 }}>
                     <div
-                      className='selector-image-holder'
+                      className="selector-image-holder"
                       style={{
                         border: `5px solid ${
                           realmContext.realms &&
@@ -154,10 +169,10 @@ const StudentSelector = (props) => {
                         alt={`${stu.selector[stu.count].firstName} ${
                           stu.selector[stu.count].lastName
                         }`}
-                        className='selector-image'
+                        className="selector-image"
                       />
                     </div>{" "}
-                    <h3 className='selector-name'>
+                    <h3 className="selector-name">
                       {`${stu.selector[stu.count].lastName} ${
                         stu.selector[stu.count].firstName
                       }`}{" "}
@@ -174,9 +189,9 @@ const StudentSelector = (props) => {
                             style={{ margin: "auto", textAlign: "center" }}
                           >
                             <Button
-                              variant='warning'
+                              variant="warning"
                               onClick={spin}
-                              className='selector-button'
+                              className="selector-button"
                             >
                               Button of Fate
                             </Button>
@@ -188,7 +203,7 @@ const StudentSelector = (props) => {
                   {!stu.spinning && (
                     <Col
                       sm={{ span: 5, offset: 1 }}
-                      className='selector-points'
+                      className="selector-points"
                     >
                       <PointForm />
                     </Col>
@@ -204,9 +219,9 @@ const StudentSelector = (props) => {
                       style={{ margin: "auto", textAlign: "center" }}
                     >
                       <Button
-                        variant='warning'
+                        variant="warning"
                         onClick={spin}
-                        className='selector-button'
+                        className="selector-button"
                       >
                         Button of Fate
                       </Button>
@@ -219,9 +234,9 @@ const StudentSelector = (props) => {
           {!stu.spinning && (
             <Link
               to={`/class/${props.match.params.id}`}
-              className='selector-back'
+              className="selector-back"
             >
-              <Button variant='primary' className='selector-button'>
+              <Button variant="primary" className="selector-button">
                 Back to{" "}
                 {classContext.class ? `${classContext.class.name}` : `Class`}
               </Button>

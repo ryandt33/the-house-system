@@ -18,6 +18,10 @@ import { Card, Container } from "react-bootstrap";
 import NavbarMenu from "../../layout/NavbarMenu";
 import Navtiles from "../../layout/Navtiles";
 import Student from "./Student";
+import Teacher from "./Teacher";
+import Class from "./Class";
+import Category from "./Category";
+import House from "./House";
 
 const Admin = (props) => {
   const [tiles, setTiles] = useState([
@@ -26,31 +30,35 @@ const Admin = (props) => {
       icon: "fas fa-user-graduate",
       link: "/admin/students",
       view: Student,
-      active: true,
+      active: false,
     },
     {
       title: "Teachers",
       icon: "fas fa-chalkboard-teacher",
       link: "/admin/teachers",
       active: false,
+      view: Teacher,
     },
     {
       title: "Classes",
       icon: "fas fa-school",
       link: "/admin/classes",
       active: false,
+      view: Class,
     },
     {
       title: "Categories",
       icon: "fas fa-medal",
       link: "/admin/categories",
       active: false,
+      view: Category,
     },
     {
       title: "Houses",
       icon: "fas fa-home",
       link: "/admin/houses",
       active: false,
+      view: House,
     },
   ]);
 

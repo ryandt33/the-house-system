@@ -1,3 +1,17 @@
+// This file is part of the House System - https://houses.for.education/
+//
+// The House System is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// The House System is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with The House System. If not, see <http://www.gnu.org/licenses/>.
 import React, { useContext, useEffect } from "react";
 import { Card, Container, Button, Table, Badge } from "react-bootstrap";
 import { Link } from "react-router-dom";
@@ -32,23 +46,23 @@ const Class = (props) => {
 
   return (
     <Container fluid>
-      <NavbarMenu className='navbar-full-width' props={props} />
+      <NavbarMenu className="navbar-full-width" props={props} />
       <Card
         style={{
           marginBottom: "100px",
         }}
-        className='p-3'
+        className="p-3"
       >
         <Card.Title>
           <h2>{classContext.class && classContext.class.name}</h2>
         </Card.Title>
         <Card.Body>
-          <div className='buttonHolder'>
+          <div className="buttonHolder">
             <Link to={`/class/selector/${props.match.params.id}`}>
-              <Button variant='primary'>Wheel of Destiny</Button>
+              <Button variant="primary">Wheel of Destiny</Button>
             </Link>
             <Link to={`/class/groups/${props.match.params.id}`}>
-              <Button variant='success'>Group Maker</Button>
+              <Button variant="success">Group Maker</Button>
             </Link>
           </div>
           <div>
@@ -74,7 +88,7 @@ const Class = (props) => {
                       <td style={{ position: "relative" }}>
                         <StudentPic
                           props={{ student: student.student }}
-                          className='stuPic'
+                          className="stuPic"
                         />
                       </td>
                       <td>

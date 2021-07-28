@@ -45,7 +45,8 @@ const NavbarMenu = ({ props }) => {
 
   useEffect(() => {
     if (authContext.user && !authContext.user.studentID) {
-      !classContext.classes && classContext.getClasses(authContext.user._id);
+      !classContext.teacherClasses &&
+        classContext.getTeacherClasses(authContext.user._id);
     }
     // eslint-disable-next-line
   }, [authContext.user]);
@@ -129,16 +130,17 @@ const NavbarMenu = ({ props }) => {
                           <div></div>
                         ) : (
                           <div>
-                            {authContext.user.role === "Admin" && (
-                              <span className="dropdown-item" role="button">
-                                <Link to="/admin">Admin Settings</Link>
-                              </span>
-                            )}
+                            {authContext.user &&
+                              authContext.user.role === "Admin" && (
+                                <span className="dropdown-item" role="button">
+                                  <Link to="/admin">Admin Settings</Link>
+                                </span>
+                              )}
                             <span className="dropdown-item" role="button">
                               <Link to="/hr">Homeroom</Link>
                             </span>
-                            {classContext.classes &&
-                              classContext.classes.map(
+                            {classContext.teacherClasses &&
+                              classContext.teacherClasses.map(
                                 (cls) =>
                                   !cls.archived && (
                                     <span

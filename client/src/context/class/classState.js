@@ -19,6 +19,7 @@ import classReducer from "./classReducer";
 import axios from "axios";
 import {
   GET_CLASSES,
+  GET_TEACHER_CLASSES,
   GET_CLASS,
   GET_SS_CLASS,
   CLEAR_CLASSES,
@@ -29,6 +30,7 @@ const { apiURL } = window["runConfig"];
 const ClassState = (props) => {
   const initialState = {
     classes: null,
+    teacherClasses: null,
     class: null,
     students: null,
     loading: false,
@@ -36,13 +38,24 @@ const ClassState = (props) => {
 
   const [state, dispatch] = useReducer(classReducer, initialState);
 
+  // Get all classes
+  const getClasses = async () => {
+    try {
+      state.loading = true;
+      const res = await axios.get(`${apiURL}api/classes`);
+      dispatch({ type: GET_CLASSES, payload: res.data });
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   // Get Classes belonging to Teacher
-  const getClasses = async (tID) => {
+  const getTeacherClasses = async (tID) => {
     try {
       state.loading = true;
       const res = await axios.get(`${apiURL}api/classes/teacher/${tID}`);
       if (res.data) {
-        dispatch({ type: GET_CLASSES, payload: res.data });
+        dispatch({ type: GET_TEACHER_CLASSES, payload: res.data });
       } else {
         console.log("Unable to get teacher's classes");
       }
@@ -87,6 +100,16 @@ const ClassState = (props) => {
     }
   };
 
+  const updateClass = async (id, postData) => {
+    try {
+      const res = await axios.put(`${apiURL}api/classes/${id}`, postData);
+      console.log(res);
+      getClasses();
+    } catch (err) {
+      console.error(err.message);
+    }
+  };
+
   const clearStudents = () => {
     dispatch({ type: CLEAR_SS });
   };
@@ -102,9 +125,12 @@ const ClassState = (props) => {
         class: state.class,
         students: state.students,
         loading: state.loading,
+        teacherClasses: state.teacherClasses,
         getClasses,
+        getTeacherClasses,
         getClass,
         getSsClass,
+        updateClass,
         clearStudents,
         clearState,
       }}

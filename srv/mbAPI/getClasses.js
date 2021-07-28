@@ -13,14 +13,13 @@
 // You should have received a copy of the GNU General Public License
 // along with The House System. If not, see <http://www.gnu.org/licenses/>.
 
-
 const axios = require("axios");
 const config = require("config");
 const mbAPIKey = config.get("mbAPIKey");
 const mbSuffix = config.get("mbSuffix");
 const util = require("util");
 const addClass = require("../services/addClass");
-const updateClass = require("../services/updateClass");
+const updateMBClass = require("./updateMBClass");
 
 const Class = require("../models/Class");
 
@@ -80,7 +79,7 @@ const getClasses = async () => {
         newClass.uniq_id !== shortCode ||
         newClass.class_section !== section;
       try {
-        await updateClass(newClass, cls._id);
+        await updateMBClass(newClass, cls._id);
       } catch (err) {
         console.error(err.message);
       }

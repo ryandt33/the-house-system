@@ -8,14 +8,14 @@ const Students = ({ realms }) => {
   const { students } = studentContext;
 
   const [filter, setFilter] = useState({
-    search: ""
+    search: "",
   });
 
-  const onChange = e => {
+  const onChange = (e) => {
     setFilter({ ...filter, search: e.target.value });
   };
 
-  const onSubmit = async e => {
+  const onSubmit = async (e) => {
     e.preventDefault();
     await studentContext.filterStudents(filter.search);
   };
@@ -25,10 +25,10 @@ const Students = ({ realms }) => {
       {" "}
       {students !== null ? (
         students.map(
-          student =>
+          (student) =>
             !student.archived && (
               <div
-                className='col-lg-6 col-md-12 studentCards'
+                className="col-lg-6 col-md-12 studentCards"
                 key={student._id}
               >
                 <StudentItem student={student} realms={realms} />
@@ -40,13 +40,13 @@ const Students = ({ realms }) => {
           <h3>Search for students:</h3>
           <Form onSubmit={onSubmit} inline>
             <FormControl
-              type='text'
-              name='search'
-              placeholder='Search'
+              type="text"
+              name="search"
+              placeholder="Search"
               onChange={onChange}
-              className='mr-sm-2'
+              className="mr-sm-2"
             />
-            <Button variant='outline-success' type='submit'>
+            <Button variant="outline-success" type="submit">
               Search
             </Button>
           </Form>

@@ -18,7 +18,7 @@ const config = require("config");
 const mbAPIKey = config.get("mbAPIKey");
 const mbSuffix = config.get("mbSuffix");
 const addTeacher = require("../services/addTeacher");
-const updateTeacher = require("../services/updateTeacher");
+const updateMBTeacher = require("./updateMBTeacher");
 
 const Teacher = require("../models/Teacher");
 
@@ -54,7 +54,7 @@ const getTeachers = async () => {
         tea.role !== role ||
         tea.mbID !== id;
       try {
-        change && updateTeacher(teacher, tea._id);
+        change && updateMBTeacher(teacher, tea._id);
       } catch (err) {
         console.error(err.message);
       }

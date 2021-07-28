@@ -61,6 +61,7 @@ const StudentSchema = mongoose.Schema({
   },
   photoURL: {
     type: String,
+    default: `${__dirname}/../images/avatar.png`,
   },
   homeroomID: {
     type: Number,

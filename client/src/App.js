@@ -17,6 +17,7 @@ import React, { Fragment } from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
 import StudentState from "./context/student/StudentState";
+import TeacherState from "./context/teacher/TeacherState";
 import RealmState from "./context/realm/RealmState";
 import CategoryState from "./context/category/CategoryState";
 import PointState from "./context/point/PointState";
@@ -54,84 +55,90 @@ const App = () => {
   return (
     <AuthState>
       <StudentState>
-        <RealmState>
-          <ClassState>
-            <CategoryState>
-              <PointState>
-                <AlertState>
-                  <Router>
-                    <Fragment>
-                      <div className="wrapper">
-                        <Switch>
-                          <PrivateRoute exact path="/" component={Home} />
-                          <PrivateRoute
-                            exact
-                            path="/list"
-                            component={StudentList}
-                          />
-                          <PrivateRoute
-                            exact
-                            path="/student/:id"
-                            component={Student}
-                          />
-                          <StudentRoute
-                            exact
-                            path="/me"
-                            component={StudentHomepage}
-                          />
-                          <PrivateRoute
-                            exact
-                            path="/class/:id"
-                            component={Class}
-                          />
-                          <PrivateRoute
-                            exact
-                            path="/class/selector/:id"
-                            component={StudentSelector}
-                          />
-                          <PrivateRoute
-                            exact
-                            path="/class/groups/:id"
-                            component={Groups}
-                          />
-                          <PrivateRoute
-                            exact
-                            path="/camera"
-                            component={Barcode}
-                          />
-                          <PrivateRoute
-                            exact
-                            path="/passchange"
-                            component={PassChange}
-                          />
-                          <PrivateRoute exact path="/hr" component={Homeroom} />
-                          <PrivateRoute
-                            exact
-                            path="/showcase"
-                            component={Showcase}
-                          />
-                          <AdminRoute exact path="/admin" component={Admin} />
-                          <Route exact path="/login" component={Login} />
-                          <Route
-                            exact
-                            path="/resetPassword"
-                            component={ResetPassword}
-                          />
-                          <Route
-                            exact
-                            path="/resetPassword/:token"
-                            component={ResetPassword}
-                          />
-                        </Switch>
-                        <Footer />
-                      </div>
-                    </Fragment>
-                  </Router>
-                </AlertState>
-              </PointState>
-            </CategoryState>
-          </ClassState>
-        </RealmState>
+        <TeacherState>
+          <RealmState>
+            <ClassState>
+              <CategoryState>
+                <PointState>
+                  <AlertState>
+                    <Router>
+                      <Fragment>
+                        <div className="wrapper">
+                          <Switch>
+                            <PrivateRoute exact path="/" component={Home} />
+                            <PrivateRoute
+                              exact
+                              path="/list"
+                              component={StudentList}
+                            />
+                            <PrivateRoute
+                              exact
+                              path="/student/:id"
+                              component={Student}
+                            />
+                            <StudentRoute
+                              exact
+                              path="/me"
+                              component={StudentHomepage}
+                            />
+                            <PrivateRoute
+                              exact
+                              path="/class/:id"
+                              component={Class}
+                            />
+                            <PrivateRoute
+                              exact
+                              path="/class/selector/:id"
+                              component={StudentSelector}
+                            />
+                            <PrivateRoute
+                              exact
+                              path="/class/groups/:id"
+                              component={Groups}
+                            />
+                            <PrivateRoute
+                              exact
+                              path="/camera"
+                              component={Barcode}
+                            />
+                            <PrivateRoute
+                              exact
+                              path="/passchange"
+                              component={PassChange}
+                            />
+                            <PrivateRoute
+                              exact
+                              path="/hr"
+                              component={Homeroom}
+                            />
+                            <PrivateRoute
+                              exact
+                              path="/showcase"
+                              component={Showcase}
+                            />
+                            <AdminRoute exact path="/admin" component={Admin} />
+                            <Route exact path="/login" component={Login} />
+                            <Route
+                              exact
+                              path="/resetPassword"
+                              component={ResetPassword}
+                            />
+                            <Route
+                              exact
+                              path="/resetPassword/:token"
+                              component={ResetPassword}
+                            />
+                          </Switch>
+                          <Footer />
+                        </div>
+                      </Fragment>
+                    </Router>
+                  </AlertState>
+                </PointState>
+              </CategoryState>
+            </ClassState>
+          </RealmState>
+        </TeacherState>
       </StudentState>
     </AuthState>
   );

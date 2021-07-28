@@ -13,19 +13,42 @@
 // You should have received a copy of the GNU General Public License
 // along with The House System. If not, see <http://www.gnu.org/licenses/>.
 
-import { GET_REALMS, CLEAR_REALMS } from "../types";
+import {
+  GET_TEACHERS,
+  GET_TEACHER,
+  CLEAR_TEACHER,
+  CLEAR_TEACHERS,
+} from "../types";
 
 export default (state, action) => {
   switch (action.type) {
-    case GET_REALMS:
+    case GET_TEACHERS:
       return {
         ...state,
-        realms: action.payload,
+        teachers: action.payload,
+        loading: false,
+        teacher: null,
       };
-    case CLEAR_REALMS:
+    case GET_TEACHER:
       return {
         ...state,
-        realms: null,
+        teacher: action.payload,
+        loading: false,
+      };
+    case CLEAR_TEACHER:
+      return {
+        ...state,
+        loading: false,
+        teacher: null,
+        error: null,
+      };
+    case CLEAR_TEACHERS:
+      return {
+        ...state,
+        loading: false,
+        teacher: null,
+        error: null,
+        teachers: null,
       };
     default:
       return state;

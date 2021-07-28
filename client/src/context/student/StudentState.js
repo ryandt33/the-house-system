@@ -129,6 +129,15 @@ const StudentState = (props) => {
   // Delete Student
 
   // Edit Student
+  const updateStudent = async (id, postData) => {
+    try {
+      await axios.put(`${apiURL}api/students/${id}`, postData);
+      getStudents();
+    } catch (err) {
+      console.error(err.message);
+    }
+  };
+
   const editHouse = async (id, house) => {
     try {
       const config = {
@@ -235,6 +244,7 @@ const StudentState = (props) => {
         getTop,
         getPhoto,
         editHouse,
+        updateStudent,
       }}
     >
       {props.children}

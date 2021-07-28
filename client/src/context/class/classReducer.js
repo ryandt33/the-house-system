@@ -15,6 +15,7 @@
 
 import {
   GET_CLASSES,
+  GET_TEACHER_CLASSES,
   GET_CLASS,
   GET_SS_CLASS,
   CLEAR_CLASSES,
@@ -27,6 +28,12 @@ export default (state, action) => {
       return {
         ...state,
         classes: action.payload,
+        loading: false,
+      };
+    case GET_TEACHER_CLASSES:
+      return {
+        ...state,
+        teacherClasses: action.payload,
         loading: false,
       };
     case GET_CLASS:
@@ -45,6 +52,7 @@ export default (state, action) => {
       return {
         ...state,
         classes: null,
+        teacherClasses: null,
         class: null,
         students: null,
       };

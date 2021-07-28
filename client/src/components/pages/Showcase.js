@@ -1,3 +1,18 @@
+// This file is part of the House System - https://houses.for.education/
+//
+// The House System is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// The House System is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with The House System. If not, see <http://www.gnu.org/licenses/>.
+
 import React, { useContext, useEffect, useState } from "react";
 import Container from "react-bootstrap/Container";
 import Card from "react-bootstrap/Card";
@@ -24,6 +39,7 @@ const Showcase = (props) => {
   useEffect(() => {
     console.log(display);
     realmContext.getRealms();
+    // eslint-disable-next-line
   }, [display]);
 
   const { realms } = realmContext;
@@ -31,7 +47,7 @@ const Showcase = (props) => {
   return (
     <Container fluid>
       {" "}
-      <NavbarMenu className='navbar-full-width' props={props} />
+      <NavbarMenu className="navbar-full-width" props={props} />
       <Card>
         <Card.Body>
           <Card.Title>
@@ -55,7 +71,7 @@ const Showcase = (props) => {
                       color: house.color,
                     }}
                     key={house._id}
-                    className='col-xl-2 col-lg-5 col-sm-12 studentCards'
+                    className="col-xl-2 col-lg-5 col-sm-12 studentCards"
                   >
                     <Card.Body>
                       <Card.Title>{house.name}</Card.Title>
@@ -68,7 +84,7 @@ const Showcase = (props) => {
                   <Card
                     style={{ marginRight: "20px" }}
                     key={house._id}
-                    className='col-xl-2 col-lg-5 col-sm-12 studentCards'
+                    className="col-xl-2 col-lg-5 col-sm-12 studentCards"
                   >
                     <Card.Body>
                       <Card.Title>{house.name}</Card.Title>
@@ -90,14 +106,14 @@ const Showcase = (props) => {
                 .reverse()
                 .map((award) => (
                   <div
-                    className='showcaseStuCard'
+                    className="showcaseStuCard"
                     style={{
                       backgroundColor: award.category.backgroundColor,
                       color: award.category.color,
                     }}
                     key={award.point._id}
                   >
-                    <div className='stuPagePic'>
+                    <div className="stuPagePic">
                       <StudentPic
                         props={{
                           student: award.student,
@@ -106,7 +122,7 @@ const Showcase = (props) => {
                         }}
                       />{" "}
                     </div>
-                    <div className='showcaseText'>
+                    <div className="showcaseText">
                       <p>
                         <b>
                           {award.student.lastName} {award.student.firstName}
@@ -117,7 +133,7 @@ const Showcase = (props) => {
                         </b>
                       </p>
                       {award.point.message !== "" && (
-                        <p className='showcaseMessage'>{award.point.message}</p>
+                        <p className="showcaseMessage">{award.point.message}</p>
                       )}
                     </div>
                   </div>
@@ -127,14 +143,14 @@ const Showcase = (props) => {
                 .reverse()
                 .map((award) => (
                   <div
-                    className='showcaseStuCard'
+                    className="showcaseStuCard"
                     style={{
                       backgroundColor: award.category.backgroundColor,
                       color: award.category.color,
                     }}
                     key={award.point._id}
                   >
-                    <div className='stuPagePic'>
+                    <div className="stuPagePic">
                       <StudentPic
                         props={{
                           student: award.student,
@@ -143,7 +159,7 @@ const Showcase = (props) => {
                         }}
                       />{" "}
                     </div>
-                    <div className='showcaseText'>
+                    <div className="showcaseText">
                       <p>
                         <b>
                           {award.student.lastName} {award.student.firstName}
@@ -154,7 +170,7 @@ const Showcase = (props) => {
                         </b>
                       </p>
                       {award.point.message !== "" && (
-                        <p className='showcaseMessage'>{award.point.message}</p>
+                        <p className="showcaseMessage">{award.point.message}</p>
                       )}
                     </div>
                   </div>

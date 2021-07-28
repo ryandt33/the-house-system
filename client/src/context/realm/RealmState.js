@@ -29,7 +29,17 @@ const RealmState = (props) => {
   const getRealms = async () => {
     try {
       const res = await axios.get(`${apiURL}api/houses`);
+      console.log(res.data);
       dispatch({ type: GET_REALMS, payload: res.data });
+    } catch (err) {
+      console.error(err.message);
+    }
+  };
+
+  const updateHouse = async (id, postData) => {
+    try {
+      await axios.put(`${apiURL}api/houses/${id}`, postData);
+      getRealms();
     } catch (err) {
       console.error(err.message);
     }
@@ -43,6 +53,7 @@ const RealmState = (props) => {
       value={{
         realms: state.realms,
         getRealms,
+        updateHouse,
         clearRealms,
       }}
     >

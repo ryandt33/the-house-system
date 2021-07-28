@@ -13,19 +13,42 @@
 // You should have received a copy of the GNU General Public License
 // along with The House System. If not, see <http://www.gnu.org/licenses/>.
 
-const Class = require("../models/Class");
+const Student = require("../models/Student");
 
-const patchClass = async (cls, mongoID) => {
-  const updateObj = {};
-  for (let key in cls) {
-    updateObj[key] = cls[key];
-  }
+const updateMBStudent = async (student, mongoID) => {
+  const {
+    first_name,
+    last_name,
+    other_name,
+    email,
+    id,
+    student_id,
+    archived,
+    class_grade,
+    gender,
+    homeroom_advisor_id,
+    ib_group_id,
+    nickname,
+  } = student;
 
   try {
-    await Class.findByIdAndUpdate(mongoID, updateObj);
+    await Student.findByIdAndUpdate(mongoID, {
+      firstName: first_name,
+      lastName: last_name,
+      otherName: other_name,
+      email: email,
+      mbID: id,
+      studentID: student_id,
+      archived: archived,
+      classGrade: class_grade,
+      gender: gender,
+      homeroomID: homeroom_advisor_id,
+      yeargroupID: ib_group_id,
+      nickname: nickname,
+    });
   } catch (err) {
     console.error(err.message);
   }
 };
 
-module.exports = patchClass;
+module.exports = updateMBStudent;

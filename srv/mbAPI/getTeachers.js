@@ -17,7 +17,7 @@ const axios = require("axios");
 const config = require("config");
 const mbAPIKey = config.get("mbAPIKey");
 const mbSuffix = config.get("mbSuffix");
-const addTeacher = require("../services/addTeacher");
+const addMBTeacher = require("./addMBTeacher");
 const updateMBTeacher = require("./updateMBTeacher");
 
 const Teacher = require("../models/Teacher");
@@ -37,7 +37,7 @@ const getTeachers = async () => {
     console.log(teacher);
     if (!tea) {
       try {
-        addTeacher(teacher);
+        addMBTeacher(teacher);
       } catch (err) {
         console.error(err.message);
       }

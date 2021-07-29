@@ -13,10 +13,12 @@
 // You should have received a copy of the GNU General Public License
 // along with The House System. If not, see <http://www.gnu.org/licenses/>.
 
-import React, { useContext, useEffect, useState } from "react";
-import { Card, Container } from "react-bootstrap";
+import React, { useContext, useEffect } from "react";
+import { Card } from "react-bootstrap";
 import TeacherContext from "../../../context/teacher/teacherContext";
 import TableView from "../../layout/TableView";
+import EditModal from "./EditModal";
+import PasswordResetInput from "./PasswordResetInput";
 
 const Teacher = (props) => {
   const teacherContext = useContext(TeacherContext);
@@ -35,13 +37,41 @@ const Teacher = (props) => {
       <TableView
         users={teachers}
         fields={[
-          { attribute: "firstName", name: "First Name" },
-          { attribute: "lastName", name: "Last Name" },
-          { attribute: "email", name: "E-Mail" },
-          { attribute: "role", name: "Role" },
+          {
+            attribute: "firstName",
+            name: "First Name",
+            visible: true,
+            editable: true,
+          },
+          {
+            attribute: "lastName",
+            name: "Last Name",
+            visible: true,
+            editable: true,
+          },
+          {
+            attribute: "email",
+            name: "E-Mail",
+            visible: true,
+            editable: false,
+          },
+          { attribute: "role", name: "Role", visible: true, editable: true },
         ]}
         search={["firstName", "lastName"]}
         editFunction={teacherContext.updateTeacher}
+        additionalFunctions={[
+          {
+            function: teacherContext.updateTeacherPassword,
+            display: PasswordResetInput,
+          },
+        ]}
+        tabs={[
+          {
+            title: "Create a new teacher",
+            view: EditModal,
+            editFunction: teacherContext.createTeacher,
+          },
+        ]}
       />
     </Card>
   );

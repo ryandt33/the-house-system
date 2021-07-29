@@ -18,54 +18,55 @@ const mongoose = require("mongoose");
 const TeacherSchema = mongoose.Schema({
   firstName: {
     type: String,
-    required: true
+    required: true,
   },
   lastName: {
     type: String,
-    required: true
+    required: true,
   },
   email: {
     type: String,
     required: true,
-    unique: true
+    unique: true,
   },
   mbID: {
     type: Number,
-    unique: true
+    unique: true,
   },
   archived: {
     type: Boolean,
-    required: true
+    required: true,
+    default: false,
   },
   gender: {
-    type: String
+    type: String,
   },
   password: {
     type: String,
-    min: [8, "Password is too short."]
+    min: [8, "Password is too short."],
   },
   photoURL: {
-    type: String
+    type: String,
   },
   role: {
     type: String,
     required: true,
-    enum: ["Advisor", "Admin"]
+    enum: ["Advisor", "Admin"],
   },
   points: [
     {
       point: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "points"
-      }
-    }
+        ref: "points",
+      },
+    },
   ],
   lastLogin: {
-    type: Number
+    type: Number,
   },
   validFrom: {
-    type: Number
-  }
+    type: Number,
+  },
 });
 
 module.exports = mongoose.model("teachers", TeacherSchema, "teachers");

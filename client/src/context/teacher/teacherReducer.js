@@ -16,6 +16,7 @@
 import {
   GET_TEACHERS,
   GET_TEACHER,
+  INVALID_PASSWORD,
   CLEAR_TEACHER,
   CLEAR_TEACHERS,
 } from "../types";
@@ -40,15 +41,21 @@ export default (state, action) => {
         ...state,
         loading: false,
         teacher: null,
-        error: null,
+        errors: null,
       };
     case CLEAR_TEACHERS:
       return {
         ...state,
         loading: false,
         teacher: null,
-        error: null,
+        errors: null,
         teachers: null,
+      };
+
+    case INVALID_PASSWORD:
+      return {
+        ...state,
+        errors: action.payload,
       };
     default:
       return state;

@@ -17,6 +17,7 @@ const express = require("express");
 const bcrypt = require("bcryptjs");
 
 const Teacher = require("../models/Teacher");
+const Student = require("../models/Student");
 const authAdmin = require("../middleware/authAdmin");
 
 const router = express.Router();
@@ -26,13 +27,18 @@ const router = express.Router();
 // @access      Private - Admin only
 router.put("/pass/:id", authAdmin, async (req, res) => {
   const salt = await bcrypt.genSalt(10);
-  const { password } = req.body;
+  const { password, userType } = req.body;
 
   try {
     const enPass = await bcrypt.hash(password, salt);
-    await Teacher.findByIdAndUpdate(req.params.id, {
-      password: enPass,
-    });
+    if (userType === "teacher")
+      await Teacher.findByIdAndUpdate(req.params.id, {
+        password: enPass,
+      });
+    else if (userType === "student")
+      await Student.findByIdAndUpdate(req.params.id, {
+        password: enPass,
+      });
     res.json({ msg: `Setting password for user with ${req.params.id}` });
   } catch (err) {
     console.error(err.message);

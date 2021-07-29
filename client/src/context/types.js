@@ -28,6 +28,7 @@ export const TOP_STUDENTS = "TOP_STUDENTS";
 export const SET_PIC = "SET_PIC";
 export const EDIT_HOUSE = "EDIT_HOUSE";
 export const FILTER_ERROR = "FILTER_ERROR";
+export const INVALID_PASSWORD = "INVALID_PASSWORD";
 export const CLEAR_FILTER = "CLEAR_FILTER";
 export const GET_TEACHER = "GET_TEACHER";
 export const GET_TEACHERS = "GET_TEACHERS";

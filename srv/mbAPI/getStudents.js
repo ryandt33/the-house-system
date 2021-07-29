@@ -17,7 +17,7 @@ const axios = require("axios");
 const config = require("config");
 const mbAPIKey = config.get("mbAPIKey");
 const mbSuffix = config.get("mbSuffix");
-const addStudent = require("../services/addStudent");
+const addMBStudent = require("./addMBStudent");
 const updateMBStudent = require("./updateMBStudent");
 
 const Student = require("../models/Student");
@@ -33,7 +33,7 @@ const getStudents = async () => {
     const stu = await Student.findOne({ studentID: student.student_id });
     if (!stu) {
       try {
-        addStudent(student);
+        addMBStudent(student);
       } catch (err) {
         console.error(err.message);
         return false;

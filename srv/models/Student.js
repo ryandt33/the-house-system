@@ -37,7 +37,6 @@ const StudentSchema = mongoose.Schema({
   },
   mbID: {
     type: Number,
-    required: true,
     unique: true,
   },
   studentID: {
@@ -48,6 +47,7 @@ const StudentSchema = mongoose.Schema({
   archived: {
     type: Boolean,
     required: true,
+    default: false,
   },
   classGrade: {
     type: String,
@@ -61,7 +61,7 @@ const StudentSchema = mongoose.Schema({
   },
   photoURL: {
     type: String,
-    default: `${__dirname}/../images/avatar.png`,
+    default: `${__dirname.split("/models")[0]}/images/avatar.png`,
   },
   homeroomID: {
     type: Number,

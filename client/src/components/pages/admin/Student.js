@@ -13,10 +13,12 @@
 // You should have received a copy of the GNU General Public License
 // along with The House System. If not, see <http://www.gnu.org/licenses/>.
 
-import React, { useContext, useEffect, useState } from "react";
-import { Card, Container } from "react-bootstrap";
+import React, { useContext, useEffect } from "react";
+import { Card } from "react-bootstrap";
 import StudentContext from "../../../context/student/studentContext";
 import TableView from "../../layout/TableView";
+import EditModal from "./EditModal";
+import PasswordResetInput from "./PasswordResetInput";
 
 const Student = (props) => {
   const studentContext = useContext(StudentContext);
@@ -39,14 +41,71 @@ const Student = (props) => {
       <TableView
         users={students}
         fields={[
-          { attribute: "firstName", name: "First Name" },
-          { attribute: "lastName", name: "Last Name" },
-          { attribute: "email", name: "E-Mail" },
-          { attribute: "classGrade", name: "Grade" },
-          { attribute: "house", name: "House" },
+          {
+            attribute: "firstName",
+            name: "First Name",
+            visible: true,
+            editable: true,
+          },
+          {
+            attribute: "lastName",
+            name: "Last Name",
+            visible: true,
+            editable: true,
+          },
+          {
+            attribute: "otherName",
+            name: "Other Name",
+            visible: false,
+            editable: true,
+          },
+          {
+            attribute: "nickname",
+            name: "Nickname",
+            visible: false,
+            editable: true,
+          },
+          {
+            attribute: "email",
+            name: "E-Mail",
+            visible: true,
+            editable: false,
+          },
+          {
+            attribute: "mbID",
+            name: "ManageBac ID",
+            visible: false,
+            editable: false,
+          },
+          {
+            attribute: "classGrade",
+            name: "Grade",
+            visible: true,
+            editable: true,
+          },
+          { attribute: "house", name: "House", visible: true, editable: true },
+          {
+            attribute: "studentID",
+            name: "Student ID",
+            visible: false,
+            editable: false,
+          },
         ]}
         search={["firstName", "lastName"]}
         editFunction={studentContext.updateStudent}
+        additionalFunctions={[
+          {
+            function: studentContext.updateStudentPassword,
+            display: PasswordResetInput,
+          },
+        ]}
+        tabs={[
+          {
+            title: "Create a new Student",
+            view: EditModal,
+            editFunction: studentContext.createStudent,
+          },
+        ]}
       />
     </Card>
   );

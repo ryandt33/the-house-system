@@ -39,8 +39,10 @@ router.get("/", auth, async (req, res) => {
 // @desc        Create a teacher
 // @access      Private
 router.post("/", authAdmin, async (req, res) => {
+  console.log("hi");
   const teacher = await addTeacher(req.body);
-  if (teacher) {
+  console.log(teacher);
+  if (teacher.success) {
     res.json(teacher);
   } else {
     res.status(500).send("Server Error");

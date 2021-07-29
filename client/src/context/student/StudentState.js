@@ -27,6 +27,7 @@ import {
   CLEAR_STUDENTS,
   TOP_STUDENTS,
   SET_PIC,
+  INVALID_PASSWORD,
   FILTER_ERROR,
   CLEAR_ERRORS,
 } from "../types";
@@ -125,7 +126,23 @@ const StudentState = (props) => {
   };
 
   // Add Student
+  const createStudent = async (postData) => {
+    try {
+      await axios.post(`${apiURL}api/students`, postData);
 
+      await getStudents();
+      return true;
+    } catch (err) {
+      console.log(err.message);
+      dispatch({
+        type: INVALID_PASSWORD,
+        payload: {
+          msg: err.response.data.msg,
+        },
+      });
+      return false;
+    }
+  };
   // Delete Student
 
   // Edit Student
@@ -135,6 +152,36 @@ const StudentState = (props) => {
       getStudents();
     } catch (err) {
       console.error(err.message);
+    }
+  };
+
+  const updateStudentPassword = async (id, password) => {
+    try {
+      if (!password || password.length < 8) {
+        dispatch({
+          type: INVALID_PASSWORD,
+          payload: {
+            msg: "Password needs to be at least 8 characters in length.",
+          },
+        });
+        return false;
+      }
+      console.log("Passed length check");
+      await axios.put(`${apiURL}api/admin/pass/${id}`, {
+        password: password,
+        userType: "student",
+      });
+
+      return true;
+    } catch (err) {
+      console.error(err.message);
+      dispatch({
+        type: INVALID_PASSWORD,
+        payload: {
+          msg: err.response.data.msg,
+        },
+      });
+      return false;
     }
   };
 
@@ -239,12 +286,14 @@ const StudentState = (props) => {
         getMe,
         getStudentbyID,
         filterStudents,
+        createStudent,
         clearStudent,
         clearState,
         getTop,
         getPhoto,
         editHouse,
         updateStudent,
+        updateStudentPassword,
       }}
     >
       {props.children}

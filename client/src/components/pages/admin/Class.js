@@ -35,9 +35,24 @@ const Class = (props) => {
       <TableView
         users={classes}
         fields={[
-          { attribute: "name", name: "Class Name" },
-          { attribute: "program", name: "Program" },
-          { attribute: "teachers", name: "Teachers" },
+          {
+            attribute: "name",
+            name: "Class Name",
+            visible: true,
+            editable: true,
+          },
+          {
+            attribute: "program",
+            name: "Program",
+            visible: true,
+            editable: true,
+          },
+          {
+            attribute: "teachers",
+            name: "Teachers",
+            visible: true,
+            editable: false,
+          },
         ]}
         search={["name"]}
         editFunction={classContext.updateClass}

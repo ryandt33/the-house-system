@@ -19,8 +19,16 @@ import ClassContext from "../../context/class/classContext";
 import { Link } from "react-router-dom";
 import { Form, Button, Table } from "react-bootstrap";
 import EditModal from "../pages/admin/EditModal";
+import Navtab from "./Navtab";
 
-const TableView = ({ users, fields, search, editFunction }) => {
+const TableView = ({
+  users,
+  fields,
+  search,
+  editFunction,
+  additionalFunctions,
+  tabs,
+}) => {
   const realmContext = useContext(RealmContext);
   const teacherContext = useContext(TeacherContext);
   const classContext = useContext(ClassContext);
@@ -45,22 +53,17 @@ const TableView = ({ users, fields, search, editFunction }) => {
     visible: false,
     id: null,
     updated: false,
+    create: false,
   });
 
   useEffect(() => {
     if (edit.updated) {
-      console.log("Registered update");
       const u = sorted.find((user) => user._id === edit.id);
 
       for (let key in edit.fields) {
         u[key] = edit.fields[key];
-        console.log(`${key}: ${u[key]} `);
-        console.log(`${key}: ${edit.fields[key]} `);
       }
-
-      console.log(u);
     }
-    console.log(edit);
     //eslint-disable-next-line
   }, [edit]);
 
@@ -102,7 +105,6 @@ const TableView = ({ users, fields, search, editFunction }) => {
   };
 
   const pagify = (pageCount) => {
-    console.log(pageCount);
     const pagification = [];
     for (let x = 1; x <= pageCount; x++) {
       pagification.push(
@@ -160,7 +162,6 @@ const TableView = ({ users, fields, search, editFunction }) => {
 
     // const res = await axios.get(`${apiURL}api/currentRows/filter/${sName[0]}`);
     if (users.length > 1 && sName.length >= 1) {
-      console.log("searching");
       for (let x = 0; x < sName.length; x++) {
         for (let y = 0; y < users.length; y++) {
           if (checkOtherName(sName, users[y])) {
@@ -168,7 +169,6 @@ const TableView = ({ users, fields, search, editFunction }) => {
           }
         }
       }
-      console.log(output);
       setSorted(output);
       setUserList({
         ...userList,
@@ -215,19 +215,13 @@ const TableView = ({ users, fields, search, editFunction }) => {
   };
 
   const editOn = (e) => {
-    console.log(e.target.dataset.row);
-
     const user = users.find((u) => u._id === e.target.dataset.row);
-
-    console.log(user);
 
     const userObject = {};
 
     for (let field of fields) {
       userObject[field.attribute] = user[field.attribute];
     }
-    console.log(userObject);
-
     setEdit({
       ...edit,
       fields: userObject,
@@ -238,6 +232,7 @@ const TableView = ({ users, fields, search, editFunction }) => {
 
   return (
     <div>
+      {tabs && <Navtab tabs={tabs} fields={fields}></Navtab>}
       <Form inline onSubmit={onSubmit} className="userTable__search">
         <div className="userTable__search__holder">
           <Form.Control
@@ -264,33 +259,46 @@ const TableView = ({ users, fields, search, editFunction }) => {
       <Table striped bordered hover className="userTable">
         <thead>
           <tr>
-            {fields.map((field) => (
-              <th style={{ width: `${100 / (fields.length + 1)}%` }}>
-                {field.name}{" "}
-                {field.name === "Teachers" ? (
-                  <span></span>
-                ) : (
-                  <span>
-                    <span
-                      data-direction="descending"
-                      data-attribute={field.attribute}
-                      onClick={userListSort}
-                      className="userTable__sort_arrow"
-                    >
-                      &darr;
-                    </span>
-                    <span
-                      data-direction="ascending"
-                      data-attribute={field.attribute}
-                      onClick={userListSort}
-                      className="userTable__sort_arrow"
-                    >
-                      &uarr;
-                    </span>
-                  </span>
-                )}
-              </th>
-            ))}
+            {fields.map(
+              (field) =>
+                field.visible && (
+                  <th
+                    style={{
+                      width: `${
+                        100 /
+                        (fields.reduce((acc, x) => {
+                          if (x.visible) return acc + 1;
+                        }, 0) +
+                          1)
+                      }%`,
+                    }}
+                  >
+                    {field.name === "Teachers" ? (
+                      <span>{field.name}</span>
+                    ) : (
+                      <span>
+                        {field.name}
+                        <span
+                          data-direction="descending"
+                          data-attribute={field.attribute}
+                          onClick={userListSort}
+                          className="userTable__sort_arrow"
+                        >
+                          &darr;
+                        </span>
+                        <span
+                          data-direction="ascending"
+                          data-attribute={field.attribute}
+                          onClick={userListSort}
+                          className="userTable__sort_arrow"
+                        >
+                          &uarr;
+                        </span>
+                      </span>
+                    )}
+                  </th>
+                )
+            )}
             <th></th>
           </tr>
         </thead>
@@ -300,87 +308,89 @@ const TableView = ({ users, fields, search, editFunction }) => {
               (currentRow) =>
                 !currentRow.archived && (
                   <tr>
-                    {fields.map((field) =>
-                      field.attribute === "house" ? (
-                        realms &&
-                        realms.houses.map(
-                          (house) =>
-                            house._id === currentRow.house && (
-                              <td
-                                data-attribute={field.attribute}
-                                key={house._id}
-                              >
-                                {house.name}
-                              </td>
-                            )
-                        )
-                      ) : field.attribute === "teachers" ? (
-                        <td data-attribute={field.attribute}>
-                          <ul className="userTable__inner_list__item">
-                            {teachers &&
-                              currentRow[field.attribute].map((u) =>
-                                teachers.map(
-                                  (t) =>
-                                    t._id === u.teacher && (
-                                      <li
-                                        className="userTable__inner_list__item"
-                                        key={`${u.teacher}`}
-                                      >
-                                        {t.firstName} {t.lastName}
-                                      </li>
-                                    )
-                                )
-                              )}
-                          </ul>
-                        </td>
-                      ) : field.name === "Class Name" ? (
-                        classes && (
+                    {fields.map(
+                      (field) =>
+                        field.visible &&
+                        (field.attribute === "house" ? (
+                          realms &&
+                          realms.houses.map(
+                            (house) =>
+                              house._id === currentRow.house && (
+                                <td
+                                  data-attribute={field.attribute}
+                                  key={house._id}
+                                >
+                                  {house.name}
+                                </td>
+                              )
+                          )
+                        ) : field.attribute === "teachers" ? (
                           <td data-attribute={field.attribute}>
-                            <Link to={`/class/${currentRow["_id"]}`}>
-                              {" "}
-                              {currentRow[field.attribute]}
-                            </Link>
+                            <ul className="userTable__inner_list__item">
+                              {teachers &&
+                                currentRow[field.attribute].map((u) =>
+                                  teachers.map(
+                                    (t) =>
+                                      t._id === u.teacher && (
+                                        <li
+                                          className="userTable__inner_list__item"
+                                          key={`${u.teacher}`}
+                                        >
+                                          {t.firstName} {t.lastName}
+                                        </li>
+                                      )
+                                  )
+                                )}
+                            </ul>
                           </td>
-                        )
-                      ) : field.attribute === "backgroundColor" ? (
-                        <td data-attribute={field.attribute}>
-                          <div
-                            style={{
-                              background: currentRow["backgroundColor"],
-                              color: currentRow["color"],
-                              border: "3px solid rgba(255,255,255,0.3)",
-                              textAlign: "center",
-                              width: "50%",
-                              margin: "auto",
-                              padding: "5px",
-                            }}
-                          >
+                        ) : field.name === "Class Name" ? (
+                          classes && (
+                            <td data-attribute={field.attribute}>
+                              <Link to={`/class/${currentRow["_id"]}`}>
+                                {" "}
+                                {currentRow[field.attribute]}
+                              </Link>
+                            </td>
+                          )
+                        ) : field.attribute === "backgroundColor" ? (
+                          <td data-attribute={field.attribute}>
+                            <div
+                              style={{
+                                background: currentRow["backgroundColor"],
+                                color: currentRow["color"],
+                                border: "3px solid rgba(255,255,255,0.3)",
+                                textAlign: "center",
+                                width: "50%",
+                                margin: "auto",
+                                padding: "5px",
+                              }}
+                            >
+                              {currentRow[field.attribute]}
+                            </div>
+                          </td>
+                        ) : field.attribute === "color" ? (
+                          <td data-attribute={field.attribute}>
+                            <div
+                              style={{
+                                background: currentRow["backgroundColor"],
+                                color: currentRow["color"],
+                                border: "3px solid rgba(255,255,255,0.3)",
+                                textAlign: "center",
+                                width: "50%",
+                                margin: "auto",
+                                padding: "5px",
+                              }}
+                            >
+                              {currentRow[field.attribute]}
+                            </div>
+                          </td>
+                        ) : (
+                          <td data-attribute={field.attribute}>
                             {currentRow[field.attribute]}
-                          </div>
-                        </td>
-                      ) : field.attribute === "color" ? (
-                        <td data-attribute={field.attribute}>
-                          <div
-                            style={{
-                              background: currentRow["backgroundColor"],
-                              color: currentRow["color"],
-                              border: "3px solid rgba(255,255,255,0.3)",
-                              textAlign: "center",
-                              width: "50%",
-                              margin: "auto",
-                              padding: "5px",
-                            }}
-                          >
-                            {currentRow[field.attribute]}
-                          </div>
-                        </td>
-                      ) : (
-                        <td data-attribute={field.attribute}>
-                          {currentRow[field.attribute]}
-                        </td>
-                      )
+                          </td>
+                        ))
                     )}
-                    <td>
+                    <td style={{ textAlign: "center" }}>
                       <div
                         className="userTable__edit"
                         style={{
@@ -401,6 +411,13 @@ const TableView = ({ users, fields, search, editFunction }) => {
                           data-row={currentRow["_id"]}
                         ></div>
                       </div>
+                      {additionalFunctions &&
+                        additionalFunctions.map((aF) => (
+                          <aF.display
+                            editFunction={aF.function}
+                            id={currentRow._id}
+                          ></aF.display>
+                        ))}
                     </td>
                   </tr>
                 )
@@ -416,6 +433,7 @@ const TableView = ({ users, fields, search, editFunction }) => {
         dictionary={fields}
         visible={{ edit: edit, setEdit: setEdit }}
         editFunction={editFunction}
+        additionalFunctions={additionalFunctions}
       ></EditModal>
     </div>
   );

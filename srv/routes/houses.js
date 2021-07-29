@@ -46,17 +46,19 @@ router.post(
     [check("name", "Please include a valid, unique house name").notEmpty()],
   ],
   async (req, res) => {
+    console.log(req.body);
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
     }
 
-    const { name, picture } = req.body;
+    const { name, backgroundColor, color } = req.body;
 
     try {
       const newHouse = new House({
         name: name,
-        picture: picture,
+        backgroundColor: backgroundColor,
+        color: color,
       });
       const house = await newHouse.save();
       res.json(house);

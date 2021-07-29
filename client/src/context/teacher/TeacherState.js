@@ -20,6 +20,7 @@ import axios from "axios";
 import {
   GET_TEACHERS,
   GET_TEACHER,
+  INVALID_PASSWORD,
   CLEAR_TEACHER,
   CLEAR_TEACHERS,
 } from "../types";
@@ -30,7 +31,7 @@ const TeacherState = (props) => {
     teachers: null,
     loading: false,
     teacher: null,
-    error: null,
+    errors: null,
   };
 
   const [state, dispatch] = useReducer(teacherReducer, initialState);
@@ -61,6 +62,15 @@ const TeacherState = (props) => {
     } catch (err) {}
   };
 
+  // Create a new teacher
+  const createTeacher = async (postData) => {
+    try {
+      await axios.post(`${apiURL}api/teachers`, postData);
+    } catch (err) {
+      console.error(err.message);
+    }
+  };
+
   // Update Teachers
   const updateTeacher = async (id, postBody) => {
     try {
@@ -68,6 +78,36 @@ const TeacherState = (props) => {
       getTeachers();
     } catch (err) {
       console.error(err.message);
+    }
+  };
+
+  const updateTeacherPassword = async (id, password) => {
+    try {
+      if (!password || password.length < 8) {
+        dispatch({
+          type: INVALID_PASSWORD,
+          payload: {
+            msg: "Password needs to be at least 8 characters in length.",
+          },
+        });
+        return false;
+      }
+      console.log("Passed length check");
+      await axios.put(`${apiURL}api/admin/pass/${id}`, {
+        password: password,
+        userType: "teacher",
+      });
+
+      return true;
+    } catch (err) {
+      console.error(err.message);
+      dispatch({
+        type: INVALID_PASSWORD,
+        payload: {
+          msg: err.response.data.msg,
+        },
+      });
+      return false;
     }
   };
 
@@ -87,10 +127,12 @@ const TeacherState = (props) => {
         teachers: state.teachers,
         loading: state.loading,
         teacher: state.teacher,
-        error: state.error,
+        errors: state.errors,
         getTeachers,
         getTeacher,
+        createTeacher,
         updateTeacher,
+        updateTeacherPassword,
         clearTeacher,
         clearState,
       }}

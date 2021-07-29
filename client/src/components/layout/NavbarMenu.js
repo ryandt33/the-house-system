@@ -25,6 +25,7 @@ import PointContext from "../../context/point/pointContext";
 import CategoryContext from "../../context/category/categoryContext";
 import RealmContext from "../../context/realm/realmContext";
 import ClassContext from "../../context/class/classContext";
+import TeacherContext from "../../context/teacher/teacherContext";
 
 const NavbarMenu = ({ props }) => {
   const alertContext = useContext(AlertContext);
@@ -34,6 +35,7 @@ const NavbarMenu = ({ props }) => {
   const categoryContext = useContext(CategoryContext);
   const realmContext = useContext(RealmContext);
   const classContext = useContext(ClassContext);
+  const teacherContext = useContext(TeacherContext);
 
   const [filter, setFilter] = useState({
     search: "",
@@ -83,6 +85,12 @@ const NavbarMenu = ({ props }) => {
       alertContext.setAlert(pointContext.errors[0].msg, "danger");
     // eslint-disable-next-line
   }, [pointContext.errors]);
+
+  useEffect(() => {
+    teacherContext.errors &&
+      alertContext.setAlert(teacherContext.errors.msg, "danger");
+    // eslint-disable-next-line
+  }, [teacherContext.errors]);
 
   return (
     <div>

@@ -19,7 +19,6 @@ const Navtiles = ({ tiles }) => {
   const [tileView, setTileView] = useState({ tiles: tiles, change: false });
 
   useEffect(() => {
-    console.log(tileView);
     tileView.change && setTileView({ ...tileView, change: false });
   }, [tileView]);
 
@@ -30,7 +29,6 @@ const Navtiles = ({ tiles }) => {
         : (tile.active = false);
     }
     setTileView({ change: true, tiles: tiles });
-    console.log(tileView);
   };
 
   return (

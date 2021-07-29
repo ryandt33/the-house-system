@@ -17,7 +17,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { Form } from "react-bootstrap";
 import RealmContext from "../../../context/realm/realmContext";
 
-const EditModal = ({ dictionary, visible, id, editFunction }) => {
+const EditModal = ({ dictionary, visible, editFunction }) => {
   const realmContext = useContext(RealmContext);
   const { realms } = realmContext;
 
@@ -26,6 +26,22 @@ const EditModal = ({ dictionary, visible, id, editFunction }) => {
   useEffect(() => {
     realmContext.getRealms();
   }, []);
+
+  useEffect(() => {
+    if (visible.edit.fields) {
+      visible.edit.fields.house === "" &&
+        visible.setEdit({
+          ...visible.edit,
+          fields: { ...visible.edit.fields, house: realms.houses[0]._id },
+        });
+      visible.edit.fields.role === "" &&
+        visible.setEdit({
+          ...visible.edit,
+          fields: { ...visible.edit.fields, role: "Advisor" },
+        });
+    }
+    visible.edit.visible && setFields(visible.edit.fields);
+  }, [visible.edit.visible]);
 
   const closeModal = (updated = false) => {
     visible.setEdit({
@@ -36,28 +52,14 @@ const EditModal = ({ dictionary, visible, id, editFunction }) => {
     });
   };
 
-  useEffect(() => {
-    visible.setEdit({ ...visible.edit, fields: null, visible: false });
-  }, []);
-
-  useEffect(() => {
-    console.log(fields);
-  }, [fields]);
-
-  useEffect(() => {
-    setFields(visible.edit.fields);
-    console.log("Setting fields");
-  }, [visible.edit.fields]);
-
-  useEffect(() => {
-    console.log(visible);
-  }, [visible]);
-
   const onSubmit = (e) => {
     e.preventDefault();
-    editFunction(visible.edit.id, fields);
+    console.log(fields);
+    visible.edit.create
+      ? editFunction(fields)
+      : editFunction(visible.edit.id, fields);
 
-    visible.setEdit({ ...visible.edit, updated: true });
+    visible.setEdit({ ...visible.edit, updated: true, fields: null });
 
     closeModal(true);
   };
@@ -72,9 +74,10 @@ const EditModal = ({ dictionary, visible, id, editFunction }) => {
   return (
     <div>
       {visible.edit.visible && fields && (
-        <div className="editmodal__background">
+        <div>
+          <div className="editmodal__background" onClick={closeModal}></div>
           <div className="editmodal">
-            <h2>Edit:</h2>
+            <h2>{visible.edit.create ? "Create:" : "Edit:"}</h2>
             <div className="editmodal__close" onClick={closeModal}>
               X
             </div>
@@ -87,22 +90,31 @@ const EditModal = ({ dictionary, visible, id, editFunction }) => {
                       <Form.Label>
                         {dictionary.find((d) => d.attribute === fieldName).name}
                       </Form.Label>
-                      {fieldName === "classGrade" ||
-                      fieldName === "program" ||
-                      fieldName === "email" ? (
-                        <Form.Control
-                          type="input"
-                          name={fieldName}
-                          value={fields[fieldName]}
-                          onChange={onChange}
-                          disabled
-                        />
+                      {!dictionary.find((d) => d.attribute === fieldName)
+                        .editable ? (
+                        visible.edit.create ? (
+                          <Form.Control
+                            type="input"
+                            name={fieldName}
+                            value={fields[fieldName]}
+                            onChange={onChange}
+                          />
+                        ) : (
+                          <Form.Control
+                            type="input"
+                            name={fieldName}
+                            value={fields[fieldName]}
+                            onChange={onChange}
+                            disabled
+                          />
+                        )
                       ) : fieldName === "house" ? (
                         <Form.Control
                           as="select"
                           type="select"
                           name={fieldName}
                           value={fields[fieldName]}
+                          defaultValue={realms.houses[0]._id}
                           onChange={onChange}
                         >
                           {realms.houses.map((house) => (
@@ -131,11 +143,19 @@ const EditModal = ({ dictionary, visible, id, editFunction }) => {
                     </Form.Group>
                   )
               )}
-              <input
-                type="submit"
-                value="Update"
-                className="btn btn-primary btn-block"
-              />
+              <div style={{ textAlign: "center" }}>
+                <input
+                  type="submit"
+                  value="Update"
+                  className="btn btn-primary editmodal__button"
+                />{" "}
+                <input
+                  type="cancel"
+                  value="Cancel"
+                  className="btn btn-secondary editmodal__button"
+                  onClick={closeModal}
+                />
+              </div>
             </Form>
           </div>
         </div>

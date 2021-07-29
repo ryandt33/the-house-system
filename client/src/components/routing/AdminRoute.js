@@ -10,18 +10,21 @@ const AdminRoute = ({ component: Component, ...rest }) => {
     authContext.loadUser();
   }, []);
 
-  return (
+  return user ? (
     <Route
       {...rest}
       render={(props) =>
-        user &&
-        (!loading && isAuthenticated && user.role !== "Admin" ? (
+        !loading && isAuthenticated && user.role !== "Admin" ? (
           <Redirect to="/" />
         ) : (
           <Component {...props} />
-        ))
+        )
       }
     />
+  ) : loading ? (
+    <div></div>
+  ) : (
+    <Route {...rest} render={(props) => <Redirect to="/" />} />
   );
 };
 

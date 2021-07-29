@@ -537,6 +537,28 @@ link.nav-head {
 
 .navtiles__icon {
   font-size: 2rem;
+  position: static;
+}
+
+.navtabs__holder {
+  text-align: center;
+}
+
+.navtabs__tab {
+  display: inline-block;
+  padding: 20px;
+  background-color: white;
+  border: 1px solid lightgray;
+  cursor: pointer;
+  border-radius: 5px;
+  box-shadow: 2px 2px 3px grey;
+  transform: scale(1.05);
+  transition: 0.15s;
+}
+
+.navtabs__tab:hover {
+  box-shadow: 1px 1px 2px grey;
+  transform: scale(1);
 }
 
 .userTable {
@@ -551,6 +573,7 @@ link.nav-head {
 
 .userTable__search__input {
   min-width: 40vw;
+  position: static;
 }
 
 .userTable__search__holder {
@@ -577,6 +600,20 @@ link.nav-head {
   cursor: pointer;
 }
 
+.password_reset {
+  display: inline;
+}
+
+.password_reset__icon {
+  color: darkblue;
+  cursor: pointer;
+  position: static;
+}
+
+.password-reset__form {
+  display: inline-block;
+}
+
 .editmodal {
   position: fixed;
   left: 50%;
@@ -589,6 +626,7 @@ link.nav-head {
   border-radius: 5px;
   overflow: auto;
   padding: 10px;
+  z-index: 10;
 }
 
 .editmodal__background {
@@ -605,12 +643,18 @@ link.nav-head {
   right: 10px;
   top: -10px;
   cursor: pointer;
-  font-size: 3rem;
+  font-size: 2rem;
   transition: 0.2s;
 }
 
 .editmodal__close:hover {
   transform: scale(1.05);
+}
+
+.editmodal__button {
+  width: 40%;
+  display: inline-block;
+  margin: 0px;
 }
 
 .editmodal__form {

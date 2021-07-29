@@ -15,24 +15,45 @@
 
 const Student = require("../models/Student");
 
-const addStudent = async (student) => {
-  const addObj = {};
-  for (let key in student) {
-    if (key === "house") {
-      addObj.house = student.house;
-
-      addObj.monthlyPoints = { realm: student.house };
-      addObj.yearlyPoints = { realm: student.house };
-      addObj.totalPoints = { realm: student.house };
-    } else addObj[key] = student[key];
-  }
+const addMBStudent = async (stu) => {
+  const {
+    first_name,
+    last_name,
+    other_name,
+    email,
+    id,
+    student_id,
+    archived,
+    class_grade,
+    gender,
+    photo_url,
+    homeroom_advisor_id,
+    ib_group_id,
+    nickname,
+  } = stu;
 
   try {
-    const stu = new Student(addObj);
-    return { success: true, msg: await stu.save() };
+    const newStudent = new Student({
+      firstName: first_name,
+      lastName: last_name,
+      otherName: other_name,
+      nickname: nickname,
+      email: email,
+      mbID: id,
+      studentID: student_id,
+      archived: archived,
+      classGrade: class_grade,
+      gender: gender,
+      photoURL: photo_url,
+      homeroomID: homeroom_advisor_id,
+      yeargroupID: ib_group_id,
+    });
+    const student = await newStudent.save();
+    return student;
   } catch (err) {
-    return { success: false, msg: err.message };
+    console.error(err.message);
+    return false;
   }
 };
 
-module.exports = addStudent;
+module.exports = addMBStudent;

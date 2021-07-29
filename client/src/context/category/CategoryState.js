@@ -40,6 +40,17 @@ const CategoryState = (props) => {
     // setTimeout(() => dispatch({ type: CLEAR_ALERT, payload: id }), timeout);
   };
 
+  const createCategory = async (postData) => {
+    try {
+      postData.realm = "houses";
+      await axios.post(`${apiURL}api/categories`, postData);
+
+      await getCategories();
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
   // Edit Category
   const updateCategory = async (id, postData) => {
     try {
@@ -60,6 +71,7 @@ const CategoryState = (props) => {
         categories: state.categories,
         category: state.category,
         getCategories,
+        createCategory,
         updateCategory,
         clearCategories,
       }}

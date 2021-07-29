@@ -17,6 +17,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { Card, Container } from "react-bootstrap";
 import RealmContext from "../../../context/realm/realmContext";
 import TableView from "../../layout/TableView";
+import EditModal from "./EditModal";
 
 const House = (props) => {
   const realmContext = useContext(RealmContext);
@@ -36,12 +37,34 @@ const House = (props) => {
       <TableView
         users={realms && realms.houses}
         fields={[
-          { attribute: "name", name: "House Name" },
-          { attribute: "backgroundColor", name: "Background" },
-          { attribute: "color", name: "Text Color" },
+          {
+            attribute: "name",
+            name: "House Name",
+            visible: true,
+            editable: true,
+          },
+          {
+            attribute: "backgroundColor",
+            name: "Background",
+            visible: true,
+            editable: true,
+          },
+          {
+            attribute: "color",
+            name: "Text Color",
+            visible: true,
+            editable: true,
+          },
         ]}
         search={["name"]}
         editFunction={realmContext.updateHouse}
+        tabs={[
+          {
+            title: "Create a new house",
+            view: EditModal,
+            editFunction: realmContext.createHouse,
+          },
+        ]}
       />
     </Card>
   );

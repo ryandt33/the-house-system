@@ -25,6 +25,7 @@ import {
   SET_PIC,
   FILTER_ERROR,
   CLEAR_ERRORS,
+  INVALID_PASSWORD,
 } from "../types";
 
 export default (state, action) => {
@@ -46,6 +47,7 @@ export default (state, action) => {
         loading: false,
       };
     case FILTER_ERROR:
+    case INVALID_PASSWORD:
       return {
         ...state,
         error: action.payload,

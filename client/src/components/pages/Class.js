@@ -12,6 +12,7 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with The House System. If not, see <http://www.gnu.org/licenses/>.
+
 import React, { useContext, useEffect } from "react";
 import { Card, Container, Button, Table, Badge } from "react-bootstrap";
 import { Link } from "react-router-dom";

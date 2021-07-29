@@ -17,6 +17,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { Card, Container } from "react-bootstrap";
 import CategoryContext from "../../../context/category/categoryContext";
 import TableView from "../../layout/TableView";
+import EditModal from "./EditModal";
 
 const Category = (props) => {
   const categoryContext = useContext(CategoryContext);
@@ -34,18 +35,45 @@ const Category = (props) => {
 
   return (
     <Card className="p-3">
-      <h1>Teachers</h1>
+      <h1>Categories</h1>
       <hr />
       <TableView
         users={categories}
         fields={[
-          { attribute: "name", name: "Category Name" },
-          { attribute: "backgroundColor", name: "Background" },
-          { attribute: "color", name: "Text Color" },
-          { attribute: "value", name: "Point Value" },
+          {
+            attribute: "name",
+            name: "Category Name",
+            visible: true,
+            editable: true,
+          },
+          {
+            attribute: "backgroundColor",
+            name: "Background",
+            visible: true,
+            editable: true,
+          },
+          {
+            attribute: "color",
+            name: "Text Color",
+            visible: true,
+            editable: true,
+          },
+          {
+            attribute: "value",
+            name: "Point Value",
+            visible: true,
+            editable: true,
+          },
         ]}
         search={["name"]}
         editFunction={categoryContext.updateCategory}
+        tabs={[
+          {
+            title: "Create a new category",
+            view: EditModal,
+            editFunction: categoryContext.createCategory,
+          },
+        ]}
       />
     </Card>
   );

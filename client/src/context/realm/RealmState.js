@@ -36,6 +36,14 @@ const RealmState = (props) => {
     }
   };
 
+  const createHouse = async (postData) => {
+    try {
+      await axios.post(`${apiURL}api/houses`, postData);
+    } catch (err) {
+      console.error(err.message);
+    }
+  };
+
   const updateHouse = async (id, postData) => {
     try {
       await axios.put(`${apiURL}api/houses/${id}`, postData);
@@ -53,6 +61,7 @@ const RealmState = (props) => {
       value={{
         realms: state.realms,
         getRealms,
+        createHouse,
         updateHouse,
         clearRealms,
       }}

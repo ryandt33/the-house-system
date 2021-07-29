@@ -14,19 +14,37 @@
 // along with The House System. If not, see <http://www.gnu.org/licenses/>.
 
 const Teacher = require("../models/Teacher");
+const util = require("util");
 
-const addTeacher = async (teacher) => {
-  const addObj = {};
-  for (let key in teacher) {
-    addObj[key] = teacher[key];
-  }
-
+const addMBTeacher = async (tea) => {
+  const {
+    first_name,
+    last_name,
+    email,
+    archived,
+    gender,
+    photo_url,
+    role,
+    id,
+  } = tea;
+  // console.log(util.inspect(tea, true, null, true));
   try {
-    const tea = new Teacher(addObj);
-    return { success: true, msg: await tea.save() };
+    const newTeacher = new Teacher({
+      firstName: first_name,
+      lastName: last_name,
+      email: email,
+      archived: archived,
+      gender: gender,
+      photoURL: photo_url,
+      role: role,
+      mbID: id,
+    });
+    const teacher = await newTeacher.save();
+    return teacher;
   } catch (err) {
-    return { success: false, msg: err.message };
+    console.error(err.message);
+    return false;
   }
 };
 
-module.exports = addTeacher;
+module.exports = addMBTeacher;

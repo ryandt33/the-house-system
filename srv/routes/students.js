@@ -128,33 +128,6 @@ router.get("/:id", auth, async (req, res) => {
 // @access      Private
 router.get("/pic/:id", anyAuth, async (req, res) => {
   try {
-    // const student = await Student.findOne({ mbID: req.params.mbid });
-
-    // const path = Path.resolve(
-    //   __dirname,
-    //   "../images",
-    //   `${student.studentID}.jpg`
-    // );
-    // const writer = Fs.createWriteStream(path);
-    // const mbConfig = {
-    //   responseType: "stream",
-    //   headers: {
-    //     "auth-token": mbAPIKey
-    //   }
-    // };
-
-    // const photo = await axios.get(
-    //   `https://api.managebac.${mbSuffix}/v2/avatars/${req.params.mbid}/v1`,
-    //   mbConfig
-    // );
-    // photo.data.pipe(writer);
-    // return new Promise(async (resolve, reject) => {
-    //   writer.on("finish", resolve);
-    //   writer.on("error", reject);
-    //   await Student.findOneAndUpdate(
-    //     { mbID: req.params.mbid },
-    //     { photoURL: path }
-    //   );
     const stu = await Student.findOne({ studentID: req.params.id });
     if (stu.photoURL) {
       res.sendFile(stu.photoURL);
@@ -208,11 +181,12 @@ router.get("/sid/:id", auth, async (req, res) => {
 // @desc        Create a student
 // @access      Private
 router.post("/", authAdmin, async (req, res) => {
+  console.log(req.body);
   const student = await addStudent(req.body);
-  if (student) {
-    res.json(student);
+  if (student.success) {
+    res.json(student.msg);
   } else {
-    res.status(500).send("Server error");
+    res.status(400).json({ msg: student.msg });
   }
 });
 
@@ -231,7 +205,7 @@ router.put("/:id", authAdmin, async (req, res) => {
 });
 
 // @route       PUT api/students/house/:id
-// @desc        Edit a student
+// @desc        Edit a student's house
 // @access      Private
 router.put("/house/:id", authAdmin, async (req, res) => {
   try {
@@ -242,54 +216,6 @@ router.put("/house/:id", authAdmin, async (req, res) => {
     res.status(500).send("Server Error");
   }
 });
-
-// // @route       PUT api/students/house/:id
-// // @desc        Edit a student's house
-// // @access      Private
-// router.put("/house/:id", auth, async (req, res) => {
-//   try {
-//     const houseID = await House.findOne({ name: req.body.name });
-
-//     if (!houseID) {
-//       res.json({ msg: "Invalid house" });
-//       return;
-//     }
-//     await Student.findByIdAndUpdate(req.params.id, {
-//       house: houseID._id
-//     });
-//     await Student.findOneAndUpdate(
-//       {
-//         _id: req.params.id,
-//         "monthlyPoints.realm": oldHouse
-//       },
-//       { "monthlyPoints.$.realm": houseID }
-//     );
-
-//     await Student.findOneAndUpdate(
-//       {
-//         _id: req.params.id,
-//         "yearlyPoints.realm": realm
-//       },
-//       { "yearlyPoints.$.realm": houseID }
-//     );
-
-//     await Student.findOneAndUpdate(
-//       {
-//         _id: req.params.id,
-//         "totalPoints.realm": realm
-//       },
-//       {
-//         "totalPoints.$.realm": houseID
-//       }
-//     );
-//     console.log("hi");
-//     console.log(Student.findById(req.params.id));
-//     res.json(houseID);
-//   } catch (err) {
-//     console.error(err.message);
-//     res.status(500).send("Server Error");
-//   }
-// });
 
 // @route       DELETE api/students/:id
 // @desc        Delete a student

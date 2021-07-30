@@ -58,13 +58,13 @@ const House = (props) => {
         ]}
         search={["name"]}
         editFunction={realmContext.updateHouse}
-        tabs={[
-          {
-            title: "Create a new house",
-            view: EditModal,
-            editFunction: realmContext.createHouse,
-          },
-        ]}
+        // tabs={[
+        //   {
+        //     title: "Create a new house",
+        //     view: EditModal,
+        //     editFunction: realmContext.createHouse,
+        //   },
+        // ]}
       />
     </Card>
   );

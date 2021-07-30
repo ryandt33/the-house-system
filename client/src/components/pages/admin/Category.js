@@ -18,6 +18,7 @@ import { Card, Container } from "react-bootstrap";
 import CategoryContext from "../../../context/category/categoryContext";
 import TableView from "../../layout/TableView";
 import EditModal from "./EditModal";
+import ArchiveToggle from "./ArchiveToggle";
 
 const Category = (props) => {
   const categoryContext = useContext(CategoryContext);
@@ -67,6 +68,12 @@ const Category = (props) => {
         ]}
         search={["name"]}
         editFunction={categoryContext.updateCategory}
+        additionalFunctions={[
+          {
+            function: categoryContext.archiveCategory,
+            display: ArchiveToggle,
+          },
+        ]}
         tabs={[
           {
             title: "Create a new category",

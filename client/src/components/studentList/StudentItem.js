@@ -30,29 +30,29 @@ const StudentItem = ({ student, realms }) => {
   };
   return (
     <Card
-      className='col-lg-11 col-sm-11 stuCard'
+      className="col-lg-11 col-sm-11 stuCard"
       style={{
         boxShadow: `3px 3px 3px ${
           realms.find((realm) => realm._id === student.house).backgroundColor
         }`,
       }}
     >
-      <Card.Body className='stu-card-body'>
+      <Card.Body className="stu-card-body">
         <div>
           {" "}
-          <Link className='student-link' to={`/student/${student.studentID}`}>
-            <span className='student-card-spacer'>
+          <Link className="student-link" to={`/student/${student.studentID}`}>
+            <span className="student-card-spacer">
               <Container fluid>
                 {" "}
                 {student.photoURL && (
-                  <div className='student-pic'>
+                  <div className="student-pic">
                     <img
                       src={`data:image/jpg;base64, ${button.img}`}
                       alt={`${student.lastName} ${student.firstName}`}
                     />
                   </div>
                 )}
-                <div className='student-info-name'>
+                <div className="student-info-name">
                   {student.lastName} {student.firstName} - {student.studentID}{" "}
                   {student.otherName && " (" + student.otherName + ")"}
                   {student.nickname && ` | ${student.nickname}`}
@@ -61,12 +61,11 @@ const StudentItem = ({ student, realms }) => {
             </span>
           </Link>
           <Badge
-            variant='info'
-            className='student-card-spacer'
+            variant="info"
+            className="student-card-spacer"
             style={{
-              backgroundColor: realms.find(
-                (realm) => realm._id === student.house
-              ).backgroundColor,
+              background: realms.find((realm) => realm._id === student.house)
+                .backgroundColor,
               color: realms.find((realm) => realm._id === student.house).color,
             }}
           >

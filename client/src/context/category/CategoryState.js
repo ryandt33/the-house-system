@@ -61,6 +61,17 @@ const CategoryState = (props) => {
     }
   };
 
+  const archiveCategory = async (id) => {
+    try {
+      const res = await axios.patch(`${apiURL}api/categories/${id}`);
+      await getCategories();
+      return { success: true, msg: res.data.msg };
+    } catch (err) {
+      console.log(err.message);
+      return { success: false, msg: err.response.data.message };
+    }
+  };
+
   const clearCategories = async () => {
     dispatch({ type: CLEAR_CATEGORIES });
   };
@@ -74,6 +85,7 @@ const CategoryState = (props) => {
         createCategory,
         updateCategory,
         clearCategories,
+        archiveCategory,
       }}
     >
       {props.children}

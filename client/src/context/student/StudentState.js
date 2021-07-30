@@ -185,6 +185,17 @@ const StudentState = (props) => {
     }
   };
 
+  const archiveStudent = async (id) => {
+    try {
+      const res = await axios.patch(`${apiURL}api/students/${id}`);
+      await getStudents();
+      return { success: true, msg: res.data.msg };
+    } catch (err) {
+      console.log(err);
+      return { success: false, msg: err.response.data.message };
+    }
+  };
+
   const editHouse = async (id, house) => {
     try {
       const config = {
@@ -294,6 +305,7 @@ const StudentState = (props) => {
         editHouse,
         updateStudent,
         updateStudentPassword,
+        archiveStudent,
       }}
     >
       {props.children}

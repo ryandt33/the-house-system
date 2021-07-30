@@ -154,7 +154,6 @@ router.get("/filter/:search", auth, async (req, res) => {
         { otherName: { $regex: `${req.params.search}`, $options: "gi" } },
         { nickname: { $regex: `${req.params.search}`, $options: "gi" } },
       ],
-      archived: false,
     });
     res.json(students);
   } catch (err) {
@@ -201,6 +200,26 @@ router.put("/:id", authAdmin, async (req, res) => {
   } catch (err) {
     console.error(err.message);
     res.status(500).send("Server Error");
+  }
+});
+
+// @route       PATCH api/student/:id
+// @desc        Archive/unarchive a student
+// @access      ADMIN only
+router.patch("/:id", authAdmin, async (req, res) => {
+  const student = await Student.findById(req.params.id);
+  if (!student) {
+    res.status(400).json({ msg: "Invalid student ID." });
+  } else {
+    await Student.findByIdAndUpdate(req.params.id, {
+      archived: !student.archived,
+    });
+
+    res.status(200).json({
+      msg: `${student.firstName} ${student.lastName} was ${
+        !student.archived ? "archived" : "unarchived"
+      }.`,
+    });
   }
 });
 

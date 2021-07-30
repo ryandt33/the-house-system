@@ -67,7 +67,7 @@ const Showcase = (props) => {
                   <Card
                     style={{
                       marginRight: "20px",
-                      backgroundColor: house.backgroundColor,
+                      background: house.backgroundColor,
                       color: house.color,
                     }}
                     key={house._id}

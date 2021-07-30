@@ -42,24 +42,15 @@ const assignHouses = async () => {
       maleStu = await Student.find({
         gender: "Male",
         classGrade: classGrade[x],
-        archived: false,
         house: null,
       });
       femaleStu = await Student.find({
         gender: "Female",
         classGrade: classGrade[x],
-        archived: false,
         house: null,
       });
-      // femaleStu = await Student.find({
-      //   gender: "女",
-      //   classGrade: classGrade[x],
-      //   archived: false,
-      //   house: null,
-      // });
       nullStu = await Student.find({
         classGrade: classGrade[x],
-        archived: false,
         house: null,
       });
 

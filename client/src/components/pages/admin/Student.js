@@ -19,6 +19,7 @@ import StudentContext from "../../../context/student/studentContext";
 import TableView from "../../layout/TableView";
 import EditModal from "./EditModal";
 import PasswordResetInput from "./PasswordResetInput";
+import ArchiveToggle from "./ArchiveToggle";
 
 const Student = (props) => {
   const studentContext = useContext(StudentContext);
@@ -97,6 +98,10 @@ const Student = (props) => {
           {
             function: studentContext.updateStudentPassword,
             display: PasswordResetInput,
+          },
+          {
+            function: studentContext.archiveStudent,
+            display: ArchiveToggle,
           },
         ]}
         tabs={[

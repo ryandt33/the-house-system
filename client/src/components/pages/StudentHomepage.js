@@ -105,7 +105,7 @@ const Student = (props) => {
               </h4>
               <Badge
                 style={{
-                  backgroundColor: realms.houses.find(
+                  background: realms.houses.find(
                     (realm) => realm._id === student.house
                   ).backgroundColor,
                   color: realms.houses.find(

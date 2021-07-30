@@ -18,7 +18,7 @@ import { Form } from "react-bootstrap";
 import AlertContext from "../../../context/alert/alertContext";
 import TeacherContext from "../../../context/teacher/teacherContext";
 
-const PasswordResetInput = ({ editFunction, id }) => {
+const PasswordResetInput = ({ editFunction, obj }) => {
   const alertContext = useContext(AlertContext);
   const teacherContext = useContext(TeacherContext);
   const [visible, setVisible] = useState({
@@ -42,7 +42,7 @@ const PasswordResetInput = ({ editFunction, id }) => {
   const onSubmit = async (e) => {
     e.preventDefault();
     console.log(password);
-    const success = await editFunction(id, password);
+    const success = await editFunction(obj._id, password);
     console.log(success);
     if (success) {
       setPassword("");

@@ -106,6 +106,26 @@ router.put("/:id", authAdmin, async (req, res) => {
   }
 });
 
+// @route       PATCH api/categories/:id
+// @desc        Archive/unarchive a category
+// @access      ADMIN only
+router.patch("/:id", authAdmin, async (req, res) => {
+  const category = await Category.findById(req.params.id);
+  if (!category) {
+    res.status(400).json({ msg: "Invalid category ID." });
+  } else {
+    await Category.findByIdAndUpdate(req.params.id, {
+      archived: !category.archived,
+    });
+
+    res.status(200).json({
+      msg: `${category.name} was ${
+        !category.archived ? "archived" : "unarchived"
+      }.`,
+    });
+  }
+});
+
 // @route       DELETE api/categories/:id
 // @desc        Delete a vategory
 // @access      Private

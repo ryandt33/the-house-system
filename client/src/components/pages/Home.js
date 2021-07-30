@@ -54,7 +54,7 @@ const StudentsList = (props) => {
                 <Card
                   style={{
                     marginRight: "20px",
-                    backgroundColor: house.backgroundColor,
+                    background: house.backgroundColor,
                     color: house.color,
                   }}
                   key={house._id}
@@ -139,7 +139,7 @@ const StudentsList = (props) => {
                         <Badge
                           className="homeName"
                           style={{
-                            backgroundColor: realms.houses.find(
+                            background: realms.houses.find(
                               (realm) => realm._id === student.house
                             ).backgroundColor,
                             color: realms.houses.find(

@@ -304,124 +304,121 @@ const TableView = ({
         </thead>
         <tbody>
           {userList.users &&
-            userList.users.map(
-              (currentRow) =>
-                !currentRow.archived && (
-                  <tr>
-                    {fields.map(
-                      (field) =>
-                        field.visible &&
-                        (field.attribute === "house" ? (
-                          realms &&
-                          realms.houses.map(
-                            (house) =>
-                              house._id === currentRow.house && (
-                                <td
-                                  data-attribute={field.attribute}
-                                  key={house._id}
-                                >
-                                  {house.name}
-                                </td>
-                              )
-                          )
-                        ) : field.attribute === "teachers" ? (
-                          <td data-attribute={field.attribute}>
-                            <ul className="userTable__inner_list__item">
-                              {teachers &&
-                                currentRow[field.attribute].map((u) =>
-                                  teachers.map(
-                                    (t) =>
-                                      t._id === u.teacher && (
-                                        <li
-                                          className="userTable__inner_list__item"
-                                          key={`${u.teacher}`}
-                                        >
-                                          {t.firstName} {t.lastName}
-                                        </li>
-                                      )
-                                  )
-                                )}
-                            </ul>
-                          </td>
-                        ) : field.name === "Class Name" ? (
-                          classes && (
-                            <td data-attribute={field.attribute}>
-                              <Link to={`/class/${currentRow["_id"]}`}>
-                                {" "}
-                                {currentRow[field.attribute]}
-                              </Link>
+            userList.users.map((currentRow) => (
+              <tr>
+                {fields.map(
+                  (field) =>
+                    field.visible &&
+                    (field.attribute === "house" ? (
+                      realms &&
+                      realms.houses.map(
+                        (house) =>
+                          house._id === currentRow.house && (
+                            <td
+                              data-attribute={field.attribute}
+                              key={house._id}
+                            >
+                              {house.name}
                             </td>
                           )
-                        ) : field.attribute === "backgroundColor" ? (
-                          <td data-attribute={field.attribute}>
-                            <div
-                              style={{
-                                background: currentRow["backgroundColor"],
-                                color: currentRow["color"],
-                                border: "3px solid rgba(255,255,255,0.3)",
-                                textAlign: "center",
-                                width: "50%",
-                                margin: "auto",
-                                padding: "5px",
-                              }}
-                            >
-                              {currentRow[field.attribute]}
-                            </div>
-                          </td>
-                        ) : field.attribute === "color" ? (
-                          <td data-attribute={field.attribute}>
-                            <div
-                              style={{
-                                background: currentRow["backgroundColor"],
-                                color: currentRow["color"],
-                                border: "3px solid rgba(255,255,255,0.3)",
-                                textAlign: "center",
-                                width: "50%",
-                                margin: "auto",
-                                padding: "5px",
-                              }}
-                            >
-                              {currentRow[field.attribute]}
-                            </div>
-                          </td>
-                        ) : (
-                          <td data-attribute={field.attribute}>
+                      )
+                    ) : field.attribute === "teachers" ? (
+                      <td data-attribute={field.attribute}>
+                        <ul className="userTable__inner_list__item">
+                          {teachers &&
+                            currentRow[field.attribute].map((u) =>
+                              teachers.map(
+                                (t) =>
+                                  t._id === u.teacher && (
+                                    <li
+                                      className="userTable__inner_list__item"
+                                      key={`${u.teacher}`}
+                                    >
+                                      {t.firstName} {t.lastName}
+                                    </li>
+                                  )
+                              )
+                            )}
+                        </ul>
+                      </td>
+                    ) : field.name === "Class Name" ? (
+                      classes && (
+                        <td data-attribute={field.attribute}>
+                          <Link to={`/class/${currentRow["_id"]}`}>
+                            {" "}
                             {currentRow[field.attribute]}
-                          </td>
-                        ))
-                    )}
-                    <td style={{ textAlign: "center" }}>
-                      <div
-                        className="userTable__edit"
-                        style={{
-                          display: "inline-block",
-                          position: "relative",
-                        }}
-                      >
-                        <i class="fas fa-edit"></i>
+                          </Link>
+                        </td>
+                      )
+                    ) : field.attribute === "backgroundColor" ? (
+                      <td data-attribute={field.attribute}>
                         <div
                           style={{
-                            position: "absolute",
-                            top: "0px",
-                            left: "0px",
-                            width: "100%",
-                            height: "100%",
+                            background: currentRow["backgroundColor"],
+                            color: currentRow["color"],
+                            border: "3px solid rgba(255,255,255,0.3)",
+                            textAlign: "center",
+                            width: "50%",
+                            margin: "auto",
+                            padding: "5px",
                           }}
-                          onClick={editOn}
-                          data-row={currentRow["_id"]}
-                        ></div>
-                      </div>
-                      {additionalFunctions &&
-                        additionalFunctions.map((aF) => (
-                          <aF.display
-                            editFunction={aF.function}
-                            id={currentRow._id}
-                          ></aF.display>
-                        ))}
-                    </td>
-                  </tr>
-                )
-            )}
+                        >
+                          {currentRow[field.attribute]}
+                        </div>
+                      </td>
+                    ) : field.attribute === "color" ? (
+                      <td data-attribute={field.attribute}>
+                        <div
+                          style={{
+                            background: currentRow["backgroundColor"],
+                            color: currentRow["color"],
+                            border: "3px solid rgba(255,255,255,0.3)",
+                            textAlign: "center",
+                            width: "50%",
+                            margin: "auto",
+                            padding: "5px",
+                          }}
+                        >
+                          {currentRow[field.attribute]}
+                        </div>
+                      </td>
+                    ) : (
+                      <td data-attribute={field.attribute}>
+                        {currentRow[field.attribute]}
+                      </td>
+                    ))
+                )}
+                <td style={{ textAlign: "center" }}>
+                  <div
+                    className="userTable__edit"
+                    style={{
+                      display: "inline-block",
+                      position: "relative",
+                    }}
+                  >
+                    <i class="fas fa-edit"></i>
+                    <div
+                      style={{
+                        position: "absolute",
+                        top: "0px",
+                        left: "0px",
+                        width: "100%",
+                        height: "100%",
+                      }}
+                      onClick={editOn}
+                      data-row={currentRow["_id"]}
+                    ></div>
+                  </div>
+                  {additionalFunctions &&
+                    additionalFunctions.map((aF) => (
+                      <aF.display
+                        editFunction={aF.function}
+                        obj={currentRow}
+                      ></aF.display>
+                    ))}
+                </td>
+              </tr>
+            ))}
         </tbody>
       </Table>
       {userList.pagification.length > 0 && (

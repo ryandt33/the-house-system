@@ -15,5 +15,6 @@ dump/
 /srv/services/nameUpdate.js
 /srv/services/chiStu.js
 /srv/sharedFiles/*
+!/srv/sharedFiles/readme
 /client/public/runtime-config.js
 /client/build

@@ -13,7 +13,6 @@
 // You should have received a copy of the GNU General Public License
 // along with The House System. If not, see <http://www.gnu.org/licenses/>.
 
-
 const axios = require("axios");
 const config = require("config");
 const mbAPIKey = config.get("mbAPIKey");
@@ -53,12 +52,12 @@ const popClass = async () => {
 
     return true;
   };
-    const classes = await Class.find({});
-    let res;
-    const len = classes.length;
-    for (let x = 0; x < len; x++) {
-      console.log(`${x} - ${classes[x].mbID}`);
-	try {
+  const classes = await Class.find({});
+  let res;
+  const len = classes.length;
+  for (let x = 0; x < len; x++) {
+    console.log(`${x} - ${classes[x].mbID}`);
+    try {
       res = await axios.get(
         `https://api.managebac.${mbSuffix}/v2/classes/${classes[x].mbID}/students`,
         mbConfig
@@ -67,10 +66,10 @@ const popClass = async () => {
     } catch (err) {
       console.error(err.message);
     }
-      if (x % 100 === 0) {
-        await new Promise((resolve) => setTimeout(resolve, 10000));
-      }
+    if (x % 100 === 0) {
+      await new Promise((resolve) => setTimeout(resolve, 10000));
     }
+  }
 };
 
 module.exports = popClass;

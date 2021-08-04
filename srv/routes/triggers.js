@@ -32,14 +32,21 @@ const Teacher = require("../models/Teacher");
 const Student = require("../models/Student");
 const authAdmin = require("../middleware/authAdmin");
 const Point = require("../models/Point");
+const House = require("../models/House");
+const fs = require("fs");
+const path = require("path");
 
 // @route       GET api/triggers/student
 // @desc        Get and update students
 // @access      Dev
 router.get("/students", authAdmin, async (req, res) => {
-  await getStudents();
-  assignHouses();
-  res.send("Get a user");
+  try {
+    await getStudents();
+    await assignHouses();
+    res.json({ status: "success", msg: "Fetched MB Users" });
+  } catch (error) {
+    res.json({ status: "failed", msg: error.msg });
+  }
 });
 
 // @route       GET api/triggers/teacher
@@ -54,7 +61,8 @@ router.get("/teachers", authAdmin, (req, res) => {
 // @desc        Get photos
 // @access      Dev
 router.get("/photos", authAdmin, async (req, res) => {
-  res.json(await getPhotos());
+  getPhotos();
+  res.send("Fetching photos");
 });
 
 // @route       GET api/triggers/teacher/pass
@@ -70,8 +78,8 @@ router.get("/teachers/pass", authAdmin, async (req, res) => {
 // @access      Dev
 router.get("/houses", authAdmin, async (req, res) => {
   try {
-    const houses = await assignHouses();
-    res.json({ msg: "House assignment complete" });
+    assignHouses();
+    res.json({ msg: "House assignment ongoing" });
   } catch (err) {
     console.error(err.message);
     res.status(500).send("Server error");
@@ -92,7 +100,7 @@ router.get("/classes", authAdmin, async (req, res) => {
 });
 
 // @route       GET api/triggers/classes/students
-// @desc        Get and update classes
+// @desc        Get and populate classes
 // @access      Dev
 router.get("/classes/students", authAdmin, async (req, res) => {
   try {
@@ -119,6 +127,31 @@ router.get("/clearYearly", authAdmin, async (req, res) => {
     res.send("Cleared Yearly Points");
   } catch (err) {
     console.error(err.message);
+  }
+});
+
+router.get("/genCSVSample", authAdmin, async (req, res) => {
+  try {
+    let csv = "archived,first_name,last_name,email,house";
+
+    const students = await Student.find().sort("archived");
+
+    const houses = await House.find();
+
+    for (let s of students) {
+      const house = houses.find((h) => h._id.toString() === s.house.toString());
+      csv += `\n${s.archived},${s.firstName},${s.lastName},${s.email},${
+        house && house.name
+      }`;
+    }
+
+    fs.writeFileSync(`${__dirname}/../sharedFiles/import_template.csv`, csv);
+
+    res.sendFile(path.resolve("./srv/sharedFiles/import_template.csv"));
+  } catch (err) {
+    console.error(err.message);
+
+    res.status(500).json({ msg: err.message });
   }
 });
 

@@ -16,9 +16,37 @@
 const Student = require("../models/Student");
 
 const updateHouse = async (student, mongoID) => {
+  const termCheck = (term) => {
+    for (let x = 0; x < term.object.length - 1; x++) {
+      if (term.object[x].realm === term.object[x + 1].realm) {
+        return { status: true, count: x };
+      } else return { status: false, count: null };
+    }
+  };
   try {
     const { house } = student;
     const oldHouse = await Student.findById(mongoID);
+
+    const houseCheck = [
+      { name: "monthlyPoints", object: oldHouse.monthlyPoints },
+      { name: "yearlyPoints", object: oldHouse.yearlyPoints },
+      { name: "totalPoints", object: oldHouse.totalPoints },
+    ];
+
+    for (let term of houseCheck) {
+      if (term.object.length > 1) {
+        const duplicateTerms = termCheck(term);
+        if (duplicateTerms.status) {
+          const newTerm = term.object.slice(
+            duplicateTerms.count,
+            duplicateTerms.count + 1
+          );
+          await Student.findByIdAndUpdate(mongoID, {
+            [term.name]: newTerm,
+          });
+        }
+      }
+    }
 
     await Student.findOneAndUpdate(
       {

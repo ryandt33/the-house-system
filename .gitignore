@@ -14,5 +14,6 @@ dump/
 /srv/services/dataIntegrity.js
 /srv/services/nameUpdate.js
 /srv/services/chiStu.js
+/srv/sharedFiles/*
 /client/public/runtime-config.js
 /client/build

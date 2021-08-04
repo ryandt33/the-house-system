@@ -34,7 +34,6 @@ const getTeachers = async () => {
       (await Teacher.findOne({ email: teacher.email })) ||
       (await Teacher.findOne({ mbID: teacher.id }));
 
-    console.log(teacher);
     if (!tea) {
       try {
         addMBTeacher(teacher);

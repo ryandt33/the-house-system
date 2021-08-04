@@ -16,6 +16,7 @@
 const bcrypt = require("bcryptjs");
 const prompt = require("prompt-sync")();
 const Teacher = require("../models/Teacher");
+const House = require("../models/House");
 const addTeacher = require("./addTeacher");
 const getStudents = require("../mbAPI/getStudents");
 const getTeachers = require("../mbAPI/getTeachers");
@@ -42,23 +43,50 @@ const newInstall = async () => {
     const pass = promptCheck("Enter the admin's password: ", true);
 
     await addTeacher({
-      first_name: first_name,
-      last_name: last_name,
+      firstName: first_name,
+      lastName: last_name,
       email: email,
       archived: false,
       photo_url: null,
       role: "Admin",
-      id: "1",
+      mbID: "1",
     });
 
     let salt = await bcrypt.genSalt(10);
     let enPass = await bcrypt.hash(pass, salt);
 
     await Teacher.findOneAndUpdate({ password: enPass });
+    console.log("Fetching students from MB");
     await getStudents();
+    console.log("Fetching teachers from MB");
     await getTeachers();
+    console.log("Fetching classes from MB");
     await getClasses();
+    console.log("Populating classes");
     await popClass();
+
+    let houseName = "";
+    let finished = "";
+
+    do {
+      houseName = promptCheck(
+        "Enter your house name (you can change this later): "
+      );
+      const newHouse = new House({
+        name: houseName,
+        backgroundColor: "white",
+        color: "black",
+      });
+      await newHouse.save();
+
+      console.log(
+        "Are you finished creating houses? (y terminates, everything else continues): "
+      );
+      finished = promptCheck("");
+    } while (finished !== "y");
+    console.log("Assigning houses...");
+    await assignHouses();
+    console.log("Setup complete");
   }
 };
 

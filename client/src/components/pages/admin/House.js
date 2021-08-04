@@ -18,6 +18,8 @@ import { Card, Container } from "react-bootstrap";
 import RealmContext from "../../../context/realm/realmContext";
 import TableView from "../../layout/TableView";
 import EditModal from "./EditModal";
+import ConfirmationModal from "./ConfirmationModal";
+import UploadModal from "./UploadModal";
 
 const House = (props) => {
   const realmContext = useContext(RealmContext);
@@ -58,13 +60,56 @@ const House = (props) => {
         ]}
         search={["name"]}
         editFunction={realmContext.updateHouse}
-        // tabs={[
-        //   {
-        //     title: "Create a new house",
-        //     view: EditModal,
-        //     editFunction: realmContext.createHouse,
-        //   },
-        // ]}
+        tabs={[
+          {
+            title: "Clear monthly points",
+            view: ConfirmationModal,
+            editFunction: realmContext.clearMonthly,
+            input: {
+              title: "Clear monthly points",
+              body: "Are you sure you want to clear the monthly points? THIS ACTION CANNOT BE UNDONE!",
+            },
+          },
+          {
+            title: "Clear yearly points",
+            view: ConfirmationModal,
+            editFunction: realmContext.clearYearly,
+            input: {
+              title: "Clear yearly points",
+              body: "Are you sure you want to clear the yearly points? THIS ACTION CANNOT BE UNDONE!",
+            },
+          },
+          {
+            title: "Upload CSV to assign student houses",
+            view: UploadModal,
+            requiredKeys: [
+              "archived",
+              "first_name",
+              "last_name",
+              "email",
+              "house",
+            ],
+            input: {
+              title: "Upload CSV to assign student houses",
+              body: (
+                <div>
+                  <p>
+                    Please upload a csv file to assign students to houses.{" "}
+                    <a href="#" onClick={realmContext.fetchCSVSample}>
+                      You can download a template populated with current details
+                      here.
+                    </a>
+                  </p>
+                </div>
+              ),
+            },
+          },
+          //   {
+          //     title: "Create a new house",
+          //     view: EditModal,
+          //     editFunction: realmContext.createHouse,
+          //   },
+        ]}
       />
     </Card>
   );

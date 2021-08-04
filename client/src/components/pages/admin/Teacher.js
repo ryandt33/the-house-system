@@ -19,6 +19,7 @@ import TeacherContext from "../../../context/teacher/teacherContext";
 import TableView from "../../layout/TableView";
 import EditModal from "./EditModal";
 import PasswordResetInput from "./PasswordResetInput";
+import ConfirmationModal from "./ConfirmationModal";
 
 const Teacher = (props) => {
   const teacherContext = useContext(TeacherContext);
@@ -70,6 +71,15 @@ const Teacher = (props) => {
             title: "Create a new teacher",
             view: EditModal,
             editFunction: teacherContext.createTeacher,
+          },
+          {
+            title: "Fetch teachers from MB",
+            view: ConfirmationModal,
+            editFunction: teacherContext.updateFromMB,
+            input: {
+              title: "Fetch teachers from MB",
+              body: "Are you sure you want to fetch teachers from MB? After pressing confirm, you can navigate away and this will happen in the background.",
+            },
           },
         ]}
       />

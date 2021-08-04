@@ -232,15 +232,10 @@ const Student = (props) => {
               </Row>
               <Container className="points-display">
                 <p>
-                  <b>Monthly Points:</b>{" "}
-                  {
-                    student.monthlyPoints[student.monthlyPoints.length - 1]
-                      .points
-                  }
+                  <b>Monthly Points:</b> {student.monthlyPoints[0].points}
                 </p>
                 <p>
-                  <b>Yearly Points:</b>{" "}
-                  {student.yearlyPoints[student.yearlyPoints.length - 1].points}
+                  <b>Yearly Points:</b> {student.yearlyPoints[0].points}
                 </p>
                 <p>
                   <b>Total Points:</b>{" "}

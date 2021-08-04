@@ -117,8 +117,8 @@ const StudentsList = (props) => {
                       <StudentPic
                         props={{
                           student: student,
-                          width: "6em",
-                          height: "6em",
+                          // width: "6em",
+                          // height: "6em",
                         }}
                         className="stuPic"
                       />

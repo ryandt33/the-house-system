@@ -41,6 +41,7 @@ const Navtabs = ({ fields, tabs }) => {
     setEdit({ ...edit, fields: newFields });
 
     setDictionary(dic);
+    console.log(tabs);
   }, []);
 
   useEffect(() => {
@@ -54,6 +55,15 @@ const Navtabs = ({ fields, tabs }) => {
   useEffect(() => {
     tabView.change && setTabView({ ...tabView, change: false });
   }, [tabView]);
+
+  useEffect(() => {
+    if (edit.visible === false) {
+      for (let tab of tabs) {
+        tab.active = false;
+      }
+    }
+    console.log("Tab closed");
+  }, [edit.visible]);
 
   const openModal = (e) => {
     const tabName = e.target.dataset.tab;
@@ -91,8 +101,9 @@ const Navtabs = ({ fields, tabs }) => {
               <tab.view
                 key={`${tab.title}-view`}
                 visible={{ edit: edit, setEdit: setEdit }}
-                dictionary={fields}
+                dictionary={tab.input ? tab.input : fields}
                 editFunction={tab.editFunction}
+                requiredKeys={tab.requiredKeys}
               ></tab.view>
             )
         )}

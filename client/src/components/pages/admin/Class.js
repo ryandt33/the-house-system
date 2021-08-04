@@ -17,6 +17,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { Card, Container } from "react-bootstrap";
 import ClassContext from "../../../context/class/classContext";
 import TableView from "../../layout/TableView";
+import ConfirmationModal from "./ConfirmationModal";
 
 const Class = (props) => {
   const classContext = useContext(ClassContext);
@@ -56,6 +57,26 @@ const Class = (props) => {
         ]}
         search={["name"]}
         editFunction={classContext.updateClass}
+        tabs={[
+          {
+            title: "Fetch and update classes from MB",
+            view: ConfirmationModal,
+            editFunction: classContext.fetchClasses,
+            input: {
+              title: "Fetch and update classes from MB",
+              body: "Are you sure you want to fetch classes from MB? After pressing confirm, you can navigate away and this will happen in the background.",
+            },
+          },
+          {
+            title: "Fetch and populate classes from MB",
+            view: ConfirmationModal,
+            editFunction: classContext.populateClasses,
+            input: {
+              title: "Fetch students from MB",
+              body: "Are you sure you want to fetch classes and populate them with students from MB? After pressing confirm, you can navigate away and this will happen in the background.",
+            },
+          },
+        ]}
       />
     </Card>
   );

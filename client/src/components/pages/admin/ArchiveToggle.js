@@ -22,12 +22,7 @@ const ArchiveToggle = ({ editFunction, obj }) => {
 
   useEffect(() => {
     setArchived(obj.archived);
-    console.log(`${obj.name}: ${obj.archived}`);
   }, []);
-
-  useEffect(() => {
-    console.log(archived);
-  }, [archived]);
 
   const onChange = async () => {
     setArchived(!archived);

@@ -114,6 +114,22 @@ const ClassState = (props) => {
     dispatch({ type: CLEAR_SS });
   };
 
+  const fetchClasses = () => {
+    try {
+      axios.get(`${apiURL}api/triggers/classes`);
+    } catch (err) {
+      console.error(err.message);
+    }
+  };
+
+  const populateClasses = () => {
+    try {
+      axios.get(`${apiURL}api/triggers/classes/students`);
+    } catch (err) {
+      console.error(err.message);
+    }
+  };
+
   const clearState = () => {
     dispatch({ type: CLEAR_CLASSES });
   };
@@ -131,6 +147,8 @@ const ClassState = (props) => {
         getClass,
         getSsClass,
         updateClass,
+        fetchClasses,
+        populateClasses,
         clearStudents,
         clearState,
       }}

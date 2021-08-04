@@ -23,7 +23,7 @@ const Alerts = () => {
   return (
     alertContext.alert.length > 0 &&
     alertContext.alert.map((alert) => (
-      <Alert key={alert.id} variant={alert.type}>
+      <Alert key={alert.id} variant={alert.type} style={{ zIndex: 100 }}>
         <i className="fas fa-info-circle" /> {`${alert.msg}`}
       </Alert>
     ))

@@ -273,6 +273,11 @@ link.nav-head {
   font-size: 1.25em;
 }
 
+.homeName.badge {
+  text-shadow: 1px 1px 3px gray;
+  font-weight: 400;
+}
+
 .icon-holder {
   padding-top: 12.5px;
   text-align: center;
@@ -556,6 +561,14 @@ link.nav-head {
   transition: 0.15s;
 }
 
+.navtabs__tab {
+  margin-right: 30px;
+}
+
+.navtabs__tab:last-child {
+  margin-right: 0px;
+}
+
 .navtabs__tab:hover {
   box-shadow: 1px 1px 2px grey;
   transform: scale(1);
@@ -627,6 +640,26 @@ link.nav-head {
   overflow: auto;
   padding: 10px;
   z-index: 10;
+}
+
+.confirmationmodal {
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 60vw;
+  background-color: white;
+  border: 3px solid black;
+  border-radius: 5px;
+  overflow: auto;
+  padding: 5rem;
+  z-index: 10;
+  max-height: 80vh;
+  overflow: scroll;
+}
+
+.confirmationmodal__buttons {
+  margin-top: 2rem;
 }
 
 .editmodal__background {

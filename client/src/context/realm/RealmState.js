@@ -18,6 +18,7 @@ import RealmContext from "./realmContext";
 import realmReducer from "./realmReducer";
 import axios from "axios";
 import { GET_REALMS, CLEAR_REALMS } from "../types";
+
 const { apiURL } = window["runConfig"];
 
 const RealmState = (props) => {
@@ -31,6 +32,7 @@ const RealmState = (props) => {
       const res = await axios.get(`${apiURL}api/houses`);
       console.log(res.data);
       dispatch({ type: GET_REALMS, payload: res.data });
+      return res.data;
     } catch (err) {
       console.error(err.message);
     }
@@ -53,15 +55,88 @@ const RealmState = (props) => {
     }
   };
 
+  const clearMonthly = () => {
+    try {
+      axios.get(`${apiURL}api/triggers/clearMonthly`);
+    } catch (err) {
+      console.error(err.message);
+    }
+  };
+
+  const clearYearly = () => {
+    try {
+      axios.get(`${apiURL}api/triggers/clearYearly`);
+    } catch (err) {
+      console.error(err.message);
+    }
+  };
+
+  const fetchCSVSample = async () => {
+    try {
+      await axios
+        .get(`${apiURL}api/triggers/genCSVSample`, {
+          responseType: "blob",
+        })
+        .then((response) => {
+          const url = window.URL.createObjectURL(new Blob([response.data]));
+          const link = document.createElement("a");
+          link.href = url;
+          link.setAttribute("download", "import_sample.csv");
+          document.body.appendChild(link);
+          console.log("??");
+          link.click();
+        });
+    } catch (err) {
+      console.error(err.message);
+    }
+  };
+
+  const updateHousesFromCSV = async (file) => {
+    console.log(file);
+    const reader = new FileReader();
+    const { houses } = await getRealms();
+
+    console.log(houses);
+
+    reader.onload = ((f) => {
+      return (e) => {
+        const file = e.target.result;
+        //call the parse function with the proper line terminator and cell terminator
+        // console.log(e.target.result, "\n", ";");
+        const csvLines = file.split("\n");
+        const keys = csvLines[0].split(",");
+        const csvParsed = [];
+        console.log(keys);
+        for (let line of csvLines) {
+          csvParsed.push({});
+          const l = line.split(",");
+
+          for (let x = 0; x < keys.length; x++) {
+            csvParsed[csvParsed.length - 1][keys[x]] = l[x];
+          }
+        }
+
+        console.log(csvParsed);
+      };
+    })(file);
+
+    reader.readAsText(file);
+  };
+
   const clearRealms = async () => {
     dispatch({ type: CLEAR_REALMS });
   };
+
   return (
     <RealmContext.Provider
       value={{
         realms: state.realms,
         getRealms,
         createHouse,
+        clearMonthly,
+        clearYearly,
+        updateHousesFromCSV,
+        fetchCSVSample,
         updateHouse,
         clearRealms,
       }}

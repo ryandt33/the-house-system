@@ -119,7 +119,14 @@ const TeacherState = (props) => {
   const clearState = () => {
     dispatch({ type: CLEAR_TEACHERS });
   };
-  // Update student
+
+  const updateFromMB = async () => {
+    try {
+      await axios.get(`${apiURL}api/triggers/teachers`);
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
   return (
     <TeacherContext.Provider
@@ -135,6 +142,7 @@ const TeacherState = (props) => {
         updateTeacherPassword,
         clearTeacher,
         clearState,
+        updateFromMB,
       }}
     >
       {props.children}

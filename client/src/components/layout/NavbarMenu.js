@@ -36,6 +36,7 @@ const NavbarMenu = ({ props }) => {
   const realmContext = useContext(RealmContext);
   const classContext = useContext(ClassContext);
   const teacherContext = useContext(TeacherContext);
+  const { user } = authContext;
 
   const [filter, setFilter] = useState({
     search: "",
@@ -185,19 +186,22 @@ const NavbarMenu = ({ props }) => {
                       </Dropdown.Menu>
                     </Dropdown>
                     <Nav className="ml-auto"></Nav>
-                    <Form inline onSubmit={onSubmit}>
-                      <Form.Control
-                        type="text"
-                        name="search"
-                        placeholder="Search"
-                        onChange={onChange}
-                        className="mr-2 col-6"
-                      />
+                    {user &&
+                      (user.role === "Admin" || user.role === "Advisor") && (
+                        <Form inline onSubmit={onSubmit}>
+                          <Form.Control
+                            type="text"
+                            name="search"
+                            placeholder="Search"
+                            onChange={onChange}
+                            className="mr-2 col-8"
+                          />
 
-                      <Button variant="outline-success" type="submit">
-                        Search
-                      </Button>
-                    </Form>
+                          <Button variant="outline-success" type="submit">
+                            <i className="fas fa-search" />
+                          </Button>
+                        </Form>
+                      )}
                   </Fragment>
                 )}
               </Navbar.Collapse>

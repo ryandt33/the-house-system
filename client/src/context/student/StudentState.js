@@ -52,6 +52,7 @@ const StudentState = (props) => {
       const res = await axios.get(`${apiURL}api/students`);
       if (res.data) {
         dispatch({ type: GET_STUDENTS, payload: res.data });
+        return res.data;
       } else {
         console.log("Unable to fetch students");
       }
@@ -214,8 +215,10 @@ const StudentState = (props) => {
         config
       );
       dispatch({ type: EDIT_HOUSE, payload: res.data });
+      return true;
     } catch (err) {
       console.error(err.message);
+      return false;
     }
   };
 
@@ -280,6 +283,30 @@ const StudentState = (props) => {
       console.error(err.message);
     }
   };
+
+  const updateFromMB = async () => {
+    try {
+      axios.get(`${apiURL}api/triggers/students`);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const getPhotosFromMB = async () => {
+    try {
+      axios.get(`${apiURL}api/triggers/photos`);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const assignHouses = async () => {
+    try {
+      axios.get(`${apiURL}api/triggers/houses`);
+    } catch (err) {
+      console.error(err);
+    }
+  };
   // Clear filter
 
   return (
@@ -306,6 +333,9 @@ const StudentState = (props) => {
         updateStudent,
         updateStudentPassword,
         archiveStudent,
+        updateFromMB,
+        getPhotosFromMB,
+        assignHouses,
       }}
     >
       {props.children}

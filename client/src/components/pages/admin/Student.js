@@ -20,6 +20,7 @@ import TableView from "../../layout/TableView";
 import EditModal from "./EditModal";
 import PasswordResetInput from "./PasswordResetInput";
 import ArchiveToggle from "./ArchiveToggle";
+import ConfirmationModal from "./ConfirmationModal";
 
 const Student = (props) => {
   const studentContext = useContext(StudentContext);
@@ -29,7 +30,6 @@ const Student = (props) => {
   useEffect(() => {
     studentContext.clearState();
     studentContext.getStudents();
-
     // return () => {
     //   studentContext.clearState();
     // };
@@ -109,6 +109,24 @@ const Student = (props) => {
             title: "Create a new Student",
             view: EditModal,
             editFunction: studentContext.createStudent,
+          },
+          {
+            title: "Fetch students from MB",
+            view: ConfirmationModal,
+            editFunction: studentContext.updateFromMB,
+            input: {
+              title: "Fetch students from MB",
+              body: "Are you sure you want to fetch students from MB? After pressing confirm, you can navigate away and this will happen in the background.",
+            },
+          },
+          {
+            title: "Get Photos from MB",
+            view: ConfirmationModal,
+            editFunction: studentContext.getPhotosFromMB,
+            input: {
+              title: "Get Photos from MB",
+              body: "Are you sure you want to fetch photos from MB? After pressing confirm, you can navigate away and this will happen in the background.",
+            },
           },
         ]}
       />

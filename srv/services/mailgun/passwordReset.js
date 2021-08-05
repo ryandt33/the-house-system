@@ -1,23 +1,33 @@
 const axios = require("axios");
 const config = require("config");
 const qs = require("querystring");
+const handlebars = require("handlebars");
+const fs = require("fs");
+const path = require("path");
 
 const mgURL = config.get("mgURL");
 const mgAPI = config.get("mgAPI");
+const mgEmail = config.get("mgEmail");
 const houseURL = config.get("houseURL");
 const orgName = config.get("orgName");
 
 const passwordReset = async (email, token) => {
-  const postData = qs.stringify({
-    from: "Ryan Tannenbaum <ryan@mail.for.education>",
-    to: "ryan@for.education",
-    subject: "House System Password reset",
-    template: `house_reset_template`,
-    "v:passwordResetURL": `${houseURL}/resetPassword/${token}`,
-    "v:orgName": orgName,
+  const templatePath = path.join(__dirname, `./email_template.hbs`);
+  const templateStr = fs.readFileSync(templatePath).toString("utf8");
+  const compiled = handlebars.compile(templateStr);
+
+  const compiledEmail = compiled({
+    orgName: orgName,
+    passwordResetURL: `${houseURL}/resetPassword/${token}`,
   });
 
-  console.log(postData);
+  const postData = qs.stringify({
+    from: `${orgName} Houses<${mgEmail}>`,
+    to: email,
+    subject: "House System Password reset",
+    html: compiledEmail,
+    "o:tag": "Password Reset",
+  });
 
   try {
     await axios.post(`https://api:${mgAPI}@${mgURL}/messages`, postData);

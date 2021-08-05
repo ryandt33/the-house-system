@@ -1,5 +1,6 @@
 node_modules/
 /config/default.json
+!/config/default.json.sample
 .env.local
 pass.csv
 tmp/

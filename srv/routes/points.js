@@ -110,7 +110,6 @@ router.post(
 
     const { value, category, message, receiver, realm } = req.body;
     const cat = await Category.findOne({ name: category });
-    console.log(cat);
 
     try {
       const newPoint = new Point({
@@ -122,7 +121,7 @@ router.post(
         realm: realm,
       });
 
-      console.log(category);
+      console.log(newPoint);
 
       const point = await newPoint.save();
       const sharePoint = {
@@ -319,7 +318,7 @@ router.delete("/:id", authAdmin, async (req, res) => {
     await Student.findOneAndUpdate(
       {
         _id: receiver,
-        "monthlyPoints.realm": realm,
+        "monthlyPoints.realm": stu.house,
       },
       { $inc: { "monthlyPoints.$.points": -value } }
     );
@@ -327,7 +326,7 @@ router.delete("/:id", authAdmin, async (req, res) => {
     await Student.findOneAndUpdate(
       {
         _id: receiver,
-        "yearlyPoints.realm": realm,
+        "yearlyPoints.realm": stu.house,
       },
       { $inc: { "yearlyPoints.$.points": -value } }
     );
@@ -335,7 +334,7 @@ router.delete("/:id", authAdmin, async (req, res) => {
     await Student.findOneAndUpdate(
       {
         _id: receiver,
-        "totalPoints.realm": realm,
+        "totalPoints.realm": stu.house,
       },
       {
         $inc: { "totalPoints.$.points": -value },
@@ -347,36 +346,26 @@ router.delete("/:id", authAdmin, async (req, res) => {
       $pull: { points: { point: req.params.id } },
     });
 
-    console.log(
-      await House.findById(stu.house, "monthlyPoints yearlyPoints totalPoints")
-    );
-    await House.findByIdAndUpdate(stu.house, {
+    await House.findByIdAndUpdate(realm, {
       $inc: {
         monthlyPoints: -value,
       },
     });
 
-    console.log(
-      await House.findById(stu.house, "monthlyPoints yearlyPoints totalPoints")
-    );
-
-    await House.findByIdAndUpdate(stu.house, {
+    await House.findByIdAndUpdate(realm, {
       $inc: {
         yearlyPoints: -value,
       },
     });
 
-    await House.findByIdAndUpdate(stu.house, {
+    await House.findByIdAndUpdate(realm, {
       $inc: {
         totalPoints: -value,
       },
     });
 
-    console.log(
-      await House.findById(stu.house, "monthlyPoints yearlyPoints totalPoints")
-    );
-
     stu = await Student.findById({ _id: receiver });
+    console.log(stu);
 
     res.json(point);
   } catch (err) {

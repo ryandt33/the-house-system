@@ -38,7 +38,8 @@ const PointState = (props) => {
   // Add Point
   const addPoint = async (point) => {
     try {
-      await axios.post(`${apiURL}api/points`, point);
+      const res = await axios.post(`${apiURL}api/points`, point);
+      console.log(res);
       getUserPoints(point.receiver);
     } catch (err) {
       dispatch({ type: POINT_ERROR, payload: err.response.data.errors });

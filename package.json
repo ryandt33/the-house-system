@@ -9,7 +9,8 @@
     "serverInstall": "npm install --prefix srv",
     "client": "npm start --prefix client",
     "clientInstall": "npm install --prefix client",
-    "dev": "concurrently \"npm run server\" \"npm run client\""
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "production": "concurrently \"npm run server\" \"cd ./client/ && serve -s build\""
   },
   "keywords": [],
   "author": "Ryan Tannenbaum",

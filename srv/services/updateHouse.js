@@ -14,17 +14,28 @@
 // along with The House System. If not, see <http://www.gnu.org/licenses/>.
 
 const Student = require("../models/Student");
+const House = require("../models/House");
 
-const updateHouse = async (student, mongoID) => {
-  const termCheck = (term) => {
-    for (let x = 0; x < term.object.length - 1; x++) {
-      if (term.object[x].realm === term.object[x + 1].realm) {
-        return { status: true, count: x };
-      } else return { status: false, count: null };
+const updateHouse = async ({ house }, mongoID) => {
+  const termCheck = async (term) => {
+    //   for (let x = 0; x < term.object.length - 1; x++) {
+    //     console.log(term.object[x]);
+    //     if (term.object[x].realm === term.object[x + 1].realm) {
+    //       return { status: true, count: x };
+    //     } else return { status: false, count: null };
+    //   }
+    // };
+    let houses = [];
+    for (let { realm } of term.object) {
+      const house = await House.findById(realm);
+      house && (houses = [...houses, house]);
     }
+
+    if (houses.length > 1) {
+      return { status: true, count: houses };
+    } else return { status: false, count: null };
   };
   try {
-    const { house } = student;
     const oldHouse = await Student.findById(mongoID);
 
     const houseCheck = [
@@ -35,47 +46,68 @@ const updateHouse = async (student, mongoID) => {
 
     for (let term of houseCheck) {
       if (term.object.length > 1) {
-        const duplicateTerms = termCheck(term);
+        const duplicateTerms = await termCheck(term);
         if (duplicateTerms.status) {
-          const newTerm = term.object.slice(
-            duplicateTerms.count,
-            duplicateTerms.count + 1
-          );
+          const newTerm = [
+            {
+              points: duplicateTerms.count.reduce((acc, house) => {
+                console.log(house);
+                acc += house.points;
+              }, 0),
+              realm: house,
+            },
+          ];
           await Student.findByIdAndUpdate(mongoID, {
             [term.name]: newTerm,
           });
         }
+      } else {
+        const newTerm = [
+          {
+            points: term.object[0].points,
+            realm: house,
+          },
+        ];
+
+        await Student.findByIdAndUpdate(mongoID, {
+          [term.name]: newTerm,
+        });
       }
     }
 
-    await Student.findOneAndUpdate(
-      {
-        _id: mongoID,
-        "monthlyPoints.realm": oldHouse.house,
-      },
-      { "monthlyPoints.$.realm": house }
-    );
+    await Student.findByIdAndUpdate(mongoID, {
+      house: house,
+    });
 
-    await Student.findOneAndUpdate(
-      {
-        _id: mongoID,
-        "yearlyPoints.realm": oldHouse.house,
-      },
-      { "yearlyPoints.$.realm": house }
-    );
+    // await Student.findOneAndUpdate(
+    //   {
+    //     _id: mongoID,
+    //     "monthlyPoints.realm": oldHouse.house,
+    //   },
+    //   { "monthlyPoints.$.realm": house }
+    // );
 
-    await Student.findOneAndUpdate(
-      {
-        _id: mongoID,
-        "totalPoints.realm": oldHouse.house,
-      },
-      {
-        "totalPoints.$.realm": house,
-        house: house,
-      }
-    );
+    // await Student.findOneAndUpdate(
+    //   {
+    //     _id: mongoID,
+    //     "yearlyPoints.realm": oldHouse.house,
+    //   },
+    //   { "yearlyPoints.$.realm": house }
+    // );
+
+    // await Student.findOneAndUpdate(
+    //   {
+    //     _id: mongoID,
+    //     "totalPoints.realm": oldHouse.house,
+    //   },
+    //   {
+    //     "totalPoints.$.realm": house,
+    //     house: house,
+    //   }
+    // );
 
     const change = await Student.findById(mongoID);
+    console.log(house);
     return change;
   } catch (err) {
     console.error(err.message);

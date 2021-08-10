@@ -14,22 +14,22 @@
 // along with The House System. If not, see <http://www.gnu.org/licenses/>.
 
 import React, { useReducer } from "react";
-import uuid from "uuid";
+import { v4 } from "uuid";
 import AlertContext from "./alertContext";
 import alertReducer from "./alertReducer";
 import { SET_ALERT, CLEAR_ALERT } from "../types";
 
-const AlertState = props => {
+const AlertState = (props) => {
   const initialState = [];
 
   const [state, dispatch] = useReducer(alertReducer, initialState);
 
   // Set Alert
   const setAlert = (msg, type, timeout = 5000) => {
-    const id = uuid.v4();
+    const id = v4();
     dispatch({
       type: SET_ALERT,
-      payload: { msg, type, id }
+      payload: { msg, type, id },
     });
 
     setTimeout(() => dispatch({ type: CLEAR_ALERT, payload: id }), timeout);

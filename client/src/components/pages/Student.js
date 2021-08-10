@@ -99,8 +99,6 @@ const Student = (props) => {
     props.history.goBack();
   };
 
-  console.log(student);
-
   return (
     <Container fluid id="top">
       <NavbarMenu className="navbar-full-width" props={props} />
@@ -239,11 +237,10 @@ const Student = (props) => {
                 </p>
                 <p>
                   <b>Total Points:</b>{" "}
-                  {
+                  {student.totalPoints &&
                     student.totalPoints.find(
                       (points) => points.realm === student.house.toString()
-                    ).points
-                  }
+                    ).points}
                 </p>
               </Container>
               {display.points !== [] && (

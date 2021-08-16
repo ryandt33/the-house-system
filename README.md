@@ -72,7 +72,7 @@ npm i
 Setup the runtime-config.js file. (./client/public/runtime-config.js)
 
 ```
-cp ./client/public/runtime-config-default.js ./client/public/runtime-config.js
+cp ./public/runtime-config-default.js ./public/runtime-config.js
 ```
 
 Put in your API endpoint details:

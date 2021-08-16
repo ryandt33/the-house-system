@@ -33,6 +33,16 @@ Move into the directory:
 cd the-house-system
 ```
 
+Copy default.json.sample to default.json
+
+```
+cp ./config/default.json.sample ./config/default.json
+```
+
+Edit default.json with your organization's details. <i>Note, LL means Learning Locker, if you do not have an LRS using Bearer authentication, set this to false</i>.
+
+<b>A mailgun account is required for emails (for setting/resetting passwords)</b>
+
 Install the umbrella app dependencies:
 
 ```
@@ -53,6 +63,20 @@ cd ../client
 npm i
 ```
 
+Setup the runtime-config.js file. (./client/public/runtime-config.js)
+
+```
+cp ./client/public/runtime-config-default.js ./client/public/runtime-config.js
+```
+
+Put in your API endpoint details:
+
+```
+window["runConfig"] = {
+  apiURL: "https://houses-api.example.com",
+};
+```
+
 Build the client and install serve (if necessary)
 
 ```
@@ -69,6 +93,50 @@ npm run production
 
 Complete the initial installation by completing the prompts.
 <b>It is important that you create all your houses now - you can reassign students later, but it is made purposefully inconvinient to add new houses at the moment.</b>
+
+## Recommended
+
+Install Nginx on your system
+
+```
+sudo apt install nginx
+```
+
+Setup a reverse proxy with your website info.
+
+```
+server {
+
+    server_name     houses.example.com;
+
+    location / {
+            proxy_pass http://127.0.0.1:5000;
+    }
+}
+```
+
+Setup a reverse proxy with your API info
+
+```
+server {
+
+    server_name     houses-api.example.com;
+
+    location / {
+            proxy_pass http://127.0.0.1:5000;
+    }
+}
+```
+
+Install <a href="https://certbot.eff.org/lets-encrypt/ubuntufocal-nginx.html">certbot</a> and configure SSL certificates for your domain.
+
+```
+sudo apt install snapd
+sudo snap install core; sudo snap refresh core
+sudo snap install --classic certbot
+sudo ln -s /snap/bin/certbot /usr/bin/certbot
+sudo certbot --nginx -d houses.example.com -d house-api.example.com
+```
 
 _To-Do_
 

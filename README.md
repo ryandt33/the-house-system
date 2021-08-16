@@ -24,13 +24,19 @@ Required Software:
 Clone into the repo:
 
 ```
-git clone
+git clone https://github.com/ryandt33/the-house-system.git
 ```
 
 Move into the directory:
 
 ```
 cd the-house-system
+```
+
+Checkout the beta branch
+
+```
+git checkout beta-v0.1
 ```
 
 Copy default.json.sample to default.json

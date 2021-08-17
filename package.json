@@ -6,11 +6,12 @@
   "scripts": {
     "start-serv": "node ./srv/server.js",
     "server": "nodemon ./srv/server.js --ignore './client'",
+    "server-production": "node ./srv/server.js",
     "serverInstall": "npm install --prefix srv",
     "client": "npm start --prefix client",
     "clientInstall": "npm install --prefix client",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
-    "production": "concurrently \"npm run server\" \"cd ./client/ && serve -s build\""
+    "production": "concurrently \"npm run server-production\" \"cd ./client/ && serve -l 3000 -s build\""
   },
   "keywords": [],
   "author": "Ryan Tannenbaum",

@@ -19,7 +19,6 @@ const Teacher = require("../../models/Teacher");
 
 const teacherLogin = async (email, password, teacher) => {
   const isMatch = await bcrypt.compare(password, teacher.password);
-  console.log(teacher.password);
 
   if (!teacher || !isMatch || teacher.archived) {
     return { user: "invalid" };

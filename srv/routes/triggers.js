@@ -132,17 +132,21 @@ router.get("/clearYearly", authAdmin, async (req, res) => {
 
 router.get("/genCSVSample", authAdmin, async (req, res) => {
   try {
-    let csv = "archived,first_name,last_name,email,house";
+    let csv = "first_name,last_name,email,house";
 
     const students = await Student.find().sort("archived");
 
     const houses = await House.find();
 
     for (let s of students) {
-      const house = houses.find((h) => h._id.toString() === s.house.toString());
-      csv += `\n${s.archived},${s.firstName},${s.lastName},${s.email},${
-        house && house.name
-      }`;
+      if (!s.archived) {
+        const house = houses.find(
+          (h) => h._id.toString() === s.house.toString()
+        );
+        csv += `\n${s.firstName},${s.lastName},${s.email},${
+          house && house.name
+        }`;
+      }
     }
 
     fs.writeFileSync(`${__dirname}/../sharedFiles/import_template.csv`, csv);

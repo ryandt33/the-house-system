@@ -64,10 +64,18 @@ const popClass = async () => {
       );
       await pop(classes[x].mbID, res.data.student_ids);
     } catch (err) {
+      if (err.response.status === 429) {
+        await new Promise((resolve) => setTimeout(resolve, 40000));
+        res = await axios.get(
+          `https://api.managebac.${mbSuffix}/v2/classes/${classes[x].mbID}/students`,
+          mbConfig
+        );
+        await pop(classes[x].mbID, res.data.student_ids);
+      }
       console.error(err.message);
     }
     if (x % 100 === 0) {
-      await new Promise((resolve) => setTimeout(resolve, 10000));
+      await new Promise((resolve) => setTimeout(resolve, 40000));
     }
   }
 };

@@ -54,13 +54,15 @@ const getStudents = async () => {
         nickname,
       } = student;
 
+      const fixed_student_id = !student_id ? stu.student_id : student_id;
+
       const change =
         stu.firstName !== first_name ||
         stu.lastName !== last_name ||
         stu.otherName !== other_name ||
         stu.email !== email ||
         stu.mbID !== id ||
-        stu.studentID !== student_id ||
+        stu.studentID !== fixed_student_id ||
         stu.archived !== archived ||
         stu.classGrade !== class_grade ||
         stu.gender !== gender ||

@@ -33,7 +33,7 @@ const addMBStudent = async (stu) => {
     nickname,
   } = stu;
 
-  if (!studentID) studentID = uuidv4();
+  if (!student_id) student_id = uuidv4();
 
   try {
     const newStudent = new Student({

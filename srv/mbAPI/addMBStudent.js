@@ -14,6 +14,7 @@
 // along with The House System. If not, see <http://www.gnu.org/licenses/>.
 
 const Student = require("../models/Student");
+const { v4: uuidv4 } = require("uuid");
 
 const addMBStudent = async (stu) => {
   const {
@@ -31,6 +32,8 @@ const addMBStudent = async (stu) => {
     ib_group_id,
     nickname,
   } = stu;
+
+  if (!studentID) studentID = uuidv4();
 
   try {
     const newStudent = new Student({

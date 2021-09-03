@@ -20,7 +20,7 @@ const House = require("../models/House");
 const addTeacher = require("./addTeacher");
 const getStudents = require("../mbAPI/getStudents");
 const getTeachers = require("../mbAPI/getTeachers");
-const assignHouses = require("./assignHouses");
+const assignHouses = require("./assignHousesClean");
 const getClasses = require("../mbAPI/getClasses");
 const passGen = require("./passGen");
 const popClass = require("../mbAPI/popClass");
@@ -62,8 +62,8 @@ const newInstall = async () => {
     await getTeachers();
     console.log("Fetching classes from MB");
     await getClasses();
-    console.log("Populating classes");
-    await popClass();
+    // console.log("Populating classes");
+    // await popClass();
 
     let houseName = "";
     let finished = "";

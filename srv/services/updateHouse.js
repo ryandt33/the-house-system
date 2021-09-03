@@ -18,13 +18,6 @@ const House = require("../models/House");
 
 const updateHouse = async ({ house }, mongoID) => {
   const termCheck = async (term) => {
-    //   for (let x = 0; x < term.object.length - 1; x++) {
-    //     console.log(term.object[x]);
-    //     if (term.object[x].realm === term.object[x + 1].realm) {
-    //       return { status: true, count: x };
-    //     } else return { status: false, count: null };
-    //   }
-    // };
     let houses = [];
     for (let { realm } of term.object) {
       const house = await House.findById(realm);
@@ -53,6 +46,7 @@ const updateHouse = async ({ house }, mongoID) => {
               points: duplicateTerms.count.reduce((acc, house) => {
                 console.log(house);
                 acc += house.points;
+                return acc;
               }, 0),
               realm: house,
             },

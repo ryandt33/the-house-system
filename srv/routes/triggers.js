@@ -24,7 +24,7 @@ const getTeachers = require("../mbAPI/getTeachers");
 const getClasses = require("../mbAPI/getClasses");
 const getPhotos = require("../mbAPI/getPhotos");
 const passGen = require("../services/passGen");
-const assignHouses = require("../services/assignHouses");
+const assignHouses = require("../services/assignHousesClean");
 const popClass = require("../mbAPI/popClass");
 const clearPoints = require("../services/clearPoints");
 

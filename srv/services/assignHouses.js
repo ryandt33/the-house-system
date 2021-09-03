@@ -17,6 +17,22 @@ const House = require("../models/House");
 const Student = require("../models/Student");
 
 const assignHouses = async () => {
+  const checkHouses = async (stu, houses) => {
+    if (
+      stu.house !== null &&
+      (stu.monthlyPoints.length > 0 ||
+        stu.yearlyPoints.length > 0 ||
+        stu.totalPoints.length > 0)
+    ) {
+      if (
+        stu.monthlyPoints.length > 1 ||
+        stu.yearlyPoints.length > 1 ||
+        stu.totalPoints.length > 1
+      ) {
+        //Check if there is more than one house
+      }
+    }
+  };
   const students = await Student.find({});
   const houses = await House.find({});
   let classGrade = [];
@@ -65,9 +81,9 @@ const assignHouses = async () => {
           },
         });
         stuID = { student: maleStu[y]._id };
-        await House.findByIdAndUpdate(houses[houseCount]._id, {
-          $push: { students: stuID },
-        });
+        // await House.findByIdAndUpdate(houses[houseCount]._id, {
+        //   $push: { students: stuID },
+        // });
         houseCount++;
       }
 
@@ -82,9 +98,9 @@ const assignHouses = async () => {
           },
         });
         stuID = { student: femaleStu[y]._id };
-        await House.findByIdAndUpdate(houses[houseCount]._id, {
-          $push: { students: stuID },
-        });
+        // await House.findByIdAndUpdate(houses[houseCount]._id, {
+        //   $push: { students: stuID },
+        // });
         houseCount++;
       }
 
@@ -99,9 +115,9 @@ const assignHouses = async () => {
           },
         });
         stuID = { student: nullStu[y]._id };
-        await House.findByIdAndUpdate(houses[houseCount]._id, {
-          $push: { students: stuID },
-        });
+        // await House.findByIdAndUpdate(houses[houseCount]._id, {
+        //   $push: { students: stuID },
+        // });
         houseCount++;
       }
     }

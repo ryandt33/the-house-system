@@ -62,8 +62,8 @@ const newInstall = async () => {
     await getTeachers();
     console.log("Fetching classes from MB");
     await getClasses();
-    // console.log("Populating classes");
-    // await popClass();
+    console.log("Populating classes");
+    await popClass();
 
     let houseName = "";
     let finished = "";

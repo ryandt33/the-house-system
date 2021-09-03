@@ -25,7 +25,6 @@ const assignHouses = async () => {
       house = houses[houseCount];
       //Check if student already has a house
 
-      console.log(stu.house);
       if (stu.house !== undefined) {
         //Check the monthly/yearly/total points
         if (
@@ -45,6 +44,7 @@ const assignHouses = async () => {
           },
         });
       }
+      houseCount++;
     }
   };
   const students = await Student.find({});

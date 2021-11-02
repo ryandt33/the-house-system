@@ -83,7 +83,6 @@ const House = (props) => {
             title: "Upload CSV to assign student houses",
             view: UploadModal,
             requiredKeys: [
-              "archived",
               "first_name",
               "last_name",
               "email",
